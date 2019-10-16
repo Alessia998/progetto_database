@@ -1,8 +1,10 @@
 package Pack_Magazzino;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Scanner;
 
 public class Main {
@@ -17,13 +19,12 @@ public class Main {
 		String sql;
 		ResultSet rs= null;
 		String categoria = "";
-		Option o;
-		System.out.println("ciao");
 		
 		
 		
 		try {
-			db_name = args[0];
+			//db_name = args[0];
+			db_name = "Progetto";
 		} catch (Exception e) {
 			System.err.println("Il programma prende in input nome del database");
 			System.exit(1);
@@ -53,95 +54,49 @@ public class Main {
 			System.exit(1);
 		}
 		
-		
-		/*CallableStatement proc=null;
-		try {
-			proc = conn.prepareCall("{ ? = call who_is('"+u+"') }");
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			proc.registerOutParameter(1, Types.OTHER);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			proc.execute();
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		try {
-			ResultSet results = (ResultSet) proc.getObject(1);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}*/
-		
 
-		
-		//sql = "select who_is('postgres');";
 		try {
-		sql = "select who_is('"+u+"');";
-		rs = stmt.executeQuery(sql);
-		rs.next();
-		categoria = rs.getString(1);
-		System.out.println(categoria);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		/*System.out.println(sql);
-		try {
+			sql = "select who_is('"+u+"');";
 			rs = stmt.executeQuery(sql);
-			//rs.next();
-			//categoria = rs.getString(1);
+			rs.next();
+			categoria = rs.getString(1);
+			System.out.println(categoria);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}*/
-
-
+		}
 		
-	
-		
-		System.out.print("Sei ");
-		o = new Option(stmt, conn);
+		Persona aut = null;
 		switch (categoria) {
 		case "admin":
-			o.admin_options();
-			
+			aut = new Admin();
 			break;
 		case "dirigente":
-			System.out.println("dirigente");
+			aut = new Dirigente("","","");
 			break;
 		case "custode":
-			System.out.println("custode");
+			aut = new Custode("","","");
 			break;
 		case "cliente":
-			System.out.println("cliente");
+			aut = new Cliente();
 			break;
 		case "impiegato":
-			System.out.println("impiegato");
+			aut = new Impiegato("","","","");
 			break;
 		case "fattorino":
-			System.out.println("fattorino");
+			aut = new Fattorino("","","");
 			break;
 		case "magazziniere":
-			System.out.println("magazziniere");
+			aut = new Magazziniere("","","", 0, "");
 			break;
-
-
-
+			
 		default:
 			System.out.println("Autenticazione fallita!");
 			System.exit(1);
 			break;
 		}
 	
+		aut.startOptions(stmt);
 		
 		try {
 			rs.close();

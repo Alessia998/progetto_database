@@ -1,5 +1,7 @@
 package Pack_Magazzino;
 
+import java.sql.Statement;
+
 public abstract class Persona {
 	private String cf;
 	private String nome;
@@ -13,6 +15,13 @@ public abstract class Persona {
 		this.setNome(nome);
 		this.setCognome(cognome);
 	}
+	
+	public Persona() {
+		this.setCf("");
+		this.setNome("");
+		this.setCognome("");
+	}
+	
 	
 
 	public String getPass() {
@@ -63,5 +72,7 @@ public abstract class Persona {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
+	
+	public abstract void startOptions(Statement stmt);
 
 }

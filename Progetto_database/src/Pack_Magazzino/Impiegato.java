@@ -1,5 +1,7 @@
 package Pack_Magazzino;
 
+import java.sql.Statement;
+
 import Pack_Magazzino.Persona;
 
 public class Impiegato extends Persona {
@@ -17,12 +19,6 @@ public class Impiegato extends Persona {
 	{
 		
 	}
-	
-	
-	
-	
-	
-	
 	
 	public String getData_nascita() {
 		return data_nascita;
@@ -51,6 +47,13 @@ public class Impiegato extends Persona {
 
 	public void setCod(String cod) {
 		this.cod = cod;
+	}
+
+
+	@Override
+	public void startOptions(Statement stmt) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

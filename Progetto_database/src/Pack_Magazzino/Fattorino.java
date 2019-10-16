@@ -1,5 +1,7 @@
 package Pack_Magazzino;
 
+import java.sql.Statement;
+
 import Pack_Magazzino.Persona;
 
 public class Fattorino extends Persona{
@@ -28,4 +30,11 @@ public class Fattorino extends Persona{
 	public void setMail(String mail) {
 		this.mail = mail;
 }
+
+
+	@Override
+	public void startOptions(Statement stmt) {
+		// TODO Auto-generated method stub
+		
+	}
 }
