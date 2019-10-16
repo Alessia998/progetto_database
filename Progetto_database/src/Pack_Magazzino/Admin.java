@@ -12,21 +12,26 @@ public class Admin extends Persona{
 
 	@Override
 	public void startOptions(Statement stmt) {
+		
 		String sql;
-
-		System.out.println("Connected as ADMIN!");
-		System.out.println("Opzioni a disposizione: ");
-		System.out.println("1) Inserisci un nuovo dirigente");
-		System.out.println("2) Inserisci una nuova filiale");
-		System.out.println("3) Stampa tutti dirigenti");
-		System.out.println("4) Stampa tutte le filiali");
-		System.out.println("5) Elimina un dirigente (solo se non gestisce nessuna filiale)");
-		System.out.println("0) Exit");
 		int k;
-		Scanner scan = new Scanner(System.in);
-		k = scan.nextInt();
+		Scanner scan;
 
 		do {
+			
+			System.out.println("Connected as ADMIN!");
+			System.out.println("Opzioni a disposizione: ");
+			System.out.println("1) Inserisci un nuovo dirigente");
+			System.out.println("2) Inserisci una nuova filiale");
+			System.out.println("3) Stampa tutti dirigenti");
+			System.out.println("4) Stampa tutte le filiali");
+			System.out.println("5) Elimina un dirigente (solo se non gestisce nessuna filiale)");
+			System.out.println("0) Exit");
+			
+			scan = new Scanner(System.in);
+			k = scan.nextInt();
+			
+			
 			switch (k) {
 				case 0:
 					System.out.println("---EXIT---");
@@ -38,18 +43,18 @@ public class Admin extends Persona{
 					System.out.println("Codice fiscale :");
 					scan.nextLine();
 					cf = scan.nextLine();
-					System.out.println("Nome: ");
+					System.out.print("Nome: ");
 					nome = scan.nextLine();
-					System.out.println("Congome");
+					System.out.print("Congome: ");
 					cognome = scan.nextLine();
 					Dirigente dir = new Dirigente(cf, nome, cognome);
-					System.out.println("Inserisci password per il dirigente");
+					System.out.print("Inserisci la nuova password per il dirigente: ");
 					dir.setPass(scan.nextLine());
-					System.out.println("Data di nascita (aaaa-mm-gg) :");
+					System.out.print("Data di nascita (aaaa-mm-gg) :");
 					dir.setData_nascita(scan.nextLine());
-					System.out.println("Telefono: ");
+					System.out.print("Telefono: ");
 					dir.setTel(scan.nextLine());
-					System.out.println("Mail :");
+					System.out.print("Mail:");
 					dir.setMail(scan.nextLine());
 					sql = "insert into dirigente values ('"+dir.getCf()+"','"+dir.getNome()+"','"+dir.getCognome()+"',"+dir.getData_nascita(1)+","+dir.getTel(1)+","+dir.getMail(1)+")";
 					try {
@@ -57,6 +62,7 @@ public class Admin extends Persona{
 					} catch (SQLException e) {
 						System.err.println("Formato dati incoretto!... )");
 						e.printStackTrace();
+						scan.close();
 						return;	
 					}
 					sql = "create user "+dir.getCf()+" with password '"+dir.getPass()+"';"+
@@ -69,7 +75,6 @@ public class Admin extends Persona{
 						stmt.executeUpdate(sql);
 						System.out.println("Nuovo dirigente registrato!");
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 	
@@ -89,7 +94,7 @@ public class Admin extends Persona{
 				default:
 					break;
 			}
-		}while(k<0 || k >5);
+		}while(k>0 && k <5);
 		scan.close();
 	}
 }
