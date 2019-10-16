@@ -466,3 +466,75 @@ return null;
 end
 $$
 language plpgsql;
+
+
+--dato username restituisce che ruolo ha nel sistema
+create or replace function who_is(un varchar(255))
+returns text as $$
+declare
+cat text;
+usr text;
+
+begin
+
+--admin
+SELECT  grantee into cat
+FROM information_schema.role_table_grants
+WHERE table_name='filiale' and grantee = un;
+if found then
+	cat = 'admin';
+	return cat;
+end if;
+
+--dirigente
+select cf into cat from dirigente
+where cf = un;
+if found then
+	cat = 'dirigente';
+	return cat;
+end if;
+
+--custode
+select cf into cat from custode
+where cf = un;
+if found then
+	cat = 'custode';
+	return cat;
+end if;
+
+--impiegato
+select cf into cat from impiegato
+where cf = un;
+if found then
+	cat = 'impiegato';
+	return cat;
+end if;
+
+--fattorino
+select cf into cat from fattorino
+where cf = un;
+if found then
+	cat = 'fattorino';
+	return cat;
+end if;
+
+--cliente
+select cf_cli into cat from cliente
+where cf_cli = un;
+if found then
+	cat = 'cliente';
+	return cat;
+end if;
+
+--magazziniere
+select cf into cat from magazziniere
+where cf = un;
+if found then
+	cat = 'magazziniere';
+	return cat;
+end if;
+
+return 'nan';
+end
+$$
+language plpgsql;
