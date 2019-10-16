@@ -89,7 +89,7 @@ public class Admin extends Persona{
 				default:
 					break;
 			}
-		}while(k<0 || k >5);
+		}while(k>0 && k <5);
 		scan.close();
 	}
 }
