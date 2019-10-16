@@ -75,7 +75,6 @@ public class Admin extends Persona{
 						stmt.executeUpdate(sql);
 						System.out.println("Nuovo dirigente registrato!");
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 	
