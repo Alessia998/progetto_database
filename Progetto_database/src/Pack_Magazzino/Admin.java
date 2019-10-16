@@ -69,8 +69,7 @@ public class Admin extends Persona{
 							"GRANT USAGE ON SCHEMA public TO "+dir.getCf()+";\r\n" + 
 							"GRANT SELECT ON dirigente to "+dir.getCf()+";"+
 							"GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO "+dir.getCf()+";";
-	
-					//System.out.println(sql);
+
 					try {
 						stmt.executeUpdate(sql);
 						System.out.println("Nuovo dirigente registrato!");
