@@ -19,7 +19,7 @@ public class db_init_main {
 		String password=null;
 		String db_name= null;
 		Statement stmt=null;
-		String filePath[] = new String[3];
+		String filePath[] = new String[4];
 		Connection conn=null;
 		
 		try {
@@ -62,15 +62,16 @@ public class db_init_main {
 			filePath[0]="create_tables.sql";
 			filePath[1]="all_functions.sql";
 			filePath[2]="script_insert.sql";
+			filePath[3]="define_users.sql";
 			 
-			for(int i=0;i<3;i++)
+			for(int i=0;i<4;i++)
 			{
 			String sql = readLine( filePath[i] );
 			try {			
 				 stmt.execute(sql);
 			} catch (SQLException e) {
 				System.err.println("Query non eseguita! (Forse DataBase esiste già.)");		
-				System.exit(0);
+				System.exit(1);
 			}
 			}
 			
@@ -78,6 +79,7 @@ public class db_init_main {
 				conn.close();
 			} catch (SQLException e) {
 				System.err.println("Connessione non chiusa!");
+				System.exit(1);
 			}
 			
 			System.out.println("DB creato con successo!");
@@ -135,8 +137,17 @@ public class db_init_main {
 			return;
 		}
 		
+		sql = readLine( "drop_users.sql" );
+		try {			
+			 stmt.execute(sql);
+		} catch (SQLException e) {
+			System.err.println("Nessun'azione eseguita!");		
+			System.exit(1);
+		}
+		
 		
 		System.out.println("DataBase pulito.");
+		System.exit(0);
 		
 	}
 
