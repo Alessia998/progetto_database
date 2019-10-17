@@ -22,13 +22,7 @@ public class Main {
 		
 		
 		
-		try {
-			//db_name = args[0];
-			db_name = "Progetto";
-		} catch (Exception e) {
-			System.err.println("Il programma prende in input nome del database");
-			System.exit(1);
-		}
+		db_name = "Progetto";
 		
 		System.out.println("Username : ");
 		u = scan.nextLine();
@@ -60,7 +54,6 @@ public class Main {
 			rs = stmt.executeQuery(sql);
 			rs.next();
 			categoria = rs.getString(1);
-			System.out.println(categoria);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
