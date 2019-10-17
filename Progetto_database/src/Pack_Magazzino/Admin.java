@@ -86,6 +86,7 @@ public class Admin extends Persona{
 				}
 				case 2:{
 					
+					System.out.println("2");
 					System.out.println("Inserimento nuova Filiale");
 					System.out.print("Inserisci il codice filiale (10 caratteri): ");
 					scan.nextLine();
