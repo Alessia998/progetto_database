@@ -1,5 +1,6 @@
 package Pack_Magazzino;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
@@ -16,10 +17,12 @@ public class Admin extends Persona{
 		String sql;
 		int k;
 		Scanner scan;
+		ResultSet res = null;
+		System.out.println(" ---- Connected as ADMIN! ---- ");
 
 		do {
 			
-			System.out.println("Connected as ADMIN!");
+			System.out.println("Opzioni:");
 			System.out.println("Opzioni a disposizione: ");
 			System.out.println("1) Inserisci un nuovo dirigente");
 			System.out.println("2) Inserisci una nuova filiale");
@@ -27,6 +30,7 @@ public class Admin extends Persona{
 			System.out.println("4) Stampa tutte le filiali");
 			System.out.println("5) Elimina un dirigente (solo se non gestisce nessuna filiale)");
 			System.out.println("0) Exit");
+			System.out.print("Scelta : ");
 			
 			scan = new Scanner(System.in);
 			k = scan.nextInt();
@@ -36,7 +40,8 @@ public class Admin extends Persona{
 				case 0:
 					System.out.println("---EXIT---");
 					break;
-				case 1:
+				case 1:{
+					
 					String cf,nome,cognome;
 					
 					System.out.println("Inserimento nuovo dirigente. ");
@@ -78,9 +83,58 @@ public class Admin extends Persona{
 					}
 	
 					break;
-				case 2:
-	
+				}
+				case 2:{
+					
+					System.out.println("Inserimento nuova Filiale");
+					System.out.print("Inserisci il codice filiale (10 caratteri): ");
+					scan.nextLine();
+					String cod = scan.nextLine();
+					
+					System.out.print("Inserisci il nome della filiale: ");
+					String nome = scan.nextLine();
+					
+					System.out.print("Inserisci la città della filiale: ");
+					String citta = scan.nextLine();
+					
+					System.out.print("Inserisci la via della filiale: ");
+					String via = scan.nextLine();
+					
+					System.out.print("Inserisci il numero civico della filiale: ");
+					String civico = scan.nextLine();
+					
+					System.out.print("Inserisci il numero di telefono della filiale: ");
+					String tel = scan.nextLine();
+					
+					System.out.println("Scegli il dirigente da associare alla nuova filiale:");
+					sql = "select cf from dirigente";
+					
+					try 
+					{
+						res = stmt.executeQuery(sql);
+						for (int i = 0; res.next(); i++) 
+							System.out.println((i+1) + ") " + res.getString(1));
+						
+					} catch (SQLException e) {
+						System.err.println("Errore di query al DB!");
+						e.printStackTrace();
+					}
+						
+					System.out.print("Inserisci codifce fiscale: ");
+					String cf = scan.nextLine();
+					
+					sql = "insert into filiale values ('"+ cod +"','"+ nome +"','"+
+							citta +"','"+ via +"',"+ civico +",'"+ tel +"','"+ cf +"')";
+					
+					try {
+						
+						stmt.executeUpdate(sql);
+						System.out.println("Filiale inserita correttamente!");
+					} catch (SQLException e) {
+						System.err.println("Codice Fiscale Errato !");
+					}
 					break;
+				}
 				case 3:
 	
 					break;
