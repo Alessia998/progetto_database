@@ -1,5 +1,4 @@
-/*questo file contiene tutte le funzioni neccessarie che devono essere
-eseguete dopo insert scripts.
+/*questo file contiene tutte le funzioni necessarie che devono essere eseguite dopo insert scripts.
 Funzioni:
 insert_magazzino()
 registra un nuovo magazzino
@@ -11,11 +10,11 @@ spedisci()
 gestisce la spedizione
 
 assegna_spazio()
-assegna lo spazio dato in input allo spazio dato in input
+assegna lo spazio dato in input al contratto dato in input
 
 calcola_piano()
 quando si crea un nuovo spazio viene chiamata questa funzione
-che calcola il piano tarifario
+che calcola il piano tariffario
 
 nuovo_contratto()
 crea un nuovo contratto
@@ -24,29 +23,31 @@ crea_cliente()
 crea un nuovo cliente
 
 trasferisci()
-come spedisci() fa lo trasferimento da un magazzino all'altro
-Nota: la funzione non registra in automatico la merce nel secondo magazzino.
+esegue il trasferimento di un prodotto da un magazzino all'altro
+Nota: la funzione non registra in automatico i prodotti nel secondo magazzino.
 
 elimina_contiene()
-contralla i dati in input ed elimina il collegamento spazio - prodotto
+controlla i dati in input ed elimina il collegamento spazio - prodotto
+
+who_is()
+dato un username restituisce che ruolo ha nel sistema
 
 */
 
 
 
 ---dichiarazione della funzione insert_magazzino
-
---funzione che crea un nuovo magazzino. input: denominaziokne, città, via, numero, telefono, codice filiale
+--funzione che crea un nuovo magazzino. input: denominazione, città, via, numero, telefono, codice filiale
 create or replace function insert_magazzino(denominazione char(255),citta char(255),via char(255),numero int ,tel varchar(30),cod_f varchar(10))
 returns int as $$
 declare
   num_magazzino int;
 
 begin
-  --cerco il numero progressivo all interno del codice filiale $6
+  --cerco il numero progressivo all'interno del codice della filiale $6
   select count (cod)+1 into num_magazzino from magazzino where cod = $6;
 
-  --registro un nuovo Magazzino
+  --registra un nuovo Magazzino
   insert into magazzino(num,denominazione,citta,via,numero,tel,cod)
     values(num_magazzino, $1, $2, $3, $4, $5, $6);
 
@@ -57,9 +58,8 @@ LANGUAGE plpgsql;
 
 ---fine funzione
 
---dichiarazione funzione insert_spazio
-
---funzione che crea un nuovo spazio. input: numero del magazzino, codice della filiale, descrizione spazio
+--dichiarazione della funzione insert_spazio
+--funzione che crea un nuovo spazio. input: numero del magazzino, codice della filiale, descrizione dello spazio
 create or replace function insert_spazio(numero_magazzino int, codice_filiale varchar(16) ,  descr varchar(255))
 returns int as $$
 declare
@@ -80,8 +80,9 @@ LANGUAGE plpgsql;
 
 --fine funzione
 
---inizio funzione spedizione
-
+--dichiarazione della funzione spedizione
+--gestisce la spedizione
+--input : codice fiscale del cliente, data della spedizione, targa del veicolo usato, paese , città, via e numero di dove va spedito il prodotto, telefono , codice del cliente che richiede la spedizione, la quantità spedita, il codice del prodotto, il codice della filiale, il numero del magazzino e l'ID dello spazio
 create or replace function spedisci(cf varchar(16), data_sp date, targa varchar(20), paese varchar(255), citta varchar(255), via varchar(255), numero varchar(10), tel varchar(30), codice_cli varchar(16), quantita int, codice_prodotto varchar(255), fil varchar(10), mag int, spa int)
 returns int as $$
 declare
@@ -94,7 +95,7 @@ declare
  num_sp int;
 begin
 
-	--verifico se il cliente ha veramente lo spazio indicato
+	--verifico se il cliente ha lo spazio indicato
 	select cliente.cf_cli into codice_fiscale from spazio_contratto, contratto, cliente
     where spazio_contratto.num_c = contratto.num_c and contratto.cf_cli = cliente.cf_cli
       and spazio_contratto.id_spazio = spa and spazio_contratto.num = mag and spazio_contratto.cod = fil;
@@ -104,30 +105,21 @@ begin
 			raise exception 'Non corrisponde codice cliente con lo spazio';
 	 end if;
 
-
-
-
-	--inizializzo la quantita del prodotto x contenuta nello spazio posseduto dal cliente in input
+	--inizializzo la quantità del prodotto x contenuta nello spazio posseduto dal cliente in input
 	select contiene.quantita into contenuto from contiene
     where id_spazio = spa and num = mag and cod = fil
       and codice = codice_prodotto;
-	/*if posseduto = null
-	  then
-	   raise exception 'Hai inserito codice fiscale cliente sbaglito';
-	 end if;*/
 
-	--controllo se la quantita richiesta per la spedizione del prodotto x è sufficiente
+	--controllo se la quantità richiesta per la spedizione del prodotto x è sufficiente
 	if contenuto < quantita
 	 then
 	  raise EXCEPTION  'La quantità non è sufficiente';
 	end if;
 
-	--aggiorno la quantità che è contenuto nello spazio
+	--aggiorno la quantità che è contenuta nello spazio
 	update contiene set quantita = contiene.quantita - q
     where id_spazio = spa and num = mag and cod = fil
       and contiene.codice = codice_prodotto;
-
-
 
 	select count (*) into cont from spedizione where spedizione.data_sp = $2 and cf_cli = codice_cliente
 	and spedizione.targa = $3 and spedizione.paese = $4 and spedizione.citta = $5 and spedizione.via = $6 and spedizione.numero = $7;
@@ -143,7 +135,7 @@ begin
 	select num_sped into num_sp from spedizione where spedizione.data_sp = $2 and cf_cli = codice_cliente
 	and spedizione.targa = $3 and spedizione.paese = $4 and spedizione.citta = $5 and spedizione.via = $6 and spedizione.numero = $7;
 
-	--vedo se esiste già la spedizione con lo stesso codice prodotto, cf, data e numero spedizione
+	--vedo se esiste già la spedizione con lo stesso codice del prodotto, codice fiscale, data e numero spedizione
 	select count (*) into cont from prod_sped where prod_sped.num_sped = num_sp and prod_sped.codice = codice_prodotto;
 
 	if cont = 1
@@ -161,10 +153,11 @@ END
 $$
 LANGUAGE plpgsql;
 
---esempio
---select spedisci ('FRRGVN98P02G395P','2019-01-01','CD456EF','Georgia','Bologna','Via del Chionso','13','3965226884','MRDMSS900P02P39F',20,'ruondpqytb','0000000001',1,4);
+--esempio : select spedisci ('FRRGVN98P02G395P','2019-01-01','CD456EF','Georgia','Bologna','Via del Chionso','13','3965226884','MRDMSS900P02P39F',20,'ruondpqytb','0000000001',1,4);
 
---la funzione assegna spazio (in input) al contratto (in input)
+--dichiarazione dellla funzione assegna_spazio
+--la funzione assegna lo spazio dato in input al contratto dato in input
+--input: codice della filiale, numero del magazzino, ID dello spazio e numero del contratto
 create or replace function assegna_spazio(fil varchar(10), mag int, spa int, contr varchar(255))
 returns int as $$
 declare
@@ -182,12 +175,12 @@ begin
 		raise exception 'lo spazio non è libero';
 	end if;
 
-	--conto quanti spazi ha contr già assegnati
+	--conto quanti spazi sono già assegnati al contratto
 	select count (*) into q from spazio_contratto, contratto, spazio
      where contratto.num_c = contr and contratto.num_c = spazio_contratto.num_c and
 		spazio_contratto.id_spazio = spazio.id_spazio and spazio_contratto.cod = spazio.cod and spazio.num = spazio_contratto.num;
 
-   --conto quanti spazi ha acquistati contr
+   --conto quanti spazi sono stati acquistati nel contratto
   select sum (num_spazi) into acq from contratto where num_c = contr;
 
    if acq - q < 1
@@ -202,11 +195,8 @@ end
 $$
 language plpgsql;
 
---per vedere gli spazi liberi
-/*select cod, num, id_spazio from spazio
-except
-select cod, num , id_spazio from spazio_contratto;*/
-
+--dichiarazione della funzione calcola_piano
+--la funzione calcola il piano tariffario del cliente con il codice fiscale preso in input
 create or replace function calcola_piano(cf varchar(16))
 returns varchar(255) as $$
 declare
@@ -240,6 +230,8 @@ END
 $$
 LANGUAGE plpgsql;
 
+--dichiarazione della funzione nuovo_contratto
+--crea un nuovo contratto. input : numero del contratto, data di inizio del contratto, data di fine del contratto, condice fiscale del cliente e codice fiscsale dell'impiegato che registra il contratto
 create or replace function nuovo_contratto(num_c varchar(255), datai date, dataf date, num_spazi int, cf varchar(255), cf_cli varchar(255))
 returns int as $$
 declare
@@ -256,6 +248,8 @@ end
 $$
 language plpgsql;
 
+--dichiarazione della funzione crea_cliente
+--crea un nuovo cliente, input : codice fiscale, nome, cognome e telefono
 create or replace function crea_cliente(cf varchar(16), nome varchar(255), cognome varchar(255), tel varchar(30))
 returns int as $$
 declare
@@ -279,8 +273,9 @@ end
 $$
 language plpgsql;
 
-
-
+--dichiarazione della funzione trasferisci
+--gestisce il trasferimento
+--input : codice del cliente, data della spedizione, codice fiscale del fattorino che eseguisce il trasferimento, targa del veicolo utilizzato, paese, numero del magazzino di partenza, codice della filiale di partenza, numero del magazzino di arrivo, codice della filiale di arrivo, codice del prodotto spedito e quantità spedita
 create or replace function trasferisci(cf varchar(16), data_spedizione date, fattorino varchar(16), targa varchar(20), paese varchar(255), n1 int, c1 varchar(255),n2 int, c2 varchar(255),codice_prodotto varchar(255), q int)
 returns int as $$
 declare
@@ -292,7 +287,7 @@ tel_f varchar(30);
 numero_spedizione int;
 
 ordine int;
-cont int; --q contenuta in uno spazio
+cont int; --quantità contenuta in uno spazio
 manda int;
 indir int;
 
@@ -306,23 +301,11 @@ if data_spedizione < current_date
   raise exception 'La data non valida';
 end if;
 
---non si può mandare nello stesso magazzino
+--controllo che il prodotto non sia mandato nello stesso magazzino
 if c1 = c2 and n1 = n2
    then
       raise exception 'Non si può mandare nello stesso magazzino';
 end if;
-
---controllo che nel magazzino c'è il prodotto indicato con la quantita sufficiente
-/*
-
-
-select co.codice from magazzino ma, contiene co
-where ma.cod = co.cod and ma.num = co.num and
-	  co.codice = codice_prodotto;
-IF NOT FOUND THEN
-  			raise exception 'Il prodotto non esiste nel magazzino';
-END IF;*/
-
 
 -- paese default Italia
 if paese = ''
@@ -346,8 +329,6 @@ where num = n1 and cod = c1;
 select tel into tel_f from magazzino
 where num = n1 and cod = c1;
 
-
---
 ordine = q;
 manda =0;
 
@@ -439,7 +420,9 @@ END
 $$
 LANGUAGE plpgsql;
 
-
+--dichiarazione della funzione elimina_contiene
+--controlla i dati in input ed elimina il collegamento spazio - prodotto
+--input : ID dello spazio, numero del magazzino, codice della filiale, codice del prodotto e quantità
 create or replace function elimina_contiene(spa int, mag int, fil varchar(10),codice_prodotto varchar(255), q int)
 returns int as $$
 declare
@@ -467,8 +450,8 @@ end
 $$
 language plpgsql;
 
-
---dato username restituisce che ruolo ha nel sistema
+--dichiarazione della funzione who_is
+--dato un username restituisce che ruolo ha nel sistema
 create or replace function who_is(un varchar(255))
 returns text as $$
 declare
