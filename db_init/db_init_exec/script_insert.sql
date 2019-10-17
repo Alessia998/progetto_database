@@ -24,7 +24,6 @@ insert into filiale values ('0000000001','Trasporti Bologna','Bologna','Zamboni'
 ('0000000003','Trasporti Firenze','Firenze','Garibaldi',6,'234845894','RSSCRL05P04D494F'),
 ('0000000004','Trasporti Napoli','Napoli','Diaz',6,'234845123','SPSFDR56P07D662F');
 
-
 select insert_magazzino('Magazzino 1 Bologna', 'Bologna', 'Rossi', 8, '1234567890', '0000000001');
 select insert_magazzino('Magazzino 2 Bologna', 'Bologna', 'Verdi', 8, '1234567890', '0000000001');
 select insert_magazzino('Magazzino 1 Firenze', 'Firenze', 'Verdi', 8, '1234567890', '0000000003');
@@ -41,7 +40,6 @@ insert into turno values ('SRFNDR98P02G393P', '2019-08-09',2,'0000000001'),
 ('PPLTCU05P04D494F', '2019-08-11',1,'0000000003'),
 ('PPLTCU05P04D494F', '2019-08-12',1,'0000000003'),
 ('FRTOCU56P07D662F', '2019-08-11',1,'0000000004');
-
 
 select insert_spazio(1,'0000000001','Magazzino 1 Bologna spazio 1');
 select insert_spazio(1,'0000000001','Magazzino 1 Bologna spazio 2');
@@ -76,7 +74,6 @@ select insert_spazio(1,'0000000004','Magazzino 1 Napoli spazio 2');
 select insert_spazio(1,'0000000004','Magazzino 1 Napoli spazio 3');
 select insert_spazio(1,'0000000004','Magazzino 1 Napoli spazio 4');
 
-
 insert into piano values ('Standard', 50, 'PianoStandard'),
 ('Gold', 40, 'PianoGold'),
 ('Top', 30, 'PianoTop');
@@ -109,8 +106,6 @@ insert into magazziniere values ('BLDMSM910P03P39F','Massimo','Boldi','1980-09-0
 ('FRRNZ910P03P39F','Enzo','Ferrari','1980-09-01','05364102','lucatoni@mail.com',1,'0000000003'),
 ('TMBLBR910P03P39F','Alberto','Tomba','1980-09-01','05364102','lucatoni@mail.com',1,'0000000004');
 
-
-
 insert into prodotto values
 ('yylltihwjl1','adasio','descr adasio'),
 ('ruondpqytb','galore amos','galore amos'),
@@ -132,7 +127,6 @@ insert into possiede values
 ('skibw','SSLVRL900P02P39F'),
 ('fhd3b3p894fx83p','SSLVRL900P02P39F');
 
-
 insert into contiene values
 (3,1,'0000000001','yylltihwjl1',10),
 (1,1,'0000000001','ruondpqytb',100),
@@ -144,14 +138,10 @@ insert into contiene values
 (2,1,'0000000003','skibw',40),
 (3,1,'0000000003','fhd3b3p894fx83p',1);
 
-
---fine funzione spedizione
-
 select spedisci('FRRGVN98P02G395P','2019-01-01','CD456EF','Italia','Bologna','Via del Chionso','13','3965226884','SFDVRL900P03P39F',5,'yylltihwjl1','0000000001',1,3);
 select spedisci('FRRGVN98P02G395P','2019-01-01','CD456EF','Italia','Bologna','Via Arturo Bellalli','13','2469569851','MRDMSS900P02P39F',5,'ruondpqytb','0000000001',1,1);
 select spedisci('BNCCRL05P04D494F','2019-02-01','CD456EF','Italia','Bologna','Via Gaetano Salvemini','13','3698554246','SRDVRL900P32P39F',5,'bsplgefebj','0000000002',2,7);
 select spedisci('BNCCRL05P04D494F','2019-02-01','CD456EF','Italia','Bologna','Via Gaetano Salvemini','13','3698554246','SRDVRL900P32P39F',5,'bsplgefebj','0000000002',2,7);
-
 
 insert into spazio_contratto values
 (3,1,'0000000001','0000000002'),
@@ -166,15 +156,4 @@ insert into spazio_contratto values
 (1,1,'0000000001','0000000005'),
 (2,1,'0000000001','0000000005');
 
-
 select trasferisci('MRDMSS900P02P39F','2020-10-09','VRDFDR56P07D662F','EF789GH','',1,'0000000001',2,'0000000002','ruondpqytb',26);
-
-
---un altro dato
-/*select crea_cliente('SFDVRL900P03P39Z','aa','bb','');
-select nuovo_contratto('222332','2020-05-05','2021-02-02',1000,'SFDVRL910P03P39K','SFDVRL900P03P39Z');
-select assegna_spazio('0000000001',1,5,'222332');
-insert into contiene values
-(5,1,'0000000001','ruondpqytb',50);
-insert into possiede values
-('ruondpqytb','SFDVRL900P03P39Z');*/
