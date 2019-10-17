@@ -127,6 +127,7 @@ public class Admin extends Persona{
 							citta +"','"+ via +"',"+ civico +",'"+ tel +"','"+ cf +"')";
 					
 					try {
+						
 						stmt.executeUpdate(sql);
 						System.out.println("Filiale inserita correttamente!");
 					} catch (SQLException e) {
