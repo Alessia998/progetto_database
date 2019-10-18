@@ -86,7 +86,6 @@ public class Admin extends Persona{
 				}
 				case 2:{
 					
-					System.out.println("2");
 					System.out.println("Inserimento nuova Filiale");
 					System.out.print("Inserisci il codice filiale (10 caratteri): ");
 					scan.nextLine();
@@ -136,12 +135,48 @@ public class Admin extends Persona{
 					}
 					break;
 				}
-				case 3:
+				case 3:{
 	
+					System.out.println("Stampa di tutti i dirigenti:");
+					sql = "select * from dirigente";
+					
+					try {
+						res = stmt.executeQuery(sql);
+						while(res.next()) {
+						    for(int columnIndex = 1; columnIndex <= res.getMetaData().getColumnCount(); columnIndex++) {
+						        Object object = res.getObject(columnIndex);
+						        System.out.printf("%s  ", object == null ? "NULL" : object.toString());
+						    }
+						    System.out.println();
+						}
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 					break;
-				case 4:
+				}
+				case 4:{
 	
+					System.out.println("Stampa di tutte le filiali:");
+					sql = "select * from filiale";
+					
+					try {
+						res = stmt.executeQuery(sql);
+						while(res.next()) {
+						    for(int columnIndex = 1; columnIndex <= res.getMetaData().getColumnCount(); columnIndex++) {
+						        Object object = res.getObject(columnIndex);
+						        System.out.printf("%s  ", object == null ? "NULL" : object.toString());
+						    }
+						    System.out.println();
+						}
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
 					break;
+				}
 				case 5:
 	
 					break;
