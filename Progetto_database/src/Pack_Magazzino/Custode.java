@@ -12,6 +12,10 @@ public class Custode extends Persona{
 		super(cf,nome,cognome);			
 	}
 	
+	public Custode () {
+		super ("","","");
+	}
+	
 
 	public String getData_nascita() {
 		return data_nascita;

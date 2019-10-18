@@ -68,7 +68,7 @@ public class Main {
 			aut = new Dirigente("","","");
 			break;
 		case "custode":
-			aut = new Custode("","","");
+			aut = new Custode();
 			break;
 		case "cliente":
 			aut = new Cliente();
