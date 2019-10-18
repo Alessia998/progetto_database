@@ -1,19 +1,23 @@
 package Pack_Magazzino;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 import Pack_Magazzino.Persona;
 
 public class Custode extends Persona{
 	private String data_nascita;
 	private String mail;
+	private Scanner scan  = new Scanner(System.in);
 
 	public Custode(String cf, String nome, String cognome) {
 		super(cf,nome,cognome);			
 	}
 	
-	public Custode () {
-		super ("","","");
+	public Custode (String cf) {
+		super (cf,"","");
 	}
 	
 
@@ -38,8 +42,88 @@ public class Custode extends Persona{
 
 	@Override
 	public void startOptions(Statement stmt) {
-		// TODO Auto-generated method stub
+		String sql = null;
 		
+		switch (menu()) {
+		case 0:
+			
+			break;
+		case 1:
+			
+			break;
+		case 2:
+			
+			break;
+		case 3:
+			
+			break;
+		case 4:
+			
+			break;
+		case 5:
+			sql = "select cu.cf, cu.nome, cu.cognome, tu.data_t from turno as tu, custode as cu\r\n" + 
+					"where tu.cf = cu.cf and\r\n" + 
+					"extract(year from tu.data_t) = extract(year from current_date);";
+			try {
+				ResultSet rs = stmt.executeQuery(sql);
+				this.dislay(rs, 4);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			break;	
+		case 6:
+			
+			break;
+
+
+		default:
+			break;
+		}
+		
+	}
+	
+	private int menu()
+	{
+		int k;
+		
+		System.out.println("Opzioni");
+		System.out.println("* VISUALIZZA I TURNI : ");
+		System.out.println("    1) Prossimi 7 giorni");
+		System.out.println("    2) Prossimi 30 giorni");
+		System.out.println("    3) Scorsi 7 giorni");
+		System.out.println("    4) Scorsi 30 giorni");
+		System.out.println("    5) L'anno in corso");
+		System.out.println("    6) Data specifica");
+		System.out.println("* ESCI");
+		System.out.println("    0) Esci");	
+		
+		do {
+			System.out.print("Scelta : ");
+			k = scan.nextInt();
+		}while(k < 0 || k > 7);
+		
+		return k;
+	}
+	
+	private void dislay(ResultSet rs, int colNum)
+	{
+		try {
+			while(rs.next())
+			{
+				for(int i=1; i <= colNum; i++)
+				{
+					System.out.print(rs.getString(i) + " ");
+				}
+				System.out.println("");
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.out.println("");
 	}
 
 }
