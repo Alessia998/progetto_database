@@ -1,34 +1,39 @@
+
+--
 create table if not exists custode(
-  cf varchar(16) not null,
-  nome varchar(255) not null,
-  cognome varchar (255) not null,
-  data_nascita date,
-  tel varchar(30),
-  mail varchar(255),
+cf varchar(16) not null,
+nome varchar(255) not null,
+cognome varchar (255) not null,
+data_nascita date,
+tel varchar(30),
+mail varchar(255),
 
-  PRIMARY KEY (cf)
+PRIMARY KEY (cf)
 );
 
+---
 create table if not exists fattorino(
-  cf varchar(16) not null,
-  nome varchar(255) not null,
-  cognome varchar (255) not null,
-  data_nascita date,
-  tel varchar(30),
-  mail varchar(255),
+cf varchar(16) not null,
+nome varchar(255) not null,
+cognome varchar (255) not null,
+data_nascita date,
+tel varchar(30),
+mail varchar(255),
 
-  PRIMARY KEY (cf)
+PRIMARY KEY (cf)
 );
 
-create table if not exists dirigente(
-  cf varchar(16) not null,
-  nome varchar(255) not null,
-  cognome varchar (255) not null,
-  data_nascita date,
-  tel varchar(30),
-  mail varchar(255),
 
-  PRIMARY KEY (cf)
+---
+create table if not exists dirigente(
+cf varchar(16) not null,
+nome varchar(255) not null,
+cognome varchar (255) not null,
+data_nascita date,
+tel varchar(30),
+mail varchar(255),
+
+PRIMARY KEY (cf)
 );
 
 create table if not exists piano(
@@ -55,12 +60,15 @@ create table if not exists filiale(
   via varchar(255) not null,
   numero int not null,
   tel varchar(30),
+  --FK
   cf varchar(16) not null,
 
 
   PRIMARY KEY (cod),
   FOREIGN KEY (cf) REFERENCES dirigente
 );
+
+
 
 create table if not exists magazzino(
   num int,
@@ -69,32 +77,36 @@ create table if not exists magazzino(
   via varchar(255),
   numero int,
   tel varchar(30),
+  --FK
   cod varchar(255),
 
   PRIMARY KEY (num,cod),
-  FOREIGN KEY (cod) REFERENCES filiale
+  FOREIGN key (cod) REFERENCES filiale
 );
 
 create table if not exists turno(
   cf varchar(16) not null,
   data_t date not null,
+  --FK
   num int,
   cod varchar(255),
 
+
   PRIMARY KEY (cf,data_t),
-  FOREIGN KEY (cf) REFERENCES custode,
+  FOREIGN key (cf) REFERENCES custode,
   FOREIGN KEY (num,cod) REFERENCES magazzino
 );
 
 
 create table if not exists spazio(
   id_spazio int,
+  --FK
   num int not null,
   cod varchar(255) not null,
   descrizione varchar(255),
 
   PRIMARY KEY (id_spazio,num,cod),
-  FOREIGN KEY (num,cod) REFERENCES magazzino
+  FOREIGN key (num,cod) REFERENCES magazzino
 );
 
 create table if not exists cliente(
@@ -102,10 +114,12 @@ create table if not exists cliente(
   nome varchar(255) not null,
   cognome varchar(255) not null,
   tel varchar(30),
+  --FK
   nome_piano varchar(255) not null,
 
   PRIMARY KEY (cf_cli),
   FOREIGN KEY (nome_piano) REFERENCES piano
+
 );
 
 create table if not exists impiegato(
@@ -115,10 +129,11 @@ create table if not exists impiegato(
   data_nascita date,
   tel varchar(30),
   mail varchar(255),
+--FK
   cod varchar(255) not null,
 
-  PRIMARY KEY (cf),
-  FOREIGN KEY (cod) REFERENCES filiale
+PRIMARY KEY (cf),
+FOREIGN KEY (cod) REFERENCES filiale
 );
 
 
@@ -127,12 +142,15 @@ create table if not exists impiegato(
    data_inizio date not null check (data_inizio >= current_date),
    data_fine date check (data_inizio < data_fine),
    num_spazi int not null check (num_spazi > 0),
+   --FK
    cf varchar(16) not null,
    cf_cli varchar(16) not null,
+
 
    PRIMARY KEY (num_c),
    FOREIGN KEY (cf_cli) REFERENCES cliente,
    FOREIGN KEY (cf) REFERENCES impiegato
+
  );
 
 
@@ -143,11 +161,12 @@ create table if not exists magazziniere(
   data_nascita date,
   tel varchar(30),
   mail varchar(255),
-  num int not null,
-  cod varchar(255) not null,
+--FK
+num int not null,
+cod varchar(255) not null,
 
-  PRIMARY KEY (cf),
-  FOREIGN KEY (num,cod) REFERENCES magazzino
+PRIMARY KEY (cf),
+FOREIGN KEY (num,cod) REFERENCES magazzino
 );
 
 create table if not exists prodotto(
@@ -163,12 +182,13 @@ create table if not exists possiede(
   cf_cli varchar(16) not null,
 
   PRIMARY KEY (codice, cf_cli),
-  FOREIGN KEY (codice) REFERENCES prodotto,
-  FOREIGN KEY (cf_cli) REFERENCES cliente
+  FOREIGN key (codice) REFERENCES prodotto,
+  FOREIGN key (cf_cli) REFERENCES cliente
 
 );
 
 create table if not exists contiene(
+  --FK
   id_spazio int not null,
   num int not null,
   cod varchar(255) not null,
@@ -179,6 +199,7 @@ create table if not exists contiene(
   FOREIGN KEY (id_spazio, num, cod ) REFERENCES spazio,
   FOREIGN KEY (codice ) REFERENCES prodotto
 );
+
 
 create sequence if not exists my_seq1;
 
@@ -193,13 +214,15 @@ create table if not exists spedizione(
   numero varchar(10) not null,
   tel varchar(30),
   stato_consegna varchar(11), --in consegna, consegnato
+  --FK
   cf_cli varchar(16) not null,
 
 
-  PRIMARY KEY (num_sped),
-  FOREIGN KEY (cf ) REFERENCES fattorino,
+  PRIMARY key (num_sped),
+  FOREIGN key (cf ) REFERENCES fattorino,
   FOREIGN KEY (targa) REFERENCES veicolo,
   FOREIGN KEY (cf_cli) REFERENCES cliente
+
 );
 
 
@@ -212,6 +235,7 @@ create table if not exists spazio_contratto(
   PRIMARY KEY (id_spazio,num,cod,num_c),
   FOREIGN KEY (id_spazio, num, cod) REFERENCES spazio,
   FOREIGN KEY (num_c) REFERENCES contratto
+
 );
 
 create sequence if not exists my_seq2;
@@ -227,10 +251,10 @@ create table if not exists trasferimenti(
   num2 int not null,
   cod2 varchar(255) not null,
 
-  PRIMARY KEY (num_sped),
+  PRIMARY key (num_sped),
   FOREIGN KEY (num1, cod1) REFERENCES magazzino(num,cod),
   FOREIGN KEY (num2, cod2) REFERENCES magazzino(num,cod),
-  FOREIGN KEY (cf ) REFERENCES fattorino,
+  FOREIGN key (cf ) REFERENCES fattorino,
   FOREIGN KEY (targa) REFERENCES veicolo
 );
 
