@@ -43,46 +43,57 @@ public class Custode extends Persona{
 	@Override
 	public void startOptions(Statement stmt) {
 		String sql = null;
+		int k;
 		
-		switch (menu()) {
-		case 0:
-			
-			break;
-		case 1:
-			
-			break;
-		case 2:
-			
-			break;
-		case 3:
-			
-			break;
-		case 4:
-			
-			break;
-		case 5:
-			sql = "select cu.cf, cu.nome, cu.cognome, tu.data_t from turno as tu, custode as cu\r\n" + 
-					"where tu.cf = cu.cf and\r\n" + 
-					"extract(year from tu.data_t) = extract(year from current_date);";
+		do {
+			k = menu();
+			switch (k) {
+			case 0:
+				System.out.println("---EXIT---");
+				System.exit(0);
+				break;
+			case 1:
+				sql = "select cu.cf, cu.nome, cu.cognome, tu.data_t from turno as tu, custode as cu \r\n" + 
+						"where tu.cf = cu.cf and tu.data_t between current_date and current_date + 7;";
+				break;
+			case 2:
+				sql = "select cu.cf, cu.nome, cu.cognome, tu.data_t from turno as tu, custode as cu \r\n" + 
+						"where tu.cf = cu.cf and tu.data_t between current_date and current_date + 30;";
+				break;
+			case 3:
+				sql = "select cu.cf, cu.nome, cu.cognome, tu.data_t from turno as tu, custode as cu \r\n" + 
+						"where tu.cf = cu.cf and tu.data_t between current_date - 7 and current_date;";
+				break;
+			case 4:
+				sql = "select cu.cf, cu.nome, cu.cognome, tu.data_t from turno as tu, custode as cu \r\n" + 
+						"where tu.cf = cu.cf and tu.data_t between current_date - 30 and current_date;";
+				break;
+			case 5:
+				sql = "select cu.cf, cu.nome, cu.cognome, tu.data_t from turno as tu, custode as cu\r\n" + 
+						"where tu.cf = cu.cf and\r\n" + 
+						"extract(year from tu.data_t) = extract(year from current_date);";			
+				break;	
+			case 6:
+				System.out.println("Inserisci la data(aaaa-mm-gg): ");
+				scan.nextLine();
+				sql = "select cu.cf, cu.nome, cu.cognome, tu.data_t from turno as tu, custode as cu \r\n" + 
+						"where tu.cf = cu.cf and tu.data_t = '" + scan.nextLine() + "';";
+				break;		
+			default:
+				break;
+			}
+			System.out.println("-----------------------------------------------------");
+			System.out.println("Risultati:");
+			System.out.println("-----------------------------------------------------");
 			try {
 				ResultSet rs = stmt.executeQuery(sql);
 				this.dislay(rs, 4);
 			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.out.println("Non trovo niente... premi invio");
+				scan.nextLine();
 			}
-			
-			
-			break;	
-		case 6:
-			
-			break;
-
-
-		default:
-			break;
-		}
-		
+			System.out.println("-----------------------------------------------------");		
+		}while(k != 0);			
 	}
 	
 	private int menu()
@@ -103,7 +114,7 @@ public class Custode extends Persona{
 		do {
 			System.out.print("Scelta : ");
 			k = scan.nextInt();
-		}while(k < 0 || k > 7);
+		}while(k < 0 || k > 6);
 		
 		return k;
 	}

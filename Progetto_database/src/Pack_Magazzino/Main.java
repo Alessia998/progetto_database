@@ -82,7 +82,7 @@ public class Main {
 		Persona aut = null;
 		switch (categoria) {
 		case "admin":
-			aut = new Admin();
+			aut = new Admin(u);
 			break;
 		case "dirigente":
 			aut = new Dirigente("","","");
@@ -120,8 +120,6 @@ public class Main {
 		
 		scan.close();
 		
-		System.out.println("bravo");
-
 	}
 	
 	

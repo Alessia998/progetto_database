@@ -6,10 +6,18 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 public class Admin extends Persona{
-
+	
+	
 	public Admin() {
 		super();
 	}
+	
+	public Admin(String u) {
+		super(u,"","");
+		
+	}
+	
+	
 
 	@Override
 	public void startOptions(Statement stmt) {
@@ -178,12 +186,48 @@ public class Admin extends Persona{
 					break;
 				}
 				case 5:
-	
+					int result = 0;
+					System.out.println("Iserisci il codice fiscale dirigente da eliminare :");
+					scan.nextLine();
+					String nome = scan.nextLine();
+					sql = "delete from dirigente\n" + 
+							"where cf =\n" + 
+							"(select res.cf from (select d.cf from dirigente d\n" + 
+							"except \n" + 
+							"select d.cf from dirigente d,filiale f\n" + 
+							"where d.cf = f.cf) as res\n" + 
+							"where res.cf = '"+nome+"');";
+
+					try {					
+						result = stmt.executeUpdate(sql);
+					} catch (SQLException e) {
+						e.printStackTrace();
+						System.err.println("Codice dirigente Errato !");
+					}
+					
+					if( result == 1)
+					{
+						sql = "REASSIGN OWNED BY "+nome+" TO "+this.getCf()+";\n" + 
+						"DROP OWNED BY "+nome+";\n" + 
+						"drop user "+nome+";";
+						
+						try {
+							stmt.execute(sql);
+							System.out.println("Dirigente rimosso correttamente!");
+							stmt.close();
+						} catch (SQLException e) {
+							System.err.println("Non si riesece a rimuovere l'utente da pgadmin!");
+						}			
+					}
+					else
+					{
+						System.out.println("Dirigente non esiste oppure non lo si può rimuovere");
+					}
 					break;
 				default:
 					break;
 			}
-		}while(k>0 && k <5);
+		}while(k>0 && k <6);
 		scan.close();
 	}
 }
