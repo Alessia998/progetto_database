@@ -1,200 +1,200 @@
 --crea custode
-create user SRFNDR98P02G393P with password 'srf';
-GRANT USAGE ON SCHEMA public TO SRFNDR98P02G393P;
-GRANT SELECT ON turno to SRFNDR98P02G393P;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO SRFNDR98P02G393P;
+create user srfndr98p02g393p with password 'srf';
+grant usage on schema public to srfndr98p02g393p;
+grant select on turno, dirigente, custode, impiegato, fattorino, cliente, magazziniere to srfndr98p02g393p;
+grant execute on all functions in schema public to srfndr98p02g393p;
 
-create user SRFNDR98P02G395P with password 'srf';
-GRANT USAGE ON SCHEMA public TO SRFNDR98P02G395P;
-GRANT SELECT ON turno to SRFNDR98P02G395P;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO SRFNDR98P02G395P;
+create user srfndr98p02g395p with password 'srf';
+grant usage on schema public to srfndr98p02g395p;
+grant select on turno, dirigente, custode, impiegato, fattorino, cliente, magazziniere to srfndr98p02g395p;
+grant execute on all functions in schema public to srfndr98p02g395p;
 
-create user PPLTCU05P04D494F with password 'ppl';
-GRANT USAGE ON SCHEMA public TO PPLTCU05P04D494F;
-GRANT SELECT ON turno to PPLTCU05P04D494F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO PPLTCU05P04D494F;
+create user ppltcu05p04d494f with password 'ppl';
+grant usage on schema public to ppltcu05p04d494f;
+grant select on turno, dirigente, custode, impiegato, fattorino, cliente, magazziniere to ppltcu05p04d494f;
+grant execute on all functions in schema public to ppltcu05p04d494f;
 
-create user FRTOCU56P07D662F with password 'frt';
-GRANT USAGE ON SCHEMA public TO FRTOCU56P07D662F;
-GRANT SELECT ON turno to FRTOCU56P07D662F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO FRTOCU56P07D662F;
+create user frtocu56p07d662f with password 'frt';
+grant usage on schema public to frtocu56p07d662f;
+grant select on turno, dirigente, custode, impiegato, fattorino, cliente, magazziniere to frtocu56p07d662f;
+grant execute on all functions in schema public to frtocu56p07d662f;
 
 --crea fattorino
-create user FRCCRL98P02G394P with password 'frc';
-GRANT USAGE ON SCHEMA public TO FRCCRL98P02G394P;
-GRANT SELECT ON fattorino, prod_sped, prod_trasf to FRCCRL98P02G394P;
-GRANT ALL ON spedizione, trasferimenti to FRCCRL98P02G394P;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO FRCCRL98P02G394P;
+create user frccrl98p02g394p with password 'frc';
+grant usage on schema public to frccrl98p02g394p;
+grant select on prod_sped, prod_trasf, dirigente, custode, impiegato, fattorino, cliente, magazziniere to frccrl98p02g394p;
+grant all on spedizione, trasferimenti to frccrl98p02g394p;
+grant execute on all functions in schema public to frccrl98p02g394p;
 
-create user FRRGVN98P02G395P with password 'frr';
-GRANT USAGE ON SCHEMA public TO FRRGVN98P02G395P;
-GRANT SELECT ON fattorino, prod_sped, prod_trasf to FRRGVN98P02G395P;
-GRANT ALL ON spedizione, trasferimenti to FRRGVN98P02G395P;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO FRRGVN98P02G395P;
+create user frrgvn98p02g395p with password 'frr';
+grant usage on schema public to frrgvn98p02g395p;
+grant select on prod_sped, prod_trasf, dirigente, custode, impiegato, fattorino, cliente, magazziniere to frrgvn98p02g395p;
+grant all on spedizione, trasferimenti to frrgvn98p02g395p;
+grant execute on all functions in schema public to frrgvn98p02g395p;
 
-create user BNCCRL05P04D494F with password 'bnc';
-GRANT USAGE ON SCHEMA public TO BNCCRL05P04D494F;
-GRANT SELECT ON fattorino, prod_sped, prod_trasf to BNCCRL05P04D494F;
-GRANT ALL ON spedizione, trasferimenti to BNCCRL05P04D494F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO BNCCRL05P04D494F;
+create user bnccrl05p04d494f with password 'bnc';
+grant usage on schema public to bnccrl05p04d494f;
+grant select on prod_sped, prod_trasf, dirigente, custode, impiegato, fattorino, cliente, magazziniere to bnccrl05p04d494f;
+grant all on spedizione, trasferimenti to bnccrl05p04d494f;
+grant execute on all functions in schema public to bnccrl05p04d494f;
 
-create user VRDFDR56P07D662F with password 'vrd';
-GRANT USAGE ON SCHEMA public TO VRDFDR56P07D662F;
-GRANT SELECT ON fattorino, prod_sped, prod_trasf to VRDFDR56P07D662F;
-GRANT ALL ON spedizione, trasferimenti to VRDFDR56P07D662F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO VRDFDR56P07D662F;
+create user vrdfdr56p07d662f with password 'vrd';
+grant usage on schema public to vrdfdr56p07d662f;
+grant select on prod_sped, prod_trasf, dirigente, custode, impiegato, fattorino, cliente, magazziniere to vrdfdr56p07d662f;
+grant all on spedizione, trasferimenti to vrdfdr56p07d662f;
+grant execute on all functions in schema public to vrdfdr56p07d662f;
 
-create user GRBMRA56P07D662F with password 'grb';
-GRANT USAGE ON SCHEMA public TO GRBMRA56P07D662F;
-GRANT SELECT ON fattorino, prod_sped, prod_trasf to GRBMRA56P07D662F;
-GRANT ALL ON spedizione, trasferimenti to GRBMRA56P07D662F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO GRBMRA56P07D662F;
+create user grbmra56p07d662f with password 'grb';
+grant usage on schema public to grbmra56p07d662f;
+grant select on prod_sped, prod_trasf, dirigente, custode, impiegato, fattorino, cliente, magazziniere to grbmra56p07d662f;
+grant all on spedizione, trasferimenti to grbmra56p07d662f;
+grant execute on all functions in schema public to grbmra56p07d662f;
 
 
 --crea dirigente
-create user SRFCRL98P02G394P with password 'srf';
-GRANT USAGE ON SCHEMA public TO SRFCRL98P02G394P;
-GRANT SELECT ON ALL TABLES IN SCHEMA PUBLIC to SRFCRL98P02G394P;
-GRANT ALL ON custode, magazziniere, impiegato, fattorino, veicolo to SRFCRL98P02G394P;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO SRFCRL98P02G394P;
+create user srfcrl98p02g394p with password 'srf';
+grant usage on schema public to srfcrl98p02g394p;
+grant select on all tables in schema public to srfcrl98p02g394p;
+grant all on custode, magazziniere, impiegato, fattorino, veicolo to srfcrl98p02g394p;
+grant execute on all functions in schema public to srfcrl98p02g394p;
 
-create user MNTFRC98P02G395P with password 'mnt';
-GRANT USAGE ON SCHEMA public TO MNTFRC98P02G395P;
-GRANT SELECT ON ALL TABLES IN SCHEMA PUBLIC to MNTFRC98P02G395P;
-GRANT ALL ON custode, magazziniere, impiegato, fattorino, veicolo to MNTFRC98P02G395P;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO MNTFRC98P02G395P;
+create user mntfrc98p02g395p with password 'mnt';
+grant usage on schema public to mntfrc98p02g395p;
+grant select on all tables in schema public to mntfrc98p02g395p;
+grant all on custode, magazziniere, impiegato, fattorino, veicolo to mntfrc98p02g395p;
+grant execute on all functions in schema public to mntfrc98p02g395p;
 
-create user RSSCRL05P04D494F with password 'rss';
-GRANT USAGE ON SCHEMA public TO RSSCRL05P04D494F;
-GRANT SELECT ON ALL TABLES IN SCHEMA PUBLIC to RSSCRL05P04D494F;
-GRANT ALL ON custode, magazziniere, impiegato, fattorino, veicolo to RSSCRL05P04D494F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO RSSCRL05P04D494F;
+create user rsscrl05p04d494f with password 'rss';
+grant usage on schema public to rsscrl05p04d494f;
+grant select on all tables in schema public to rsscrl05p04d494f;
+grant all on custode, magazziniere, impiegato, fattorino, veicolo to rsscrl05p04d494f;
+grant execute on all functions in schema public to rsscrl05p04d494f;
 
-create user SPSFDR56P07D662F with password 'sps';
-GRANT USAGE ON SCHEMA public TO SPSFDR56P07D662F;
-GRANT SELECT ON ALL TABLES IN SCHEMA PUBLIC to SPSFDR56P07D662F;
-GRANT ALL ON custode, magazziniere, impiegato, fattorino, veicolo to SPSFDR56P07D662F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO SPSFDR56P07D662F;
+create user spsfdr56p07d662f with password 'sps';
+grant usage on schema public to spsfdr56p07d662f;
+grant select on all tables in schema public to spsfdr56p07d662f;
+grant all on custode, magazziniere, impiegato, fattorino, veicolo to spsfdr56p07d662f;
+grant execute on all functions in schema public to spsfdr56p07d662f;
 
-create user GLLMRA56P07D662F with password 'gll';
-GRANT USAGE ON SCHEMA public TO GLLMRA56P07D662F;
-GRANT SELECT ON ALL TABLES IN SCHEMA PUBLIC to GLLMRA56P07D662F;
-GRANT ALL ON custode, magazziniere, impiegato, fattorino, veicolo to GLLMRA56P07D662F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO GLLMRA56P07D662F;
+create user gllmra56p07d662f with password 'gll';
+grant usage on schema public to gllmra56p07d662f;
+grant select on all tables in schema public to gllmra56p07d662f;
+grant all on custode, magazziniere, impiegato, fattorino, veicolo to gllmra56p07d662f;
+grant execute on all functions in schema public to gllmra56p07d662f;
 
 --crea cliente
-create user SRDVRL900P02P39F with password 'srd';
-GRANT USAGE ON SCHEMA public TO SRDVRL900P02P39F;
-GRANT SELECT ON contratto, prodotto, cliente, spazio_contratto, contiene to SRDVRL900P02P39F;
-GRANT ALL ON spedizione, prod_sped to SRDVRL900P02P39F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO SRDVRL900P02P39F;
+create user srdvrl900p02p39f with password 'srd';
+grant usage on schema public to srdvrl900p02p39f;
+grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere to srdvrl900p02p39f;
+grant all on spedizione, prod_sped to srdvrl900p02p39f;
+grant execute on all functions in schema public to srdvrl900p02p39f;
 
-create user SFDVRL900P03P39F with password 'sfd';
-GRANT USAGE ON SCHEMA public TO SFDVRL900P03P39F;
-GRANT SELECT ON contratto, prodotto, cliente, spazio_contratto, contiene to SFDVRL900P03P39F;
-GRANT ALL ON spedizione, prod_sped to SFDVRL900P03P39F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO SFDVRL900P03P39F;
+create user sfdvrl900p03p39f with password 'sfd';
+grant usage on schema public to sfdvrl900p03p39f;
+grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere to sfdvrl900p03p39f;
+grant all on spedizione, prod_sped to sfdvrl900p03p39f;
+grant execute on all functions in schema public to sfdvrl900p03p39f;
 
-create user SRDVRL900P32P39F with password 'srd';
-GRANT USAGE ON SCHEMA public TO SRDVRL900P32P39F;
-GRANT SELECT ON contratto, prodotto, cliente, spazio_contratto, contiene to SRDVRL900P32P39F;
-GRANT ALL ON spedizione, prod_sped to SRDVRL900P32P39F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO SRDVRL900P32P39F;
+create user srdvrl900p32p39f with password 'srd';
+grant usage on schema public to srdvrl900p32p39f;
+grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere to srdvrl900p32p39f;
+grant all on spedizione, prod_sped to srdvrl900p32p39f;
+grant execute on all functions in schema public to srdvrl900p32p39f;
 
-create user SSLVRL900P02P39F with password 'ssl';
-GRANT USAGE ON SCHEMA public TO SSLVRL900P02P39F;
-GRANT SELECT ON contratto, prodotto, cliente, spazio_contratto, contiene to SSLVRL900P02P39F;
-GRANT ALL ON spedizione, prod_sped to SSLVRL900P02P39F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO SSLVRL900P02P39F;
+create user sslvrl900p02p39f with password 'ssl';
+grant usage on schema public to sslvrl900p02p39f;
+grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere to sslvrl900p02p39f;
+grant all on spedizione, prod_sped to sslvrl900p02p39f;
+grant execute on all functions in schema public to sslvrl900p02p39f;
 
-create user MRDMSS900P02P39F with password 'mrd';
-GRANT USAGE ON SCHEMA public TO MRDMSS900P02P39F;
-GRANT SELECT ON contratto, prodotto, cliente, spazio_contratto, contiene to MRDMSS900P02P39F;
-GRANT ALL ON spedizione, prod_sped to MRDMSS900P02P39F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO MRDMSS900P02P39F;
+create user mrdmss900p02p39f with password 'mrd';
+grant usage on schema public to mrdmss900p02p39f;
+grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere to mrdmss900p02p39f;
+grant all on spedizione, prod_sped to mrdmss900p02p39f;
+grant execute on all functions in schema public to mrdmss900p02p39f;
 
 --crea impiegato
-create user SFDVRL910P03P39F with password 'sfd';
-GRANT USAGE ON SCHEMA public TO SFDVRL910P03P39F;
-GRANT SELECT ON filiale, magazzino, spazio to SFDVRL910P03P39F;
-GRANT ALL ON cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf to SFDVRL910P03P39F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO SFDVRL910P03P39F;
+create user sfdvrl910p03p39f with password 'sfd';
+grant usage on schema public to sfdvrl910p03p39f;
+grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere to sfdvrl910p03p39f;
+grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf to sfdvrl910p03p39f;
+grant execute on all functions in schema public to sfdvrl910p03p39f;
 
-create user SFDVRL910P03P39G with password 'sfd';
-GRANT USAGE ON SCHEMA public TO SFDVRL910P03P39G;
-GRANT SELECT ON filiale, magazzino, spazio to SFDVRL910P03P39G;
-GRANT ALL ON cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf to SFDVRL910P03P39G;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO SFDVRL910P03P39G;
+create user sfdvrl910p03p39g with password 'sfd';
+grant usage on schema public to sfdvrl910p03p39g;
+grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere to sfdvrl910p03p39g;
+grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf to sfdvrl910p03p39g;
+grant execute on all functions in schema public to sfdvrl910p03p39g;
 
-create user SFDVRL910P03P39H with password 'sfd';
-GRANT USAGE ON SCHEMA public TO SFDVRL910P03P39H;
-GRANT SELECT ON filiale, magazzino, spazio to SFDVRL910P03P39H;
-GRANT ALL ON cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf to SFDVRL910P03P39H;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO SFDVRL910P03P39H;
+create user sfdvrl910p03p39h with password 'sfd';
+grant usage on schema public to sfdvrl910p03p39h;
+grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere to sfdvrl910p03p39h;
+grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf to sfdvrl910p03p39h;
+grant execute on all functions in schema public to sfdvrl910p03p39h;
 
-create user SFDVRL910P03P39I with password 'sfd';
-GRANT USAGE ON SCHEMA public TO SFDVRL910P03P39I;
-GRANT SELECT ON filiale, magazzino, spazio to SFDVRL910P03P39I;
-GRANT ALL ON cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf to SFDVRL910P03P39I;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO SFDVRL910P03P39I;
+create user sfdvrl910p03p39i with password 'sfd';
+grant usage on schema public to sfdvrl910p03p39i;
+grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere to sfdvrl910p03p39i;
+grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf to sfdvrl910p03p39i;
+grant execute on all functions in schema public to sfdvrl910p03p39i;
 
-create user SFDVRL910P03P39K with password 'sfd';
-GRANT USAGE ON SCHEMA public TO SFDVRL910P03P39K;
-GRANT SELECT ON filiale, magazzino, spazio to SFDVRL910P03P39K;
-GRANT ALL ON cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf to SFDVRL910P03P39K;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO SFDVRL910P03P39K;
+create user sfdvrl910p03p39k with password 'sfd';
+grant usage on schema public to sfdvrl910p03p39k;
+grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere to sfdvrl910p03p39k;
+grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf to sfdvrl910p03p39k;
+grant execute on all functions in schema public to sfdvrl910p03p39k;
 
-create user SFDVRL910P03P39L with password 'sfd';
-GRANT USAGE ON SCHEMA public TO SFDVRL910P03P39L;
-GRANT SELECT ON filiale, magazzino, spazio to SFDVRL910P03P39L;
-GRANT ALL ON cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf to SFDVRL910P03P39L;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO SFDVRL910P03P39L;
+create user sfdvrl910p03p39l with password 'sfd';
+grant usage on schema public to sfdvrl910p03p39l;
+grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere to sfdvrl910p03p39l;
+grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf to sfdvrl910p03p39l;
+grant execute on all functions in schema public to sfdvrl910p03p39l;
 
-create user SFDVRL910P03P39M with password 'sfd';
-GRANT USAGE ON SCHEMA public TO SFDVRL910P03P39M;
-GRANT SELECT ON filiale, magazzino, spazio to SFDVRL910P03P39M;
-GRANT ALL ON cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf to SFDVRL910P03P39M;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO SFDVRL910P03P39M;
+create user sfdvrl910p03p39m with password 'sfd';
+grant usage on schema public to sfdvrl910p03p39m;
+grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere to sfdvrl910p03p39m;
+grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf to sfdvrl910p03p39m;
+grant execute on all functions in schema public to sfdvrl910p03p39m;
 
 --create magazziniere
-create user BLDMSM910P03P39F with password 'bld';
-GRANT USAGE ON SCHEMA public TO BLDMSM910P03P39F;
-GRANT SELECT ON magazziniere, magazzino, spazio, prodotto to BLDMSM910P03P39F;
-GRANT ALL ON contiene to BLDMSM910P03P39F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO BLDMSM910P03P39F;
+create user bldmsm910p03p39f with password 'bld';
+grant usage on schema public to bldmsm910p03p39f;
+grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente to bldmsm910p03p39f;
+grant all on contiene to bldmsm910p03p39f;
+grant execute on all functions in schema public to bldmsm910p03p39f;
 
-create user TNOLCU910P03P39F with password 'tno';
-GRANT USAGE ON SCHEMA public TO TNOLCU910P03P39F;
-GRANT SELECT ON magazziniere, magazzino, spazio, prodotto to TNOLCU910P03P39F;
-GRANT ALL ON contiene to TNOLCU910P03P39F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO TNOLCU910P03P39F;
+create user tnolcu910p03p39f with password 'tno';
+grant usage on schema public to tnolcu910p03p39f;
+grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente to tnolcu910p03p39f;
+grant all on contiene to tnolcu910p03p39f;
+grant execute on all functions in schema public to tnolcu910p03p39f;
 
-create user RZZRCC910P03P39F with password 'rzz';
-GRANT USAGE ON SCHEMA public TO RZZRCC910P03P39F;
-GRANT SELECT ON magazziniere, magazzino, spazio, prodotto to RZZRCC910P03P39F;
-GRANT ALL ON contiene to RZZRCC910P03P39F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO RZZRCC910P03P39F;
+create user rzzrcc910p03p39f with password 'rzz';
+grant usage on schema public to rzzrcc910p03p39f;
+grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente to rzzrcc910p03p39f;
+grant all on contiene to rzzrcc910p03p39f;
+grant execute on all functions in schema public to rzzrcc910p03p39f;
 
-create user DFRCRT910P03P39F with password 'dfr';
-GRANT USAGE ON SCHEMA public TO DFRCRT910P03P39F;
-GRANT SELECT ON magazziniere, magazzino, spazio, prodotto to DFRCRT910P03P39F;
-GRANT ALL ON contiene to DFRCRT910P03P39F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO DFRCRT910P03P39F;
+create user dfrcrt910p03p39f with password 'dfr';
+grant usage on schema public to dfrcrt910p03p39f;
+grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente to dfrcrt910p03p39f;
+grant all on contiene to dfrcrt910p03p39f;
+grant execute on all functions in schema public to dfrcrt910p03p39f;
 
-create user LMBFRR910P03P39F with password 'lmb';
-GRANT USAGE ON SCHEMA public TO LMBFRR910P03P39F;
-GRANT SELECT ON magazziniere, magazzino, spazio, prodotto to LMBFRR910P03P39F;
-GRANT ALL ON contiene to LMBFRR910P03P39F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO LMBFRR910P03P39F;
+create user lmbfrr910p03p39f with password 'lmb';
+grant usage on schema public to lmbfrr910p03p39f;
+grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente to lmbfrr910p03p39f;
+grant all on contiene to lmbfrr910p03p39f;
+grant execute on all functions in schema public to lmbfrr910p03p39f;
 
-create user FRRNZ910P03P39F with password 'frr';
-GRANT USAGE ON SCHEMA public TO FRRNZ910P03P39F;
-GRANT SELECT ON magazziniere, magazzino, spazio, prodotto to FRRNZ910P03P39F;
-GRANT ALL ON contiene to FRRNZ910P03P39F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO FRRNZ910P03P39F;
+create user frrnz910p03p39f with password 'frr';
+grant usage on schema public to frrnz910p03p39f;
+grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente to frrnz910p03p39f;
+grant all on contiene to frrnz910p03p39f;
+grant execute on all functions in schema public to frrnz910p03p39f;
 
-create user TMBLBR910P03P39F with password 'tmb';
-GRANT USAGE ON SCHEMA public TO TMBLBR910P03P39F;
-GRANT SELECT ON magazziniere, magazzino, spazio, prodotto to TMBLBR910P03P39F;
-GRANT ALL ON contiene to TMBLBR910P03P39F;
-GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO TMBLBR910P03P39F;
+create user tmblbr910p03p39f with password 'tmb';
+grant usage on schema public to tmblbr910p03p39f;
+grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente to tmblbr910p03p39f;
+grant all on contiene to tmblbr910p03p39f;
+grant execute on all functions in schema public to tmblbr910p03p39f;
