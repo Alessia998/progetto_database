@@ -16,6 +16,10 @@ calcola_piano()
 quando si crea un nuovo spazio viene chiamata questa funzione
 che calcola il piano tariffario
 
+esiste_cliente()
+funzione che restituisce vero se il cf esiste nella tabella
+falso altrimneti
+
 nuovo_contratto()
 crea un nuovo contratto
 
@@ -230,6 +234,26 @@ END
 $$
 LANGUAGE plpgsql;
 
+--funzione che restituisce vero se il cf esiste nella tabella
+--falso altrimneti
+create or replace function esiste_cliente(cf text)
+returns bool as $func$
+declare
+_ text;
+BEGIN
+
+select cf_cli into _ from cliente
+where cf_cli = $1;
+IF found
+  THEN
+    return true;
+end if;
+
+return false;
+END
+$func$
+LANGUAGE plpgsql;
+
 --dichiarazione della funzione nuovo_contratto
 --crea un nuovo contratto. input : numero del contratto, data di inizio del contratto, data di fine del contratto, condice fiscale del cliente e codice fiscsale dell'impiegato che registra il contratto
 create or replace function nuovo_contratto(num_c varchar(255), datai date, dataf date, num_spazi int, cf varchar(255), cf_cli varchar(255))
@@ -237,7 +261,12 @@ returns int as $$
 declare
 	piano varchar(255);
 begin
-	insert into contratto values ($1, $2, $3, $4, $5, $6);
+	if (esiste_cliente($6))
+		then
+			insert into contratto values ($1, $2, $3, $4, $5, $6);
+		else
+			raise exception 'Il codice fiscale inserito non esiste nel DB dei clienti';
+	end if;
 
 	select calcola_piano(cf_cli) into piano;
 
@@ -461,10 +490,8 @@ usr text;
 begin
 
 --admin
-SELECT  grantee into cat
-FROM information_schema.role_table_grants
-WHERE table_name='filiale' and grantee = un;
-if found then
+if (select usesuper from pg_user where usename = un)
+then
 	cat = 'admin';
 	return cat;
 end if;
