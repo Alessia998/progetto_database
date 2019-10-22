@@ -113,7 +113,7 @@ public abstract class Persona {
 		do {
 			System.out.print("Scelta : ");
 			k = scan.nextInt();
-		}while(k<1 || k>i-1);
+		}while(k<0 || k>i-1);
 		
 		sql = "select cod from filiale\r\n" + 
 				"limit "+k+" offset "+(k-1)+";";
@@ -130,7 +130,7 @@ public abstract class Persona {
 		return null;
 	}
 	
-	public int getNumMagazzino(Statement stmt, Scanner scan, int fil)
+	public int getNumMagazzino(Statement stmt, Scanner scan, String fil)
 	{
 		int i=1,k;
 		String sql = "select magazzino.num from filiale,magazzino\r\n" + 
@@ -151,7 +151,7 @@ public abstract class Persona {
 		do {
 			System.out.print("Scelta : ");
 			k = scan.nextInt();
-		}while(k<1 || k>i-1);
+		}while(k<0 || k>i-1);
 		
 		sql = "select magazzino.num from filiale,magazzino\r\n" + 
 				"where filiale.cod = magazzino.cod and filiale.cod = '"+fil+"'"+
@@ -163,8 +163,49 @@ public abstract class Persona {
 
 			
 		} catch (SQLException e) {
+			e.getMessage();
+		}	
+		return 0;
+	}
+	
+	public int getIdSpazio(Statement stmt, Scanner scan, String fil, int mag)
+	{
+		int i=1,k;
+		String sql = "select spazio.id_spazio from spazio, magazzino, filiale\r\n" + 
+				"where filiale.cod = magazzino.cod and magazzino.num = spazio.num\r\n" + 
+				"	  and magazzino.cod = spazio.cod and filiale.cod = '"+fil+"'\r\n" + 
+				"	  and magazzino.num = '"+mag+"';";
+		ResultSet rs = null;
+		System.out.println("Scegli il numero spazio : ");
+		try {
+			rs = stmt.executeQuery(sql);
+			while(rs.next())
+			{
+				System.out.println(i + ") " + rs.getString(1));
+				i++;
+			}
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		do {
+			System.out.print("Scelta : ");
+			k = scan.nextInt();
+		}while(k<0 || k>i-1);
+		
+		sql = "select spazio.id_spazio from spazio, magazzino, filiale\r\n" + 
+				"where filiale.cod = magazzino.cod and magazzino.num = spazio.num\r\n" + 
+				"	  and magazzino.cod = spazio.cod and filiale.cod = '"+fil+"'\r\n" + 
+				"	  and magazzino.num = '"+mag+"'"+
+				"limit "+k+" offset "+(k-1)+";";
+		try {
+			rs = stmt.executeQuery(sql);
+			if(rs.next())
+				return rs.getInt(1);
+
+			
+		} catch (SQLException e) {
+			e.getMessage();
 		}	
 		return 0;
 	}

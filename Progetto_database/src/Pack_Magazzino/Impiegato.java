@@ -65,8 +65,8 @@ public class Impiegato extends Persona {
 		String sql = null;
 		int k;
 		ResultSet rs = null;
-		String cod, nom, desc, fil;
-		int spa, mag;
+		String cod, nom, desc, fil, prod;
+		int spa, mag, q;
 		
 		printInfo(this.getCf(), stmt);
 		
@@ -181,34 +181,44 @@ public class Impiegato extends Persona {
 				this.display(rs, 3);
 				break;	
 			case 8:
-	
+				sql = "select * from trasferimenti;";
+				try {
+					rs = stmt.executeQuery(sql);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				System.out.println("Numero trasferimento | Data sped. | CF fattorino | Veicolo | Stato consegna | Fil, Mag partenza | F , M arrivo");
+				this.display(rs, 8);
 				break;
 			case 9:
-				
+				sql = "select * from spedizione;";
+				try {
+					rs = stmt.executeQuery(sql);
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				System.out.println("Numero spedizione | CF fattorino | Data sped. | Veicolo | Indirizzo | Tel | Stato consegna | CF cliente");
+				this.display(rs,11);
 				break;	
 			case 10:
-				/*System.out.println("Inserisci il codice prodotto : ");
-				cod = scan.nextLine();
-				System.out.println("Inserisci il codice della filiale : ");
-				fil = scan.nextLine();
-				System.out.println("Inserisci il codice del magazzino : ");*/
-				//System.out.println(this.getNumMagazzino(stmt, scan));
-				//sono qui
+				fil = this.getMySubsidiary(this.getCf(), stmt);
+				mag = this.getNumMagazzino(stmt, scan, fil);
+				spa = this.getIdSpazio(stmt, scan, fil, mag);
+				scan.nextLine();
+				System.out.println("Inserisci il codice prodotto da ritirare : ");
+				prod = scan.nextLine();
+				System.out.println("Inserisci la quantita da ritirare : ");
+				q = scan.nextInt();
+				sql = "select elimina_contiene('"+spa+"','"+mag+"','"+fil+"','"+prod+"','"+q+"');";
+				try {
+					stmt.executeQuery(sql);
+				} catch (SQLException e) {
+					System.err.println("Errore! verifica i dati");
+				}
 				break;		
 			default:
 				break;
 			}
-			/*System.out.println("-----------------------------------------------------");
-			System.out.println("Risultati:");
-			System.out.println("-----------------------------------------------------");
-			try {
-				ResultSet rs = stmt.executeQuery(sql);
-				this.display(rs, 4);
-			} catch (SQLException e) {
-				System.out.println("Non trovo niente... premi invio");
-				scan.nextLine();
-			}
-			System.out.println("-----------------------------------------------------");*/		
 		}while(k != 0);			
 	}
 	
@@ -262,7 +272,25 @@ public class Impiegato extends Persona {
 		System.out.println("");
 		
 	}
+	
+	private String getMySubsidiary(String u, Statement stmt)
+	{
+		String sql = "select impiegato.cod from impiegato where cf = '" + u + "';";
+		try {
+			ResultSet rs = stmt.executeQuery(sql);
+			if(rs.next())
+				return rs.getString(1);
+			else
+				return null;
+				
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+}
 		
 	
 
-}
