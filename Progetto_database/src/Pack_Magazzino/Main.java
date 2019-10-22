@@ -85,6 +85,7 @@ public class Main {
 			aut = new Admin(u);
 			break;
 		case "dirigente":
+			System.out.println("Ruolo: DIRIGENTE");
 			aut = new Dirigente("","","");
 			break;
 		case "custode":
@@ -95,7 +96,8 @@ public class Main {
 			aut = new Cliente();
 			break;
 		case "impiegato":
-			aut = new Impiegato("","","","");
+			System.out.println("Ruolo: IMPIEGATO");
+			aut = new Impiegato(u);
 			break;
 		case "fattorino":
 			aut = new Fattorino("","","");

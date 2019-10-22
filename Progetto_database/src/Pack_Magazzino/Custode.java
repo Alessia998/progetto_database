@@ -87,7 +87,7 @@ public class Custode extends Persona{
 			System.out.println("-----------------------------------------------------");
 			try {
 				ResultSet rs = stmt.executeQuery(sql);
-				this.dislay(rs, 4);
+				this.display(rs, 4);
 			} catch (SQLException e) {
 				System.out.println("Non trovo niente... premi invio");
 				scan.nextLine();
@@ -119,22 +119,6 @@ public class Custode extends Persona{
 		return k;
 	}
 	
-	private void dislay(ResultSet rs, int colNum)
-	{
-		try {
-			while(rs.next())
-			{
-				for(int i=1; i <= colNum; i++)
-				{
-					System.out.print(rs.getString(i) + " ");
-				}
-				System.out.println("");
-			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		System.out.println("");
-	}
+
 
 }
