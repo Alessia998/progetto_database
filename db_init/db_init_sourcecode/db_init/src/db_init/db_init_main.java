@@ -70,6 +70,7 @@ public class db_init_main {
 			try {			
 				 stmt.execute(sql);
 			} catch (SQLException e) {
+				e.printStackTrace();
 				System.err.println("Query non eseguita! (Forse DataBase esiste già.)");		
 				System.exit(1);
 			}
