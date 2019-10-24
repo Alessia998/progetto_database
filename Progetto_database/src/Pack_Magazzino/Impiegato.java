@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
-import com.sun.net.httpserver.Authenticator.Result;
 
 import Pack_Magazzino.Persona;
 
@@ -79,23 +78,41 @@ public class Impiegato extends Persona {
 				break;
 			case 1:
 				scan.nextLine();
-				System.out.println("Inserisci il codice fiscale : ");
-				this.setCf(scan.nextLine());
-				System.out.println("Inserisci il nome : ");
+				System.out.print("Inserisci il codice fiscale : ");
+				this.setCf(scan.nextLine().toUpperCase());
+				System.out.print("Inserisci la password : ");
+				String pass = scan.nextLine();
+				System.out.print("Inserisci il nome : ");
 				this.setNome(scan.nextLine());
-				System.out.println("Inserisci il cognome : ");
+				System.out.print("Inserisci il cognome : ");
 				this.setCognome(scan.nextLine());
-				System.out.println("Insersci il numero di telefono :");
+				System.out.print("Insersci il numero di telefono :");
 				this.setTel(scan.nextLine());
 				
 				sql = "select crea_cliente('"+this.getCf()+"','"+this.getNome()+"','"+this.getCognome()+"','"+this.getTel()+"');";
+				System.out.println(sql);
 				try {
 					stmt.executeQuery(sql);
 				} catch (SQLException e1) {
-					System.err.println(((SQLException)e1).getMessage());
+					System.err.println((e1).getMessage());
+					System.out.println("Erroe di inserimento nel DB.");
 					break;
 				}	
-				System.out.println("--- Cliente inserito. ---");
+				sql = "create user "+this.getCf()+" with password '"+pass+"';\r\n" + 
+						"grant usage on schema public to "+this.getCf()+";\r\n" + 
+						"grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere to "+this.getCf()+";\r\n" + 
+						"grant all on spedizione, prod_sped, my_seq1 to "+this.getCf()+";\r\n" + 
+						"grant execute on all functions in schema public to "+this.getCf()+";";
+				System.out.println(sql); //non funziona
+				try {
+					stmt.executeQuery(sql);
+					System.out.println("--- Cliente inserito. ---");
+				} catch (SQLException e1) {
+					System.err.println((e1).getMessage());
+					System.out.println("Errore di inserimento in PgAdmin");
+					break;
+				}
+		
 				break;
 			case 2:
 				Contratto con = new Contratto();
@@ -137,7 +154,7 @@ public class Impiegato extends Persona {
 				try {
 					stmt.executeUpdate(sql);
 				} catch (SQLException e1) {
-					System.err.println(((SQLException)e1).getMessage());
+					System.err.println(e1.getMessage());
 					System.err.println("Prodotto non inserito!");
 					scan.nextLine();
 					scan.nextLine();
@@ -145,7 +162,39 @@ public class Impiegato extends Persona {
 				}
 				break;
 			case 4:
-				
+				scan.nextLine();
+				System.out.println("Inserisci il codice fiscale del cliente : ");
+				String cf = scan.nextLine();
+				System.out.println("Inserisci la data di trasferimento (aaaa-mm-gg): ");
+				String data = scan.nextLine();
+				System.out.println("Inserisci il codice fisacle del fattorino : ");
+				String cf_fat = scan.nextLine();
+				System.out.println("Inserisci la targa del veicolo : ");
+				String targa = scan.nextLine();
+				System.out.println("Inserisci il paese di destinazione (predefinito: Italia) : ");
+				String paese = scan.nextLine();
+				System.out.println("Inserisci il codice prodotto che si vuole mandare : ");
+				String cProd = scan.nextLine();
+				System.out.println("Insersci la quantità che deve essere trasferita :"); 
+				q = scan.nextInt();
+				System.out.println("Scegli filiale di partenza : ");
+				String c1 = this.getCodFiliale(stmt, scan);
+				System.out.println("Scegli magazzino di partenza : ");
+				int n1 = this.getNumMagazzino(stmt, scan, c1); 
+				System.out.println("Scegli filiale di arrivo : ");
+				String c2 = this.getCodFiliale(stmt, scan);
+				System.out.println("Scegli magazzino di arrivo : ");
+				int n2 = this.getNumMagazzino(stmt, scan, c2);
+				sql = "select trasferisci('"+cf+"','"+data+"','"+cf_fat+"','"+targa+"','"+
+				      paese+"','"+n1+"','"+c1+"','"+n2+"','"+c2+"','"+cProd+"','"+q+"');";
+				System.out.println(sql);
+				try {
+					stmt.execute(sql);
+					System.out.println("Il trasferimento � stato registrato");
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();			
+				}
 				break;
 			case 5:
 				sql = "select * from cliente;";

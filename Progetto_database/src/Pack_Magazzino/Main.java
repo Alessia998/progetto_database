@@ -71,7 +71,6 @@ public class Main {
 
 		try {
 			sql = "select who_is('"+u+"');";
-			System.out.println(sql);
 			rs = stmt.executeQuery(sql);
 			rs.next();
 			categoria = rs.getString(1);
@@ -94,7 +93,8 @@ public class Main {
 			aut = new Custode(u);
 			break;
 		case "cliente":
-			aut = new Cliente();
+			System.out.println("CLIENTE ");
+			aut = new Cliente(u);
 			break;
 		case "impiegato":
 			System.out.println("Ruolo: IMPIEGATO");
