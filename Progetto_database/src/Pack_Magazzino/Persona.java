@@ -83,7 +83,7 @@ public abstract class Persona {
 			{
 				for(int i=1; i <= colNum; i++)
 				{
-					System.out.print(rs.getString(i) + (i<colNum?" , ":" ;\n"));
+					System.out.print(rs.getString(i) + (i<colNum?", ":";\n"));
 				}
 			}
 		} catch (SQLException e) {

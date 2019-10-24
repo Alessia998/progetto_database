@@ -63,7 +63,7 @@ public class Admin extends Persona{
 					Dirigente dir = new Dirigente(cf, nome, cognome);
 					System.out.print("Inserisci la nuova password per il dirigente: ");
 					dir.setPass(scan.nextLine());
-					System.out.print("Data di nascita (aaaa-mm-gg) :");
+					System.out.print("Data di nascita (aaaa-mm-gg): ");
 					dir.setData_nascita(scan.nextLine());
 					System.out.print("Telefono: ");
 					dir.setTel(scan.nextLine());
@@ -221,7 +221,7 @@ public class Admin extends Persona{
 					}
 					else
 					{
-						System.out.println("Dirigente non esiste oppure non lo si può rimuovere");
+						System.out.println("Dirigente non esiste oppure non lo si puï¿½ rimuovere");
 					}
 					break;
 				default:

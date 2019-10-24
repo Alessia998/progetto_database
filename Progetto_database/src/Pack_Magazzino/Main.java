@@ -22,12 +22,12 @@ public class Main {
 		
 		
 		
-		//db_name = "Progetto";
-		db_name = args[0];
+		db_name = "Progetto";
+		//db_name = args[0];
 		
-		System.out.println("Username : ");
+		System.out.print("Username : ");
 		u = scan.nextLine();
-		System.out.println("Password : ");
+		System.out.print("Password : ");
 		p = scan.nextLine();
 		
 		//lower case per accedere al pgadmin database  
@@ -43,7 +43,7 @@ public class Main {
 		
 		
 		try {
-			conn = DriverManager.getConnection( "jdbc:postgresql://localhost:5432/"+db_name+"?loggerLevel=OFF" , u , p);
+			conn = DriverManager.getConnection( "jdbc:postgresql://localhost:5432/"+db_name+"?loggerLevel=OFF", u , p);
 			stmt = conn.createStatement();
 			
 		} catch (SQLException e) {
@@ -52,7 +52,7 @@ public class Main {
 		}
 		
 		
-		//Controllo se l'utente è admin
+		//Controllo se l'utente ï¿½ admin
 		//altrimenti faccio Upper case
 		sql = "select who_is('"+u+"');";		
 		try {
@@ -71,6 +71,7 @@ public class Main {
 
 		try {
 			sql = "select who_is('"+u+"');";
+			System.out.println(sql);
 			rs = stmt.executeQuery(sql);
 			rs.next();
 			categoria = rs.getString(1);
@@ -86,7 +87,7 @@ public class Main {
 			break;
 		case "dirigente":
 			System.out.println("Ruolo: DIRIGENTE");
-			aut = new Dirigente("","","");
+			aut = new Dirigente(u);
 			break;
 		case "custode":
 			System.out.println("Ruolo: CUSTODE");
@@ -121,6 +122,7 @@ public class Main {
 		}
 		
 		scan.close();
+		System.out.println("---- Chiusura ----");
 		
 	}
 	

@@ -17,6 +17,10 @@ public class Dirigente extends Persona{
 		super(cf,nome,cognome);	
 	}
 	
+	public Dirigente(String cf) {
+		super(cf,"","");	
+	}
+	
 
 	public String getData_nascita() {
 		
@@ -56,7 +60,7 @@ public class Dirigente extends Persona{
 		ResultSet rs = null;
 		
 		do {
-		System.out.println("Opzioni: ");
+		System.out.println("\n---- Opzioni: ----");
 		System.out.println("* AGGIUNGI PERSONALE:");
 		System.out.println("	1) Custode");
 		System.out.println("	2) Magazziniere");
@@ -74,27 +78,248 @@ public class Dirigente extends Persona{
 		System.out.println("0) Esci");
 		
 		System.out.print("\nScelta: ");
-		scan.nextLine();
+		//scan.nextLine();
 		scelta = scan.nextInt();
 		
 		switch(scelta)
 		{
-			case 1:
+			case 1:{
+				System.out.println("\n---- Inserimento di un nuovo custode ----");
 				
-				break;
-			case 2:
-				break;
-			case 3:
-				break;
-			case 4:
-				break;
-			case 5:
-				break;
+				System.out.print("Inserisci il codice fiscale: ");
+				scan.nextLine();
+				String cf = scan.nextLine();
+				
+				System.out.print("Inserisci il nome: ");
+				String nome = scan.nextLine();
+				
+				System.out.print("Inserisci il cognome: ");
+				String cognome = scan.nextLine();
+				
+				System.out.print("Inserisci la data di nascita (aaaa-mm-gg): ");
+				String d_nascita = scan.nextLine();
+				
+				System.out.print("Inserisci il numero di telefono: ");
+				String tel = scan.nextLine();
+				
+				System.out.print("Inserisci la mail: ");
+				String mail = scan.nextLine();
+				
+				sql = "insert into custode values ('"+ cf +"','"+ nome +"','"+ cognome +"',"
+						+ "'"+ d_nascita +"', '"+ tel +"', '"+ mail +"')";
+				
+				try {
+					stmt.executeUpdate(sql);
+					System.out.println("Custode inserito correttamente!");
+				} catch (SQLException e1) {
+					System.err.println("Errore inserimento custode!");
+					e1.printStackTrace();
+				}
+				
+				System.out.print("Inserisci la password per il nuovo utente: ");
+				String psw = scan.nextLine();
+				
+				sql = "create user "+ cf +" with password '"+ psw +"';\n" +
+						"grant usage on schema public to "+ cf +";\n" +
+						"grant select on turno, dirigente, custode, impiegato, fattorino, cliente, magazziniere to "+ cf +";\n"
+						+ "grant execute on all functions in schema public to "+ cf +";";
+				
+				try {
+					stmt.executeUpdate(sql);
+					System.out.println("Nuovo utente registrato!");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+			}break;
+			case 2:{
+				
+				System.out.println("\n---- Inserimento di un nuovo magazziniere ----");
+				
+				System.out.print("Inserisci il codice fiscale: ");
+				scan.nextLine();
+				String cf = scan.nextLine();
+				
+				System.out.print("Inserisci il nome: ");
+				String nome = scan.nextLine();
+				
+				System.out.print("Inserisci il cognome: ");
+				String cognome = scan.nextLine();
+				
+				System.out.print("Inserisci la data di nascita (aaaa-mm-gg): ");
+				String d_nascita = scan.nextLine();
+				
+				System.out.print("Inserisci il numero di telefono: ");
+				String tel = scan.nextLine();
+				
+				System.out.print("Inserisci la mail: ");
+				String mail = scan.nextLine();
+				
+				sql = "select magazzino.num, magazzino.cod from magazzino, filiale where"
+						+ " magazzino.cod = filiale.cod and filiale.cf = '"+ this.getCf() +"'";
+				
+				System.out.println(sql);
+				
+				try {
+					rs = stmt.executeQuery(sql);
+					if(!rs.next())
+					{
+						System.out.println("\nNon hai filiali collegate al tuo account!");
+						break;
+					}
+					else
+					{
+						System.out.println("Numero Magazzino | Codice Filiale");
+						do {
+							System.out.println("Num:" + rs.getInt("num") + ", Cod:" + rs.getString("cod"));
+						}while (rs.next());
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				System.out.print("Inserisci codice filiale: ");
+				String cod = scan.nextLine();
+				
+				System.out.print("Inserisci numero magazzino: ");
+				int num = scan.nextInt();
+				
+				sql = "insert into magazziniere values ('"+ cf +"','"+ nome +"','"+ cognome +"',"
+						+ "'"+ d_nascita +"', '"+ tel +"', '"+ mail +"',"+ num +",'"+ cod +"')";
+				
+				try {
+					stmt.executeUpdate(sql);
+					System.out.println("Magazziniere inserito correttamente!");
+				} catch (SQLException e1) {
+					System.err.println("Errore inserimento Magazziniere!");
+					e1.printStackTrace();
+				}
+				
+				System.out.print("Inserisci la password per il nuovo utente: ");
+				scan.nextLine();
+				String psw = scan.nextLine();
+				
+				sql = "create user "+ cf +" with password '"+ psw +"';\r\n" + 
+						"grant usage on schema public to "+ cf +";\r\n" + 
+						"grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente to "+ cf +";\r\n" + 
+						"grant all on contiene to "+ cf +";\r\n" + 
+						"grant execute on all functions in schema public to "+ cf +";";
+				System.out.println(sql);
+				try {
+					
+					stmt.executeUpdate(sql);
+					System.out.println("Nuovo utente registrato!");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				
+			}break;
+			case 3:{
+				
+				System.out.println("\n---- Inserimento di un nuovo impiegato ----");
+				
+				System.out.print("Inserisci il codice fiscale: ");
+				String cf = scan.nextLine();
+				
+				System.out.print("Inserisci il nome: ");
+				String nome = scan.nextLine();
+				
+				System.out.print("Inserisci il cognome: ");
+				String cognome = scan.nextLine();
+				
+				System.out.print("Inserisci la data di nascita (aaaa-mm-gg): ");
+				String d_nascita = scan.nextLine();
+				
+				System.out.print("Inserisci il numero di telefono: ");
+				String tel = scan.nextLine();
+				
+				System.out.print("Inserisci la mail: ");
+				String mail = scan.nextLine();
+				
+				sql = "insert into impiegato values ('"+ cf +"','"+ nome +"','"+ cognome +"',"
+						+ "'"+ d_nascita +"', '"+ tel +"', '"+ mail +"')";
+				
+				try {
+					stmt.executeUpdate(sql);
+					System.out.println("Impiegato inserito correttamente!");
+				} catch (SQLException e1) {
+					System.err.println("Errore inserimento impiegato!");
+					e1.printStackTrace();
+				}
+				
+				//TODO : dare i grant al nuovo impiegato
+				
+			}break;
+			case 4:{
+				
+				System.out.println("\n---- Inserimento di un nuovo fattorino ----");
+				
+				System.out.print("Inserisci il codice fiscale: ");
+				String cf = scan.nextLine();
+				
+				System.out.print("Inserisci il nome: ");
+				String nome = scan.nextLine();
+				
+				System.out.print("Inserisci il cognome: ");
+				String cognome = scan.nextLine();
+				
+				System.out.print("Inserisci la data di nascita (aaaa-mm-gg): ");
+				String d_nascita = scan.nextLine();
+				
+				System.out.print("Inserisci il numero di telefono: ");
+				String tel = scan.nextLine();
+				
+				System.out.print("Inserisci la mail: ");
+				String mail = scan.nextLine();
+				
+				sql = "insert into fattorino values ('"+ cf +"','"+ nome +"','"+ cognome +"',"
+						+ "'"+ d_nascita +"', '"+ tel +"', '"+ mail +"')";
+				
+				try {
+					stmt.executeUpdate(sql);
+					System.out.println("Fattorino inserito correttamente!");
+				} catch (SQLException e1) {
+					System.err.println("Errore inserimento fattorino!");
+					e1.printStackTrace();
+				}
+				
+				//TODO : dare i grant al nuovo fattorino
+				
+			}break;
+			case 5:{
+				
+				System.out.println("\n---- Inserimento di un nuovo veicolo ----");
+				
+				System.out.print("Inserisci la targa: ");
+				scan.nextLine();
+				String targa = scan.nextLine();
+				
+				System.out.print("Inserisci la marca: ");
+				String marca = scan.nextLine();
+				
+				System.out.print("Inserisci il modello: ");
+				String modello = scan.nextLine();
+				
+				System.out.print("Inserisci la capacita': ");
+				int cap = scan.nextInt();
+				
+				sql = "insert into veicolo values ('"+ targa +"','"+ marca +"','"+ modello +"',"+ cap +")";
+				
+				try {
+					stmt.executeUpdate(sql);
+					System.out.println("Veicolo inserito correttamente!");
+				} catch (SQLException e1) {
+					System.err.println("Errore inserimento veicolo!");
+					e1.printStackTrace();
+				}
+				
+			}break;
 			case 6:
 				sql = "select * from custode";
 				try {
 					rs = stmt.executeQuery(sql);
-					System.out.println("Codice fiscale | Nome | Cognome | Data di nascita | Telefono | Mail");
+					System.out.println("Codice fiscale   | Nome | Cognome | Data di nascita | Telefono | Mail");
 					this.display(rs, 6);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -105,8 +330,8 @@ public class Dirigente extends Persona{
 				sql = "select * from magazziniere";
 				try {
 					rs = stmt.executeQuery(sql);
-					System.out.println("Codice fiscale | Nome | Cognome | Data di nascita | Telefono | Mail");
-					this.display(rs, 6);
+					System.out.println("Codice fiscale   | Nome | Cognome | Data di nascita | Telefono | Mail | Codice Magazzino");
+					this.display(rs, 8);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -116,8 +341,8 @@ public class Dirigente extends Persona{
 				sql = "select * from impiegato";
 				try {
 					rs = stmt.executeQuery(sql);
-					System.out.println("Codice fiscale | Nome | Cognome | Data di nascita | Telefono | Mail");
-					this.display(rs, 6);
+					System.out.println("Codice fiscale   | Nome | Cognome | Data di nascita | Telefono | Mail | Codice Filiale");
+					this.display(rs, 7);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -127,7 +352,7 @@ public class Dirigente extends Persona{
 				sql = "select * from veicolo";
 				try {
 					rs = stmt.executeQuery(sql);
-					System.out.println("Targa | Marca | Modello | Capacita'");
+					System.out.println("Targa  | Marca | Modello | Capacita'");
 					this.display(rs, 4);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -137,10 +362,20 @@ public class Dirigente extends Persona{
 			case 10:
 				break;
 			case 11:
+				sql = "select * from cliente";
+				try {
+					rs = stmt.executeQuery(sql);
+					System.out.println("Codice fiscale   | Nome | Cognome | Telefono | Piano");
+					this.display(rs, 5);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			case 12:
 				break;
 			default:
+				scelta = 0;
 				break;
 		}
 		
