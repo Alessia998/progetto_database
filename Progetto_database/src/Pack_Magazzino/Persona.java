@@ -210,6 +210,42 @@ public abstract class Persona {
 		return 0;
 	}
 	
+	//tab - prende in input il nome della tabella che si vuole interrogare
+	public String getCfWorker(Statement stmt, Scanner scan,String tab)
+	{
+		int i = 1,k;
+		ResultSet rs=null;
+		String sql = "select cf from "+tab+";";
+		System.out.println("Scegli il codice fiscale del cliente : ");
+		try {
+			rs = stmt.executeQuery(sql);		
+			while(rs.next())
+			{
+				System.out.println(i + ") " + rs.getShort(1));
+				i++;
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		do {
+			System.out.print("Scelta : ");
+			k = scan.nextInt();
+		}while(k<0 || k>i-1);
+		
+		sql = "select cf from "+tab
+				+"limit "+k+" offset "+(k-1)+";";
+		try {
+			rs = stmt.executeQuery(sql);
+			if(rs.next())
+				return rs.getString(1);	
+		} catch (SQLException e) {
+			e.getMessage();
+		}	
+		return "";
+	}
+	
 	public abstract void startOptions(Statement stmt);
 
 }

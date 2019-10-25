@@ -66,6 +66,7 @@ public class Impiegato extends Persona {
 		ResultSet rs = null;
 		String cod, nom, desc, fil, prod;
 		int spa, mag, q;
+		//boolean check;
 		
 		printInfo(this.getCf(), stmt);
 		
@@ -77,6 +78,7 @@ public class Impiegato extends Persona {
 				System.exit(0);
 				break;
 			case 1:
+				//check = false;
 				scan.nextLine();
 				System.out.print("Inserisci il codice fiscale : ");
 				this.setCf(scan.nextLine().toUpperCase());
@@ -90,7 +92,6 @@ public class Impiegato extends Persona {
 				this.setTel(scan.nextLine());
 				
 				sql = "select crea_cliente('"+this.getCf()+"','"+this.getNome()+"','"+this.getCognome()+"','"+this.getTel()+"');";
-				System.out.println(sql);
 				try {
 					stmt.executeQuery(sql);
 				} catch (SQLException e1) {
@@ -103,9 +104,8 @@ public class Impiegato extends Persona {
 						"grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere to "+this.getCf()+";\r\n" + 
 						"grant all on spedizione, prod_sped, my_seq1 to "+this.getCf()+";\r\n" + 
 						"grant execute on all functions in schema public to "+this.getCf()+";";
-				System.out.println(sql); //non funziona
 				try {
-					stmt.executeQuery(sql);
+					stmt.executeUpdate(sql);
 					System.out.println("--- Cliente inserito. ---");
 				} catch (SQLException e1) {
 					System.err.println((e1).getMessage());
@@ -118,7 +118,12 @@ public class Impiegato extends Persona {
 				Contratto con = new Contratto();
 				scan.nextLine();
 				System.out.println("Insersci il codice fiscale del cliente : ");
-				con.setCf_cli(scan.nextLine());
+				con.setCf_cli(stmt);
+				if(con.getCf_cli() == "")
+				{
+					System.out.println("Operazione annullata ! ");
+					break;
+				}
 				System.out.println("Inserisci il codice contratto (max 10 caratteri) : ");
 				con.setNum_c(scan.nextLine());
 				System.out.println("Inserisci la data di inizio contratto (aaaa-mm-gg): ");
@@ -133,10 +138,11 @@ public class Impiegato extends Persona {
 				try {
 					stmt.executeQuery(sql);
 				} catch (SQLException e1) {
-					System.err.println(((SQLException)e1).getMessage());
-					scan.nextLine();
+					System.out.println(((SQLException)e1).getMessage());
+					System.out.println(e1.getErrorCode());
 					scan.nextLine();
 					System.out.println("Premi invio per continuare...");
+					scan.nextLine();
 					break;
 				}	
 				System.out.println("--- Contratto inserito. ---");
@@ -153,15 +159,17 @@ public class Impiegato extends Persona {
 				sql = "insert into prodotto values ('"+cod+"','"+nom+"','"+desc+"');";
 				try {
 					stmt.executeUpdate(sql);
+					System.out.println("Prodotto inserito!");
 				} catch (SQLException e1) {
 					System.err.println(e1.getMessage());
 					System.err.println("Prodotto non inserito!");
 					scan.nextLine();
-					scan.nextLine();
-					System.out.println("Premi invio per continuare...");	
 				}
 				break;
 			case 4:
+				//qui aggiungo gestione dello spazio
+				break;
+			case 5:
 				scan.nextLine();
 				System.out.println("Inserisci il codice fiscale del cliente : ");
 				String cf = scan.nextLine();
@@ -190,13 +198,13 @@ public class Impiegato extends Persona {
 				System.out.println(sql);
 				try {
 					stmt.execute(sql);
-					System.out.println("Il trasferimento � stato registrato");
+					System.out.println("Il trasferimento è stato registrato");
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();			
 				}
 				break;
-			case 5:
+			case 6:
 				sql = "select * from cliente;";
 				try {
 					rs = stmt.executeQuery(sql);
@@ -207,7 +215,7 @@ public class Impiegato extends Persona {
 				System.out.println("Codice fiscale | Nome | Cognome | Telefono | Piano");
 				this.display(rs, 5);		
 				break;	
-			case 6:
+			case 7:
 				sql = "select * from contratto;";
 				try {
 					rs = stmt.executeQuery(sql);
@@ -218,7 +226,7 @@ public class Impiegato extends Persona {
 				System.out.println("Codice contratto | Data inizio | Data fine | N Spazi | CF impiegato | CF cliente");
 				this.display(rs, 6);
 				break;	
-			case 7:
+			case 8:
 				sql = "select * from prodotto;";
 				try {
 					rs = stmt.executeQuery(sql);
@@ -229,7 +237,7 @@ public class Impiegato extends Persona {
 				System.out.println("Codice prodotto | Nome prodotto | Descrizione ");
 				this.display(rs, 3);
 				break;	
-			case 8:
+			case 9:
 				sql = "select * from trasferimenti;";
 				try {
 					rs = stmt.executeQuery(sql);
@@ -239,7 +247,7 @@ public class Impiegato extends Persona {
 				System.out.println("Numero trasferimento | Data sped. | CF fattorino | Veicolo | Stato consegna | Fil, Mag partenza | F , M arrivo");
 				this.display(rs, 8);
 				break;
-			case 9:
+			case 10:
 				sql = "select * from spedizione;";
 				try {
 					rs = stmt.executeQuery(sql);
@@ -249,7 +257,7 @@ public class Impiegato extends Persona {
 				System.out.println("Numero spedizione | CF fattorino | Data sped. | Veicolo | Indirizzo | Tel | Stato consegna | CF cliente");
 				this.display(rs,11);
 				break;	
-			case 10:
+			case 11:
 				fil = this.getMySubsidiary(this.getCf(), stmt);
 				mag = this.getNumMagazzino(stmt, scan, fil);
 				spa = this.getIdSpazio(stmt, scan, fil, mag);
@@ -268,6 +276,9 @@ public class Impiegato extends Persona {
 			default:
 				break;
 			}
+			scan.nextLine();
+			System.out.println("Premi invio per continuare...");	
+			scan.nextLine();
 		}while(k != 0);			
 	}
 	
@@ -281,22 +292,23 @@ public class Impiegato extends Persona {
 		System.out.println("    1) Un nuovo cliente");
 		System.out.println("    2) Un nuovo contratto");
 		System.out.println("    3) Un nuovo prodotto");
-		System.out.println("    4) Un nuovo trasferimento");
+		System.out.println("    4)");
+		System.out.println("    5) Un nuovo trasferimento");
 		System.out.println("* VISUALIZZA : ");
-		System.out.println("    5) Clienti");
-		System.out.println("    6) Contratti");
-		System.out.println("    7) Prodotti");
-		System.out.println("    8) Trasferimenti");
-		System.out.println("    9) Spedizioni");
+		System.out.println("    6) Clienti");
+		System.out.println("    7) Contratti");
+		System.out.println("    8) Prodotti");
+		System.out.println("    9) Trasferimenti");
+		System.out.println("    10) Spedizioni");
 		System.out.println("* RESTITUISCI : ");
-		System.out.println("    10) Restituisci un prodotto");
+		System.out.println("    11) Restituisci un prodotto");
 		System.out.println("* ESCI :");
 		System.out.println("    0) Esci");	
 		
 		do {
 			System.out.print("Scelta : ");
 			k = scan.nextInt();
-		}while(k < 0 || k > 11);
+		}while(k < 0 || k > 12);
 		
 		return k;
 	}

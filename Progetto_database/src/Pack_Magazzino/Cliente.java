@@ -37,6 +37,12 @@ public class Cliente extends Persona{
 					System.err.println("Si è verificato un errore...");
 				}
 				break;
+			case 2:
+				sql = "select spazio.id_spazio, spazio.num, spazio.cod, contiene.codice , contiene.quantita from contiene, spazio_contratto, contratto, spazio\n" + 
+						"where contiene.cod = spazio.cod and contiene.num = spazio.num and contiene.id_spazio = spazio.id_spazio\n" + 
+						"	  and  spazio_contratto.cod = spazio.cod and spazio_contratto.num = spazio.num and spazio_contratto.id_spazio = spazio.id_spazio\n" + 
+						"	  and spazio_contratto.num_c = contratto.num_c and contratto.cf_cli = '"+this.getCf()+"';";
+				break;
 	
 			default:
 				break;
@@ -90,5 +96,43 @@ public class Cliente extends Persona{
 		
 	
 	}
+	
+
+		public String getCfCliente(Statement stmt, Scanner scan)
+		{
+			int i = 0,k;
+			ResultSet rs=null;
+			String sql = "select cf_cli from cliente;";
+			System.out.println(i++ + ") Per uscire");
+			try {
+				rs = stmt.executeQuery(sql);		
+				while(rs.next())
+				{
+					System.out.println(i + ") " + rs.getString(1));
+					i++;
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			do {
+				System.out.print("Scelta : ");
+				k = scan.nextInt();
+			}while(k<0 || k>i-1);
+			
+			if (k == 0) return "";
+			
+			sql = "select cf_cli from cliente "
+					+"limit "+k+" offset "+(k-1)+";";
+			try {
+				rs = stmt.executeQuery(sql);
+				if(rs.next())
+					return rs.getString(1);	
+			} catch (SQLException e) {
+				e.getMessage();
+			}	
+			return "";
+		}
 	
 }

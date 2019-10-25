@@ -1,5 +1,7 @@
 package Pack_Magazzino;
 
+import java.sql.Statement;
+import java.util.Scanner;
 
 public class Contratto {
 	private String num_c;
@@ -85,11 +87,15 @@ public class Contratto {
 		this.cf = cf;
 	}
 
-
+	public void setCf_cli(Statement stmt)
+	{
+		this.cf_cli = new Cliente().getCfCliente(stmt, new Scanner(System.in));
+	}
 
 	public String getCf_cli() {
 		return cf_cli;
 	}
+	
 
 
 
