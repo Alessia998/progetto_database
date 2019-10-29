@@ -52,7 +52,7 @@ public class Main {
 		}
 		
 		
-		//Controllo se l'utente ï¿½ admin
+		//Controllo se l'utente è admin
 		//altrimenti faccio Upper case
 		sql = "select who_is('"+u+"');";		
 		try {
@@ -68,7 +68,7 @@ public class Main {
 			e1.printStackTrace();
 		}
 		
-
+		System.out.println(u);
 		try {
 			sql = "select who_is('"+u+"');";
 			rs = stmt.executeQuery(sql);
@@ -78,7 +78,7 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		System.out.println(categoria);
 		Persona aut = null;
 		switch (categoria) {
 		case "admin":

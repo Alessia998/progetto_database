@@ -220,7 +220,9 @@ public class Dirigente extends Persona{
 				System.out.println("\n---- Inserimento di un nuovo impiegato ----");
 				
 				System.out.print("Inserisci il codice fiscale: ");
+				scan.nextLine();
 				String cf = scan.nextLine();
+				cf = cf.toUpperCase();
 				
 				System.out.print("Inserisci il nome: ");
 				String nome = scan.nextLine();
@@ -238,26 +240,29 @@ public class Dirigente extends Persona{
 				String mail = scan.nextLine();
 				
 				sql = "insert into impiegato values ('"+ cf +"','"+ nome +"','"+ cognome +"',"
-						+ "'"+ d_nascita +"', '"+ tel +"', '"+ mail +"')";
-				
+						+ "'"+ d_nascita +"', '"+ tel +"', '"+ mail +"',(select cod from filiale"+
+						 " where cf = '"+ this.getCf() +"'))";
+				System.out.println(sql);
 				try {
 					stmt.executeUpdate(sql);
 					System.out.println("Impiegato inserito correttamente!");
 				} catch (SQLException e1) {
 					System.err.println("Errore inserimento impiegato!");
+					System.err.println("Forse non dirigi ancora niente...");
 					e1.printStackTrace();
+					break;
 				}
 				
 				System.out.print("Inserisci la password per il nuovo impiegato: ");
 				scan.nextLine();
 				String psw = scan.nextLine();
 				
-				sql = "create user "+ cf + "with password '"+ psw +"' createrole;\r\n" + 
+				sql = "create user "+ cf + " with password '"+ psw +"' createrole;\r\n" + 
 						"grant usage on schema public to "+ cf +";\r\n" + 
 						"grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione to "+ cf +";\r\n" + 
 						"grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf, my_seq2 to "+ cf +";\r\n" + 
 						"grant execute on all functions in schema public to "+ cf +";";
-				
+				System.out.println(sql);
 				try {	
 					stmt.executeUpdate(sql);
 					System.out.println("Nuovo utente registrato!");

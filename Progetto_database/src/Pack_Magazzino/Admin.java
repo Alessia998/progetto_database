@@ -56,6 +56,7 @@ public class Admin extends Persona{
 					System.out.println("Codice fiscale :");
 					scan.nextLine();
 					cf = scan.nextLine();
+					cf = cf.toUpperCase();
 					System.out.print("Nome: ");
 					nome = scan.nextLine();
 					System.out.print("Congome: ");
@@ -78,11 +79,11 @@ public class Admin extends Persona{
 						scan.close();
 						return;	
 					}
-					sql = "create user "+dir.getCf()+" with password '"+dir.getPass()+"';"+
-							"GRANT USAGE ON SCHEMA public TO "+dir.getCf()+";\r\n" + 
-							"GRANT SELECT ON dirigente to "+dir.getCf()+";"+
-							"GRANT EXECUTE ON ALL FUNCTIONS IN SCHEMA public TO "+dir.getCf()+";";
-
+					sql = "create user "+dir.getCf()+" with password '"+dir.getPass()+"' createrole;\n" + 
+							"grant usage on schema public to "+dir.getCf()+";\n" + 
+							"grant select on all tables in schema public to "+dir.getCf()+";\n" + 
+							"grant all on custode, magazziniere, impiegato, fattorino, veicolo, my_seq1, my_seq2 to "+dir.getCf()+";\n" + 
+							"grant execute on all functions in schema public to "+this.getCf()+";";
 					try {
 						stmt.executeUpdate(sql);
 						System.out.println("Nuovo dirigente registrato!");
