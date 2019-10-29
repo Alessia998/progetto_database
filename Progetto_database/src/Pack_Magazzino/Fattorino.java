@@ -58,6 +58,8 @@ public class Fattorino extends Persona{
 			System.out.print("\nScelta: ");
 			//scan.nextLine();
 			scelta = scan.nextInt();
+			System.out.println("");
+			
 			
 			switch(scelta)
 			{
@@ -146,17 +148,79 @@ public class Fattorino extends Persona{
 						e.printStackTrace();
 					}
 					break;
-				case 5:
-					sql = "select * from spedizione where stato_consegna = 'In consegna'";
+					
+				case 5: // Andrea : A mio parere bisogna fare una distinzione tra NUOVA - IN CONSEGNA - CONSEGNATA
+					Boolean s_printed = false; // Usata per controllare se il fattorino ha almeno una spedizione in carico
+					sql = "select num_sped from spedizione where stato_consegna = 'In consegna' and cf = '"+ this.getCf() +"'";
+					try {
+						rs = stmt.executeQuery(sql);
+						while(rs.next())
+						{
+							s_printed = true;
+							System.out.println("Spedizione: " + rs.getString("num_sped"));
+						}
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					if(s_printed)
+					{
+						System.out.print("Inserisci il numero di spedizione: ");
+						int n_sped = scan.nextInt();
+						
+						sql = "update spedizione set stato_consegna = 'Consegnato' where num_sped = "+ n_sped +"";
+						try {
+							stmt.executeUpdate(sql);
+							System.out.println("Aggiornamento effettuato con successo");
+						} catch (SQLException e) {
+							System.err.println("Errore durante l'aggiornamento");
+							e.printStackTrace();
+						}
+					}else {
+						System.out.println("Non hai in carico alcuna spedizione");
+					}
+					
+					
 					break;
 				case 6:
-					sql = "select * from trasferimenti where stato_consegna = 'In consegna'";
+					Boolean printed = false; // Usata per controllare se il fattorino ha almeno un trasferimento in carico
+					sql = "select * from trasferimenti where stato_consegna = 'In consegna'and cf = '"+ this.getCf() +"'";
+					try {
+						rs = stmt.executeQuery(sql);
+						while(rs.next())
+						{
+							printed = true;
+							System.out.println("trasferimento: " + rs.getString("num_sped"));
+						}
+					
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					
+					if(printed)
+					{
+						System.out.print("Inserisci il numero di trasferimento: ");
+						int n_tr = scan.nextInt();
+						
+						sql = "update trasferimenti set stato_consegna = 'Consegnato' where num_sped = "+ n_tr +"";
+						try {
+							stmt.executeUpdate(sql);
+							System.out.println("Aggiornamento effettuato con successo");
+						} catch (SQLException e) {
+							System.err.println("Errore durante l'aggiornamento");
+							e.printStackTrace();
+						}
+					}else {
+						System.out.println("Non hai in carico alcun trasferimento");
+					}
 					break;
 				default:
 					scelta = 0;
 					break;
 			}
-		}while(scelta > 0 && scelta < 5);
+		}while(scelta > 0 && scelta < 7);
 
 		
 		

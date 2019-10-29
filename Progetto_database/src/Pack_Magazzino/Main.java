@@ -52,7 +52,7 @@ public class Main {
 		}
 		
 		
-		//Controllo se l'utente è admin
+		//Controllo se l'utente ï¿½ admin
 		//altrimenti faccio Upper case
 		sql = "select who_is('"+u+"');";		
 		try {
@@ -101,7 +101,7 @@ public class Main {
 			aut = new Impiegato(u);
 			break;
 		case "fattorino":
-			aut = new Fattorino("","","");
+			aut = new Fattorino(u,"","");
 			break;
 		case "magazziniere":
 			aut = new Magazziniere("","","", 0, "");
