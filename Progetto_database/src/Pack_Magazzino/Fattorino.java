@@ -1,6 +1,7 @@
 package Pack_Magazzino;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
 
@@ -35,7 +36,6 @@ public class Fattorino extends Persona{
 		this.mail = mail;
 }
 
-
 	@Override
 	public void startOptions(Statement stmt) {
 		
@@ -64,16 +64,87 @@ public class Fattorino extends Persona{
 				case 0:
 					break;
 				case 1:
-					sql = "select * from spedizione where stato_consegna = 'In consegna'";
+					// TODO : da chiarire Nuova - In consegna - Consegnata
+					sql = "select * from spedizione where stato_consegna = 'Consegnata'";
+					try {
+						rs = stmt.executeQuery(sql);
+						while(rs.next()) 
+						{
+							System.out.println("\n ---- Spedizione : " + rs.getString("num_sped") + " ---- ");
+							System.out.println("Destinazione: ");
+							System.out.println("    Paese  : " + rs.getString("paese"));
+							System.out.println("    Città  : " + rs.getString("citta"));
+							System.out.println("    Via    : " + rs.getString("via"));
+							System.out.println("    Civico : " + rs.getString("numero"));
+							System.out.println("Codice Fiscale cliente : " + rs.getString("cf_cli"));
+							System.out.println("Data  : " + rs.getString("data_sp"));
+							System.out.println("Targa del veicolo : " + rs.getString("targa"));
+							System.out.println("Numero di telefono: " + rs.getString("tel")); // Di chi è il numero di telefono?
+							System.out.println("Codice Fiscale fattorino : " + rs.getString("cf"));
+						}
+					} catch (SQLException e) {
+						System.err.println("Errore esecuzione query");
+						e.printStackTrace();
+					}
 					break;
 				case 2:
-					sql = "select * from spedizione where stato_consegna = 'Consegnato'";
+					
+					sql = "select * from spedizione where stato_consegna = 'In consegna'";
+					try {
+						rs = stmt.executeQuery(sql);
+						while(rs.next()) 
+						{
+							System.out.println("\n ---- Spedizione : " + rs.getString("num_sped") + " ---- ");
+							System.out.println("Destinazione: ");
+							System.out.println("    Paese  : " + rs.getString("paese"));
+							System.out.println("    Città  : " + rs.getString("citta"));
+							System.out.println("    Via    : " + rs.getString("via"));
+							System.out.println("    Civico : " + rs.getString("numero"));
+							System.out.println("Codice Fiscale cliente : " + rs.getString("cf_cli"));
+						}
+					} catch (SQLException e) {
+						System.err.println("Errore esecuzione query");
+						e.printStackTrace();
+					}
 					break;
+					
 				case 3:
-					sql = "select * from trasferimenti where stato_consegna = 'In consegna'";
-					break;
-				case 4:
 					sql = "select * from trasferimenti where stato_consegna = 'Consegnato'";
+					try {
+						rs = stmt.executeQuery(sql);
+						while(rs.next()) 
+						{
+							System.out.println("\n ---- Trasferimento : " + rs.getString("num_sped") + " ---- ");
+							System.out.println("Magazzino di partenza (Num Filiale - Num Magazzino): "
+									+ rs.getString("num1") + " - " + rs.getString("cod1"));
+							System.out.println("Magazzino di arrivo (Num Filiale - Num Magazzino): "
+									+ rs.getString("num2") + " - " + rs.getString("cod2"));
+							System.out.println("Data  : " + rs.getString("data_sp"));
+							System.out.println("Targa del veicolo : " + rs.getString("targa"));
+							System.out.println("Codice Fiscale fattorino : " + rs.getString("cf"));
+						}
+					} catch (SQLException e) {
+						System.err.println("Errore esecuzione query");
+						e.printStackTrace();
+					}
+					break;
+					
+				case 4:
+					sql = "select * from trasferimenti where stato_consegna = 'In consegna'";
+					try {
+						rs = stmt.executeQuery(sql);
+						while(rs.next()) 
+						{
+							System.out.println("\n ---- Trasferimento : " + rs.getString("num_sped") + " ---- ");
+							System.out.println("Magazzino di partenza (Num Filiale - Num Magazzino): "
+									+ rs.getString("num1") + " - " + rs.getString("cod1"));
+							System.out.println("Magazzino di arrivo (Num Filiale - Num Magazzino): "
+									+ rs.getString("num2") + " - " + rs.getString("cod2"));
+						}
+					} catch (SQLException e) {
+						System.err.println("Errore esecuzione query");
+						e.printStackTrace();
+					}
 					break;
 				case 5:
 					sql = "select * from spedizione where stato_consegna = 'In consegna'";
