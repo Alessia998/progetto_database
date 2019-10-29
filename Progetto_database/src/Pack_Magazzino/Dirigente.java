@@ -116,7 +116,7 @@ public class Dirigente extends Persona{
 					e1.printStackTrace();
 				}
 				
-				System.out.print("Inserisci la password per il nuovo utente: ");
+				System.out.print("Inserisci la password per il nuovo custode: ");
 				String psw = scan.nextLine();
 				
 				sql = "create user "+ cf +" with password '"+ psw +"';\n" +
@@ -196,7 +196,7 @@ public class Dirigente extends Persona{
 					e1.printStackTrace();
 				}
 				
-				System.out.print("Inserisci la password per il nuovo utente: ");
+				System.out.print("Inserisci la password per il nuovo magazziniere: ");
 				scan.nextLine();
 				String psw = scan.nextLine();
 				
@@ -248,7 +248,7 @@ public class Dirigente extends Persona{
 					e1.printStackTrace();
 				}
 				
-				System.out.print("Inserisci la password per il nuovo utente: ");
+				System.out.print("Inserisci la password per il nuovo impiegato: ");
 				scan.nextLine();
 				String psw = scan.nextLine();
 				
@@ -299,7 +299,7 @@ public class Dirigente extends Persona{
 					e1.printStackTrace();
 				}
 				
-				System.out.print("Inserisci la password per il nuovo utente: ");
+				System.out.print("Inserisci la password per il nuovo fattorino: ");
 				scan.nextLine();
 				String psw = scan.nextLine();
 				
