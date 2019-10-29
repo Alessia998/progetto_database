@@ -205,7 +205,7 @@ public class Dirigente extends Persona{
 						"grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente to "+ cf +";\r\n" + 
 						"grant all on contiene to "+ cf +";\r\n" + 
 						"grant execute on all functions in schema public to "+ cf +";";
-				System.out.println(sql);
+				
 				try {
 					
 					stmt.executeUpdate(sql);
@@ -248,7 +248,22 @@ public class Dirigente extends Persona{
 					e1.printStackTrace();
 				}
 				
-				//TODO : dare i grant al nuovo impiegato
+				System.out.print("Inserisci la password per il nuovo utente: ");
+				scan.nextLine();
+				String psw = scan.nextLine();
+				
+				sql = "create user "+ cf + "with password '"+ psw +"' createrole;\r\n" + 
+						"grant usage on schema public to "+ cf +";\r\n" + 
+						"grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione to "+ cf +";\r\n" + 
+						"grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf, my_seq2 to "+ cf +";\r\n" + 
+						"grant execute on all functions in schema public to "+ cf +";";
+				
+				try {	
+					stmt.executeUpdate(sql);
+					System.out.println("Nuovo utente registrato!");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 				
 			}break;
 			case 4:{
@@ -284,7 +299,22 @@ public class Dirigente extends Persona{
 					e1.printStackTrace();
 				}
 				
-				//TODO : dare i grant al nuovo fattorino
+				System.out.print("Inserisci la password per il nuovo utente: ");
+				scan.nextLine();
+				String psw = scan.nextLine();
+				
+				sql = "create user "+ cf +" with password '"+ psw +"';\r\n" + 
+						"grant usage on schema public to "+ cf +";\r\n" + 
+						"grant select on prod_sped, prod_trasf, dirigente, custode, impiegato, fattorino, cliente, magazziniere to "+ cf +";\r\n" + 
+						"grant all on spedizione, trasferimenti to "+ cf +";\r\n" + 
+						"grant execute on all functions in schema public to "+ cf +";";
+				
+				try {	
+					stmt.executeUpdate(sql);
+					System.out.println("Nuovo utente registrato!");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 				
 			}break;
 			case 5:{
@@ -360,6 +390,24 @@ public class Dirigente extends Persona{
 				}
 				break;
 			case 10:
+				
+				sql = "select spazio.num as Magazzino, spazio.id_spazio, spazio.descrizione, contiene.codice\r\n" + 
+						"from spazio, contiene\r\n" + 
+						"where spazio.id_spazio = contiene.id_Spazio\r\n" + 
+						"and spazio.num = contiene.num\r\n" + 
+						"and spazio.cod = (select cod \r\n" + 
+						"				 	from filiale\r\n" + 
+						"				 	where cf = '"+ this.getCf() +"')";
+				
+				try {
+					rs = stmt.executeQuery(sql);
+					System.out.println("Numero Magazzino | ID spazio | Descrizione | Codice Prodotto");
+					this.display(rs, 4);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				break;
 			case 11:
 				sql = "select * from cliente";
@@ -373,6 +421,22 @@ public class Dirigente extends Persona{
 				}
 				break;
 			case 12:
+				sql = "select cliente.cf_cli, cliente.nome, cliente.cognome\r\n" + 
+						"from cliente, contratto, impiegato\r\n" + 
+						"where impiegato.cod = (select filiale.cod \r\n" + 
+						"					   from filiale \r\n" + 
+						"					   where cf = '"+this.getCf()+"') \r\n" + 
+						"					   and\r\n" + 
+						"cliente.cf_cli = contratto.cf_cli and\r\n" + 
+						"contratto.cf = impiegato.cf";
+				try {
+					rs = stmt.executeQuery(sql);
+					System.out.println("Codice fiscale   | Nome | Cognome");
+					this.display(rs, 3);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			default:
 				scelta = 0;
