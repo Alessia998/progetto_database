@@ -179,7 +179,7 @@ public class Fattorino extends Persona{
 					sql = "select num_sped from trasferimenti where stato_consegna = 'In consegna' and cf = '"+ this.getCf() +"'";
 					Integer t_res = (Integer)chooseInfo(sql,stmt,scan,"trasferimenti","num_sped");
 					
-					if(t_res != null)
+					if(t_res != null) 
 					{
 						sql = "update trasferimenti set stato_consegna = 'Consegnato' where num_sped = "+ t_res +"";
 						try {
