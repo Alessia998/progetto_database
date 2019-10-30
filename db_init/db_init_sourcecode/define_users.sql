@@ -90,74 +90,74 @@ grant execute on all functions in schema public to gllmra56p07d662f with grant o
 --crea cliente
 create user srdvrl900p02p39f with password 'srd';
 grant usage on schema public to srdvrl900p02p39f;
-grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user to srdvrl900p02p39f;
+grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user, veicolo, magazzino, filiale to srdvrl900p02p39f;
 grant all on spedizione, prod_sped, my_seq1 to srdvrl900p02p39f;
 grant execute on all functions in schema public to srdvrl900p02p39f;
 
 create user sfdvrl900p03p39f with password 'sfd';
 grant usage on schema public to sfdvrl900p03p39f;
-grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user to sfdvrl900p03p39f;
+grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user, veicolo, magazzino, filiale to sfdvrl900p03p39f;
 grant all on spedizione, prod_sped, my_seq1 to sfdvrl900p03p39f;
 grant execute on all functions in schema public to sfdvrl900p03p39f;
 
 create user srdvrl900p32p39f with password 'srd';
 grant usage on schema public to srdvrl900p32p39f;
-grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user to srdvrl900p32p39f;
+grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user, veicolo, magazzino, filiale to srdvrl900p32p39f;
 grant all on spedizione, prod_sped, my_seq1 to srdvrl900p32p39f;
 grant execute on all functions in schema public to srdvrl900p32p39f;
 
 create user sslvrl900p02p39f with password 'ssl';
 grant usage on schema public to sslvrl900p02p39f;
-grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user to sslvrl900p02p39f;
+grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user, veicolo, magazzino, filiale to sslvrl900p02p39f;
 grant all on spedizione, prod_sped, my_seq1 to sslvrl900p02p39f;
 grant execute on all functions in schema public to sslvrl900p02p39f;
 
 create user mrdmss900p02p39f with password 'mrd';
 grant usage on schema public to mrdmss900p02p39f;
-grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user to mrdmss900p02p39f;
+grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user, veicolo, magazzino, filiale to mrdmss900p02p39f;
 grant all on spedizione, prod_sped, my_seq1 to mrdmss900p02p39f;
 grant execute on all functions in schema public to mrdmss900p02p39f;
 
 --crea impiegato
 create user sfdvrl910p03p39f with password 'sfd' createrole;
 grant usage on schema public to sfdvrl910p03p39f with grant option;
-grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user to sfdvrl910p03p39f with grant option;
+grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user, veicolo to sfdvrl910p03p39f with grant option;
 grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf, my_seq2, spedizione, my_seq1 to sfdvrl910p03p39f with grant option;
 grant execute on all functions in schema public to sfdvrl910p03p39f with grant option;
 
 create user sfdvrl910p03p39g with password 'sfd' createrole;
 grant usage on schema public to sfdvrl910p03p39g with grant option;
-grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user to sfdvrl910p03p39g with grant option;
+grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user, veicolo to sfdvrl910p03p39g with grant option;
 grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf, my_seq2, spedizione, my_seq1 to sfdvrl910p03p39g with grant option;
 grant execute on all functions in schema public to sfdvrl910p03p39g with grant option;
 
 create user sfdvrl910p03p39h with password 'sfd' createrole;
 grant usage on schema public to sfdvrl910p03p39h with grant option;
-grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user to sfdvrl910p03p39h with grant option;
+grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user, veicolo to sfdvrl910p03p39h with grant option;
 grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf, my_seq2, spedizione, my_seq1 to sfdvrl910p03p39h with grant option;
 grant execute on all functions in schema public to sfdvrl910p03p39h with grant option;
 
 create user sfdvrl910p03p39i with password 'sfd' createrole;
 grant usage on schema public to sfdvrl910p03p39i with grant option;
-grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user to sfdvrl910p03p39i with grant option;
+grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user, veicolo to sfdvrl910p03p39i with grant option;
 grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf, my_seq2, spedizione, my_seq1 to sfdvrl910p03p39i with grant option;
 grant execute on all functions in schema public to sfdvrl910p03p39i with grant option;
 
 create user sfdvrl910p03p39k with password 'sfd' createrole;
 grant usage on schema public to sfdvrl910p03p39k with grant option;
-grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user to sfdvrl910p03p39k with grant option;
+grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user, veicolo to sfdvrl910p03p39k with grant option;
 grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf, my_seq2, spedizione, my_seq1 to sfdvrl910p03p39k with grant option;
 grant execute on all functions in schema public to sfdvrl910p03p39k with grant option;
 
 create user sfdvrl910p03p39l with password 'sfd' createrole;
 grant usage on schema public to sfdvrl910p03p39l with grant option;
-grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user to sfdvrl910p03p39l with grant option;
+grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user, veicolo to sfdvrl910p03p39l with grant option;
 grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf, my_seq2, spedizione, my_seq1 to sfdvrl910p03p39l with grant option;
 grant execute on all functions in schema public to sfdvrl910p03p39l with grant option;
 
 create user sfdvrl910p03p39m with password 'sfd' createrole;
 grant usage on schema public to sfdvrl910p03p39m with grant option;
-grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user to sfdvrl910p03p39m with grant option;
+grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user, veicolo to sfdvrl910p03p39m with grant option;
 grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf, my_seq2, spedizione, my_seq1 to sfdvrl910p03p39m with grant option;
 grant execute on all functions in schema public to sfdvrl910p03p39m with grant option;
 
