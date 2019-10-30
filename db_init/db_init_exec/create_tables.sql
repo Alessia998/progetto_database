@@ -177,7 +177,7 @@ create table if not exists prodotto(
   PRIMARY KEY (codice)
 );
 
-create table if not exists possiede(
+/*create table if not exists possiede(
   codice varchar(255) not null,
   cf_cli varchar(16) not null,
 
@@ -185,7 +185,7 @@ create table if not exists possiede(
   FOREIGN key (codice) REFERENCES prodotto,
   FOREIGN key (cf_cli) REFERENCES cliente
 
-);
+);*/
 
 create table if not exists contiene(
   --FK
