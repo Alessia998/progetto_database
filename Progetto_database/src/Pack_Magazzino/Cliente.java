@@ -44,6 +44,11 @@ public class Cliente extends Persona{
 						"	  and spazio_contratto.num_c = contratto.num_c and contratto.cf_cli = '"+this.getCf()+"';";
 				break;
 	
+			case 3:
+				//Qui devo inserire una nuova spedizione
+				//Stato = in_consegna
+				
+				break;
 			default:
 				break;
 			}

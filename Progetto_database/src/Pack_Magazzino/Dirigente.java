@@ -447,7 +447,7 @@ public class Dirigente extends Persona{
 				scan.nextLine();
 				System.out.println("Inserisci la denominazione del magazzino : ");
 				denom = scan.nextLine();
-				System.out.println("Inserisci la citt‡ : ");
+				System.out.println("Inserisci la citt√† : ");
 				citta = scan.nextLine();
 				System.out.println("Inserisci la via : ");
 				via = scan.nextLine();
@@ -466,10 +466,12 @@ public class Dirigente extends Persona{
 					System.out.println("Forse non stai gestendo nessuna filiale...");
 					//e1.printStackTrace();
 				}
-				
 				break;
 			case 14:
 				
+				System.out.println("");
+				
+				sql = "select insert_spazio();";
 				
 				break;
 			default:
