@@ -42,6 +42,17 @@ public class Cliente extends Persona{
 						"where contiene.cod = spazio.cod and contiene.num = spazio.num and contiene.id_spazio = spazio.id_spazio\n" + 
 						"	  and  spazio_contratto.cod = spazio.cod and spazio_contratto.num = spazio.num and spazio_contratto.id_spazio = spazio.id_spazio\n" + 
 						"	  and spazio_contratto.num_c = contratto.num_c and contratto.cf_cli = '"+this.getCf()+"';";
+				
+				try {
+					
+					System.out.println("SPAZIO | NUM MAGAZZINO | COD PRODOTTO | QUANTITA' ");
+					rs = stmt.executeQuery(sql);
+					display(rs,rs.getMetaData().getColumnCount());
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 	
 			case 3:
