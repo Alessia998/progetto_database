@@ -99,11 +99,17 @@ public class Impiegato extends Persona {
 					System.out.println("Erroe di inserimento nel DB.");
 					break;
 				}	
-				sql = "create user "+this.getCf()+" with password '"+pass+"';\r\n" + 
+				/*sql = "create user "+this.getCf()+" with password '"+pass+"';\r\n" + 
 						"grant usage on schema public to "+this.getCf()+";\r\n" + 
 						"grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere to "+this.getCf()+";\r\n" + 
 						"grant all on spedizione, prod_sped, my_seq1 to "+this.getCf()+";\r\n" + 
-						"grant execute on all functions in schema public to "+this.getCf()+";";
+						"grant execute on all functions in schema public to "+this.getCf()+";";*/
+				sql = "create user "+this.getCf()+" with password '"+pass+"';\r\n" + 
+						"grant usage on schema public to "+this.getCf()+" with grant option;\r\n" + 
+						"grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user to "+this.getCf()+" with grant option;\r\n" + 
+						"grant all on spedizione, prod_sped, my_seq1 to "+this.getCf()+" with grant option;\r\n" + 
+						"grant execute on all functions in schema public to "+this.getCf()+" with grant option;";
+				
 				try {
 					stmt.executeUpdate(sql);
 					System.out.println("--- Cliente inserito. ---");

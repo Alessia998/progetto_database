@@ -79,11 +79,17 @@ public class Admin extends Persona{
 						scan.close();
 						return;	
 					}
-					sql = "create user "+dir.getCf()+" with password '"+dir.getPass()+"' createrole;\n" + 
+					/*sql = "create user "+dir.getCf()+" with password '"+dir.getPass()+"' createrole;\n" + 
 							"grant usage on schema public to "+dir.getCf()+";\n" + 
 							"grant select on all tables in schema public to "+dir.getCf()+";\n" + 
 							"grant all on custode, magazziniere, impiegato, fattorino, veicolo, my_seq1, my_seq2 to "+dir.getCf()+";\n" + 
-							"grant execute on all functions in schema public to "+this.getCf()+";";
+							"grant execute on all functions in schema public to "+this.getCf()+";";*/
+					sql = "create user "+dir.getCf()+" with password '"+dir.getPass()+"' createrole;\n" + 
+							"grant usage on schema public to "+dir.getCf()+" with grant option;\n" + 
+							"grant select on all tables in schema public to "+dir.getCf()+" with grant option;\n" + 
+							"grant all on all tables in schema public to "+dir.getCf()+" with grant option;"+
+							"grant all on my_seq1, my_seq2 to "+dir.getCf()+" with grant option;"+
+							"grant execute on all functions in schema public to "+dir.getCf()+" with grant option;";
 					try {
 						stmt.executeUpdate(sql);
 						System.out.println("Nuovo dirigente registrato!");
