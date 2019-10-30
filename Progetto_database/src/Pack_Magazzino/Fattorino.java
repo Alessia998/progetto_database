@@ -66,7 +66,6 @@ public class Fattorino extends Persona{
 				case 0:
 					break;
 				case 1:
-					// TODO : da chiarire Nuova - In consegna - Consegnata
 					sql = "select * from spedizione where stato_consegna = 'Consegnata'";
 					try {
 						rs = stmt.executeQuery(sql);
@@ -81,7 +80,7 @@ public class Fattorino extends Persona{
 							System.out.println("Codice Fiscale cliente : " + rs.getString("cf_cli"));
 							System.out.println("Data  : " + rs.getString("data_sp"));
 							System.out.println("Targa del veicolo : " + rs.getString("targa"));
-							System.out.println("Numero di telefono: " + rs.getString("tel")); // Di chi è il numero di telefono?
+							System.out.println("Numero di telefono del destinatario: " + rs.getString("tel"));
 							System.out.println("Codice Fiscale fattorino : " + rs.getString("cf"));
 						}
 					} catch (SQLException e) {
@@ -91,7 +90,7 @@ public class Fattorino extends Persona{
 					break;
 				case 2:
 					
-					sql = "select * from spedizione where stato_consegna = 'In consegna'";
+					sql = "select * from spedizione where stato_consegna = 'In consegna' and cf = '"+ this.getCf() +"'";
 					try {
 						rs = stmt.executeQuery(sql);
 						while(rs.next()) 
@@ -103,6 +102,8 @@ public class Fattorino extends Persona{
 							System.out.println("    Via    : " + rs.getString("via"));
 							System.out.println("    Civico : " + rs.getString("numero"));
 							System.out.println("Codice Fiscale cliente : " + rs.getString("cf_cli"));
+							System.out.println("Telefono del destinatario: "+ rs.getString("tel"));
+							System.out.println("Veicolo da utilizzare: "+ rs.getString("targa"));
 						}
 					} catch (SQLException e) {
 						System.err.println("Errore esecuzione query");
@@ -132,7 +133,7 @@ public class Fattorino extends Persona{
 					break;
 					
 				case 4:
-					sql = "select * from trasferimenti where stato_consegna = 'In consegna'";
+					sql = "select * from trasferimenti where stato_consegna = 'In consegna' and cf = '"+ this.getCf() +"'";
 					try {
 						rs = stmt.executeQuery(sql);
 						while(rs.next()) 
@@ -142,6 +143,8 @@ public class Fattorino extends Persona{
 									+ rs.getString("num1") + " - " + rs.getString("cod1"));
 							System.out.println("Magazzino di arrivo (Num Filiale - Num Magazzino): "
 									+ rs.getString("num2") + " - " + rs.getString("cod2"));
+							System.out.println("Data  : " + rs.getString("data_sp"));
+							System.out.println("Veicolo da utilizzare : " + rs.getString("targa"));
 						}
 					} catch (SQLException e) {
 						System.err.println("Errore esecuzione query");
@@ -149,27 +152,15 @@ public class Fattorino extends Persona{
 					}
 					break;
 					
-				case 5: // Andrea : A mio parere bisogna fare una distinzione tra NUOVA - IN CONSEGNA - CONSEGNATA
-					Boolean s_printed = false; // Usata per controllare se il fattorino ha almeno una spedizione in carico
-					sql = "select num_sped from spedizione where stato_consegna = 'In consegna' and cf = '"+ this.getCf() +"'";
-					try {
-						rs = stmt.executeQuery(sql);
-						while(rs.next())
-						{
-							s_printed = true;
-							System.out.println("Spedizione: " + rs.getString("num_sped"));
-						}
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+				case 5:
 					
-					if(s_printed)
+					sql = "select num_sped from spedizione where stato_consegna = 'In consegna' and cf = '"+ this.getCf() +"'";
+					Integer res = (Integer)chooseInfo(sql,stmt,scan,"spedizione","num_sped");
+					
+					if(res != null)
 					{
-						System.out.print("Inserisci il numero di spedizione: ");
-						int n_sped = scan.nextInt();
 						
-						sql = "update spedizione set stato_consegna = 'Consegnato' where num_sped = "+ n_sped +"";
+						sql = "update spedizione set stato_consegna = 'Consegnato' where num_sped = "+ res +"";
 						try {
 							stmt.executeUpdate(sql);
 							System.out.println("Aggiornamento effettuato con successo");
@@ -184,27 +175,13 @@ public class Fattorino extends Persona{
 					
 					break;
 				case 6:
-					Boolean printed = false; // Usata per controllare se il fattorino ha almeno un trasferimento in carico
-					sql = "select * from trasferimenti where stato_consegna = 'In consegna'and cf = '"+ this.getCf() +"'";
-					try {
-						rs = stmt.executeQuery(sql);
-						while(rs.next())
-						{
-							printed = true;
-							System.out.println("trasferimento: " + rs.getString("num_sped"));
-						}
 					
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					sql = "select num_sped from trasferimenti where stato_consegna = 'In consegna' and cf = '"+ this.getCf() +"'";
+					Integer t_res = (Integer)chooseInfo(sql,stmt,scan,"trasferimenti","num_sped");
 					
-					if(printed)
+					if(t_res != null) 
 					{
-						System.out.print("Inserisci il numero di trasferimento: ");
-						int n_tr = scan.nextInt();
-						
-						sql = "update trasferimenti set stato_consegna = 'Consegnato' where num_sped = "+ n_tr +"";
+						sql = "update trasferimenti set stato_consegna = 'Consegnato' where num_sped = "+ t_res +"";
 						try {
 							stmt.executeUpdate(sql);
 							System.out.println("Aggiornamento effettuato con successo");

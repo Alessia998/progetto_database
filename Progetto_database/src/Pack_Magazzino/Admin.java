@@ -58,7 +58,7 @@ public class Admin extends Persona{
 					cf = cf.toUpperCase();
 					System.out.print("Nome: ");
 					nome = scan.nextLine();
-					System.out.print("Congome: ");
+					System.out.print("Cognome: ");
 					cognome = scan.nextLine();
 					Dirigente dir = new Dirigente(cf, nome, cognome);
 					System.out.print("Inserisci la nuova password per il dirigente: ");

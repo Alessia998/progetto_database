@@ -130,6 +130,58 @@ public abstract class Persona {
 		return null;
 	}
 	
+	public Object chooseInfo(String sql, Statement stmt, Scanner scan, String nomeTab, String nomeKey) {
+		
+		//String sql = "select " + nomeKey + " from " + nomeTab;
+		ResultSet rs = null;
+		int i=1,k;
+		
+		try {
+			rs = stmt.executeQuery(sql);
+		} catch (SQLException e) {
+			System.out.println("Dati Sbagliati!");
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+		try {
+			System.out.println(" ---- OPZIONI ----");
+			while(rs.next()){
+				System.out.println(i + ") " + rs.getObject(nomeKey));
+				i ++;
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL result error!");
+			e.printStackTrace();
+			return null;
+		}
+		
+		do {
+			System.out.print("Inserire indice dell'elenco (0 per uscire) :");
+			k = scan.nextInt();
+		}while(k<0 || k>i-1);
+		
+		if(k == 0)
+			return null;
+		
+		sql = "select "+ nomeKey +" from " + nomeTab + "\r\n" + 
+				"limit "+k+" offset "+(k-1)+";";
+		
+		try {
+			rs = stmt.executeQuery(sql);
+			if(rs.next())
+				return rs.getObject(nomeKey);
+	
+		} catch (SQLException e) {
+			System.out.println("SQL result error!");
+			e.printStackTrace();
+		}	
+		
+		
+		return null;
+	}
+	
 	public int getNumMagazzino(Statement stmt, Scanner scan, String fil)
 	{
 		int i=1,k;
