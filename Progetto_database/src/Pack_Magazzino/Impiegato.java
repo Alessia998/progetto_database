@@ -282,7 +282,6 @@ public class Impiegato extends Persona {
 			default:
 				break;
 			}
-			scan.nextLine();
 			System.out.println("Premi invio per continuare...");	
 			scan.nextLine();
 		}while(k != 0);			

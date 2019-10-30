@@ -123,11 +123,10 @@ public class Dirigente extends Persona{
 						"grant usage on schema public to "+ cf +";\n" +
 						"grant select on turno, dirigente, custode, impiegato, fattorino, cliente, magazziniere to "+ cf +";\n"
 						+ "grant execute on all functions in schema public to "+ cf +";";*/
-				sql = "create user "+ cf +" with password '"+ psw +"' createrole;\r\n" + 
-						"grant usage on schema public to "+ cf +" with grant option;\r\n" + 
-						"grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user to "+ cf +" with grant option;\r\n" + 
-						"grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf, my_seq2, spedizione, my_seq1 to "+ cf +" with grant option;\r\n" + 
-						"grant execute on all functions in schema public to "+ cf +" with grant option;";
+				sql = "create user "+cf+" with password '"+ psw +"';\r\n" + 
+						"grant usage on schema public to "+ cf +";\r\n" + 
+						"grant select on turno, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user to "+ cf +";\r\n" + 
+						"grant execute on all functions in schema public to "+ cf +";";
 				
 				try {
 					stmt.executeUpdate(sql);
@@ -247,7 +246,6 @@ public class Dirigente extends Persona{
 				sql = "insert into impiegato values ('"+ cf +"','"+ nome +"','"+ cognome +"',"
 						+ "'"+ d_nascita +"', '"+ tel +"', '"+ mail +"',(select cod from filiale"+
 						 " where cf = '"+ this.getCf() +"'))";
-				System.out.println(sql);
 				try {
 					stmt.executeUpdate(sql);
 					System.out.println("Impiegato inserito correttamente!");
@@ -259,15 +257,18 @@ public class Dirigente extends Persona{
 				}
 				
 				System.out.print("Inserisci la password per il nuovo impiegato: ");
-				scan.nextLine();
 				String psw = scan.nextLine();
 				
-				sql = "create user "+ cf + " with password '"+ psw +"' createrole;\r\n" + 
+				/*sql = "create user "+ cf + " with password '"+ psw +"' createrole;\r\n" + 
 						"grant usage on schema public to "+ cf +";\r\n" + 
 						"grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione to "+ cf +";\r\n" + 
 						"grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf, my_seq2 to "+ cf +";\r\n" + 
-						"grant execute on all functions in schema public to "+ cf +";";
-				System.out.println(sql);
+						"grant execute on all functions in schema public to "+ cf +";";*/
+				sql = "create user "+ cf + " with password '"+ psw +"' createrole;\r\n" + 
+						"grant usage on schema public to sfdvrl910p03p39f with grant option;\r\n" + 
+						"grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user to "+cf+" with grant option;\r\n" + 
+						"grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf, my_seq2, spedizione, my_seq1 to "+cf+" with grant option;\r\n" + 
+						"grant execute on all functions in schema public to "+cf+" with grant option;";
 				try {	
 					stmt.executeUpdate(sql);
 					System.out.println("Nuovo utente registrato!");
