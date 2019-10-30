@@ -68,7 +68,6 @@ public class Main {
 			e1.printStackTrace();
 		}
 		
-		System.out.println(u);
 		try {
 			sql = "select who_is('"+u+"');";
 			rs = stmt.executeQuery(sql);
@@ -78,7 +77,6 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println(categoria);
 		Persona aut = null;
 		switch (categoria) {
 		case "admin":
@@ -122,6 +120,12 @@ public class Main {
 		}
 		
 		scan.close();
+		try {
+			conn.close();
+			stmt.close();
+		} catch (SQLException e) {
+			System.out.println("Non si riesce a chiudere la connessione");
+		}
 		System.out.println("---- Chiusura ----");
 		
 	}

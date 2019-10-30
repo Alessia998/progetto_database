@@ -75,6 +75,9 @@ public class Dirigente extends Persona{
 		System.out.println("	10) Magazzini e relativi spazi");
 		System.out.println("	11) Tutti i clienti");
 		System.out.println("	12) Clienti della tua filiale");
+		System.out.println("* GESTIONE FILIALE");
+		System.out.println("    13) Aggiungi magazzino al tuo filiale");
+		System.out.println("    14) Aggiungi un altro spazio a un magazzino (non funziona)");
 		System.out.println("0) Esci");
 		
 		System.out.print("\nScelta: ");
@@ -118,11 +121,6 @@ public class Dirigente extends Persona{
 				
 				System.out.print("Inserisci la password per il nuovo custode: ");
 				String psw = scan.nextLine();
-				
-				/*sql = "create user "+ cf +" with password '"+ psw +"';\n" +
-						"grant usage on schema public to "+ cf +";\n" +
-						"grant select on turno, dirigente, custode, impiegato, fattorino, cliente, magazziniere to "+ cf +";\n"
-						+ "grant execute on all functions in schema public to "+ cf +";";*/
 				sql = "create user "+cf+" with password '"+ psw +"';\r\n" + 
 						"grant usage on schema public to "+ cf +";\r\n" + 
 						"grant select on turno, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user to "+ cf +";\r\n" + 
@@ -258,12 +256,6 @@ public class Dirigente extends Persona{
 				
 				System.out.print("Inserisci la password per il nuovo impiegato: ");
 				String psw = scan.nextLine();
-				
-				/*sql = "create user "+ cf + " with password '"+ psw +"' createrole;\r\n" + 
-						"grant usage on schema public to "+ cf +";\r\n" + 
-						"grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione to "+ cf +";\r\n" + 
-						"grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf, my_seq2 to "+ cf +";\r\n" + 
-						"grant execute on all functions in schema public to "+ cf +";";*/
 				sql = "create user "+ cf + " with password '"+ psw +"' createrole;\r\n" + 
 						"grant usage on schema public to sfdvrl910p03p39f with grant option;\r\n" + 
 						"grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user to "+cf+" with grant option;\r\n" + 
@@ -449,12 +441,43 @@ public class Dirigente extends Persona{
 					e.printStackTrace();
 				}
 				break;
+			case 13:
+				String denom, citta, via, tel;
+				int num;
+				scan.nextLine();
+				System.out.println("Inserisci la denominazione del magazzino : ");
+				denom = scan.nextLine();
+				System.out.println("Inserisci la città : ");
+				citta = scan.nextLine();
+				System.out.println("Inserisci la via : ");
+				via = scan.nextLine();
+				System.out.println("Inserisci il numero civico : ");
+				num = scan.nextInt();
+				System.out.println("Inserisci il numero di telefono : ");
+				tel = scan.nextLine();
+				
+				sql = "select insert_magazzino('"+denom+"','"+citta+"','"+via+"','"+num+"','"+tel+"',(select cod from filiale where cf = '"+this.getCf()+"'))";
+				
+				try {
+					stmt.execute(sql);
+					System.out.println("Magazzino inserito correttamente!");
+				} catch (SQLException e1) {
+					System.out.println("Errore inserimento magazzino!");
+					System.out.println("Forse non stai gestendo nessuna filiale...");
+					//e1.printStackTrace();
+				}
+				
+				break;
+			case 14:
+				
+				
+				break;
 			default:
 				scelta = 0;
 				break;
 		}
 		
-		}while(scelta != 0 && scelta < 13);
+		}while(scelta != 0 && scelta < 15);
 		
 	}
 

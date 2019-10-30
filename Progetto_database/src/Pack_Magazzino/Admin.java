@@ -30,7 +30,6 @@ public class Admin extends Persona{
 
 		do {
 			
-			System.out.println("Opzioni:");
 			System.out.println("Opzioni a disposizione: ");
 			System.out.println("1) Inserisci un nuovo dirigente");
 			System.out.println("2) Inserisci una nuova filiale");
@@ -46,7 +45,7 @@ public class Admin extends Persona{
 			
 			switch (k) {
 				case 0:
-					System.out.println("---EXIT---");
+					System.out.println("---EXIT FROM ADMIN---");
 					break;
 				case 1:{
 					
@@ -79,11 +78,6 @@ public class Admin extends Persona{
 						scan.close();
 						return;	
 					}
-					/*sql = "create user "+dir.getCf()+" with password '"+dir.getPass()+"' createrole;\n" + 
-							"grant usage on schema public to "+dir.getCf()+";\n" + 
-							"grant select on all tables in schema public to "+dir.getCf()+";\n" + 
-							"grant all on custode, magazziniere, impiegato, fattorino, veicolo, my_seq1, my_seq2 to "+dir.getCf()+";\n" + 
-							"grant execute on all functions in schema public to "+this.getCf()+";";*/
 					sql = "create user "+dir.getCf()+" with password '"+dir.getPass()+"' createrole;\n" + 
 							"grant usage on schema public to "+dir.getCf()+" with grant option;\n" + 
 							"grant select on all tables in schema public to "+dir.getCf()+" with grant option;\n" + 
@@ -234,6 +228,7 @@ public class Admin extends Persona{
 				default:
 					break;
 			}
+
 		}while(k>0 && k <6);
 		scan.close();
 	}
