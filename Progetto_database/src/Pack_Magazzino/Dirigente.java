@@ -468,13 +468,40 @@ public class Dirigente extends Persona{
 				}
 				break;
 			case 14:
+				sql = "(select cod from filiale where cf = '"+this.getCf()+"')";
+				String my_fil = null;
 				
-				System.out.println("");
+			try {
+				rs = stmt.executeQuery(sql);
+
+				if( rs.next())
+					my_fil = rs.getString(1);
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("Non dirigi nessuna filiale...");
+				break;
+			}
 				
-				sql = "select insert_spazio();";
+				int mag = this.getNumMagazzino(stmt, scan, my_fil);
+				scan.nextLine();
+				System.out.println("Inserisci la descrizione dello spazio : ");
+				String descr = scan.nextLine();
 				
+				sql = "select insert_spazio("+mag+",'"+my_fil+"','"+descr+"')";
+				
+			try {
+				stmt.execute(sql);
+				System.out.println("Spazio inserito.");
+			} catch (SQLException e) {
+				System.out.println("Errore di inserimento spazio...");
+				e.printStackTrace();
+			}
+
 				break;
 			default:
+				
 				scelta = 0;
 				break;
 		}
