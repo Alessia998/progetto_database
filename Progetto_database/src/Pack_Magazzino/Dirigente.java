@@ -72,7 +72,7 @@ public class Dirigente extends Persona{
 		System.out.println("	7) Magazzinieri");
 		System.out.println("	8) Impiegati");
 		System.out.println("	9) Veicoli");
-		System.out.println("	10) Magazzini e relativi spazi");
+		System.out.println("	10) Magazzini e relativi spazi (non funziona)");
 		System.out.println("	11) Tutti i clienti");
 		System.out.println("	12) Clienti della tua filiale");
 		System.out.println("* GESTIONE FILIALE:");
@@ -402,6 +402,7 @@ public class Dirigente extends Persona{
 						"and spazio.cod = (select cod \r\n" + 
 						"				 	from filiale\r\n" + 
 						"				 	where cf = '"+ this.getCf() +"')";
+				System.out.println(sql);
 				
 				try {
 					rs = stmt.executeQuery(sql);

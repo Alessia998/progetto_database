@@ -228,7 +228,7 @@ public abstract class Persona {
 				"	  and magazzino.cod = spazio.cod and filiale.cod = '"+fil+"'\r\n" + 
 				"	  and magazzino.num = '"+mag+"';";
 		ResultSet rs = null;
-		System.out.println("Scegli il numero spazio : ");
+		System.out.println("Scegli il numero spazio (0 per uscire): ");
 		try {
 			rs = stmt.executeQuery(sql);
 			while(rs.next())

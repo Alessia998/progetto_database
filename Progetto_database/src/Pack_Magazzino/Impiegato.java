@@ -169,9 +169,30 @@ public class Impiegato extends Persona {
 				}
 				break;
 			case 4:
-				//qui aggiungo gestione dello spazio
+				scan.nextLine();
+				mag = this.getNumMagazzino(stmt, scan, this.getMySubsidiary(this.getCf(), stmt)); 
+				if(mag == 0) break;
+				int id_spazio = this.getIdSpazio(stmt, scan, this.getMySubsidiary(this.getCf(), stmt), mag);
+				if(id_spazio == 0) break;
+				sql = "select num_c from contratto";
+				String num_c = this.chooseInfo(sql, stmt, scan, "contratto", "num_c").toString();
+				if(num_c == "") break;
+				
+				sql = "select assegna_spazio('"+this.getMySubsidiary(this.getCf(), stmt)+"','"+mag+"','"+id_spazio+"','"+num_c+"')";
+				try {
+					stmt.execute(sql);
+					System.out.println("Spazio assegnato al contratto "+num_c +"!");
+				} catch (SQLException e1) {
+					System.err.println(e1.getMessage());
+					System.err.println("Errore di assegnamento spazio!");
+					scan.nextLine();
+				}
+
 				break;
 			case 5:
+				
+				break;
+			case 6:
 				scan.nextLine();
 				System.out.println("Inserisci il codice fiscale del cliente : ");
 				String cf = scan.nextLine();
@@ -206,7 +227,7 @@ public class Impiegato extends Persona {
 					e1.printStackTrace();			
 				}
 				break;
-			case 6:
+			case 7:
 				sql = "select * from cliente;";
 				try {
 					rs = stmt.executeQuery(sql);
@@ -217,7 +238,7 @@ public class Impiegato extends Persona {
 				System.out.println("Codice fiscale | Nome | Cognome | Telefono | Piano");
 				this.display(rs, 5);		
 				break;	
-			case 7:
+			case 8:
 				sql = "select * from contratto;";
 				try {
 					rs = stmt.executeQuery(sql);
@@ -228,7 +249,7 @@ public class Impiegato extends Persona {
 				System.out.println("Codice contratto | Data inizio | Data fine | N Spazi | CF impiegato | CF cliente");
 				this.display(rs, 6);
 				break;	
-			case 8:
+			case 9:
 				sql = "select * from prodotto;";
 				try {
 					rs = stmt.executeQuery(sql);
@@ -239,7 +260,7 @@ public class Impiegato extends Persona {
 				System.out.println("Codice prodotto | Nome prodotto | Descrizione ");
 				this.display(rs, 3);
 				break;	
-			case 9:
+			case 10:
 				sql = "select * from trasferimenti;";
 				try {
 					rs = stmt.executeQuery(sql);
@@ -249,7 +270,7 @@ public class Impiegato extends Persona {
 				System.out.println("Numero trasferimento | Data sped. | CF fattorino | Veicolo | Stato consegna | Fil, Mag partenza | F , M arrivo");
 				this.display(rs, 8);
 				break;
-			case 10:
+			case 11:
 				sql = "select * from spedizione;";
 				try {
 					rs = stmt.executeQuery(sql);
@@ -259,7 +280,7 @@ public class Impiegato extends Persona {
 				System.out.println("Numero spedizione | CF fattorino | Data sped. | Veicolo | Indirizzo | Tel | Stato consegna | CF cliente");
 				this.display(rs,11);
 				break;	
-			case 11:
+			case 12:
 				fil = this.getMySubsidiary(this.getCf(), stmt);
 				mag = this.getNumMagazzino(stmt, scan, fil);
 				spa = this.getIdSpazio(stmt, scan, fil, mag);
@@ -293,16 +314,17 @@ public class Impiegato extends Persona {
 		System.out.println("    1) Un nuovo cliente");
 		System.out.println("    2) Un nuovo contratto");
 		System.out.println("    3) Un nuovo prodotto");
-		System.out.println("    4)");
-		System.out.println("    5) Un nuovo trasferimento");
+		System.out.println("    4) Assegna spazio a un cliente (da testare)");
+		System.out.println("    5) Inserisci un prodotto in uno spazio (non funziona)");
+		System.out.println("    6) Un nuovo trasferimento");
 		System.out.println("* VISUALIZZA : ");
-		System.out.println("    6) Clienti");
-		System.out.println("    7) Contratti");
-		System.out.println("    8) Prodotti");
-		System.out.println("    9) Trasferimenti");
-		System.out.println("    10) Spedizioni");
+		System.out.println("    7) Clienti");
+		System.out.println("    8) Contratti");
+		System.out.println("    9) Prodotti");
+		System.out.println("    10) Trasferimenti");
+		System.out.println("    11) Spedizioni");
 		System.out.println("* RESTITUISCI : ");
-		System.out.println("    11) Restituisci un prodotto");
+		System.out.println("    12) Restituisci un prodotto");
 		System.out.println("* ESCI :");
 		System.out.println("    0) Esci");	
 		
