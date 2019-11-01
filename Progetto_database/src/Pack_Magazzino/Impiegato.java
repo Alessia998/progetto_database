@@ -175,6 +175,7 @@ public class Impiegato extends Persona {
 				int id_spazio = this.getIdSpazio(stmt, scan, this.getMySubsidiary(this.getCf(), stmt), mag);
 				if(id_spazio == 0) break;
 				sql = "select num_c from contratto";
+				System.out.println("Scegli il codice del contratto : ");
 				String num_c = this.chooseInfo(sql, stmt, scan, "contratto", "num_c").toString();
 				if(num_c == "") break;
 				
@@ -190,6 +191,27 @@ public class Impiegato extends Persona {
 
 				break;
 			case 5:
+				fil = this.getMySubsidiary(this.getCf(), stmt);
+				mag = this.getNumMagazzino(stmt, scan, fil);
+				spa = this.getIdSpazio(stmt, scan, fil, mag);
+				System.out.println("Inserisci il codice del prodotto : ");
+				sql = "select codice from prodotto";
+				cod = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
+				do {
+					System.out.println("Inserisci la quantità : ");
+					q = scan.nextInt();
+				}while(q < 1 );
+				
+				sql = "insert into contiene values("+spa+","+mag+",'"+fil+"','"+cod+"',"+q+");";
+				
+				try {
+					stmt.executeUpdate(sql);
+					System.out.println("Prodotto inserito!");
+				} catch (SQLException e2) {
+					System.out.println("Errore di inserimento prodotto!");
+					e2.printStackTrace();
+				}
+				
 				
 				break;
 			case 6:
@@ -285,15 +307,58 @@ public class Impiegato extends Persona {
 				mag = this.getNumMagazzino(stmt, scan, fil);
 				spa = this.getIdSpazio(stmt, scan, fil, mag);
 				scan.nextLine();
-				System.out.println("Inserisci il codice prodotto da ritirare : ");
-				prod = scan.nextLine();
+				System.out.println("Inserisci il codice prodotto da ritirare (0 per uscire): ");
+				System.out.println("Codice prodotto | quantità  ");
+				sql = "select codice, quantita\r\n" + 
+						"from contiene\r\n" + 
+						"where id_spazio = "+spa+" and\r\n" + 
+						"num = "+mag+" and\r\n" + 
+						"cod = '"+fil+"' ";
+			
+				int i=1,ko;
+				prod = null;
+				try {
+					rs = stmt.executeQuery(sql);
+					while(rs.next())
+					{
+						System.out.println(i + ") " + rs.getString(1) +" - "+ rs.getString(2));
+						i++;
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				do {
+					System.out.print("Scelta : ");
+					ko = scan.nextInt();
+				}while(ko<0 || ko>i-1);
+				
+				sql = "select codice\r\n" + 
+						"from contiene\r\n" + 
+						"where id_spazio = "+spa+" and\r\n" + 
+						"num = "+mag+" and\r\n" + 
+						"cod = '"+fil+"'  "+
+						"limit "+ko+" offset "+(ko-1)+";";
+				try {
+					rs = stmt.executeQuery(sql);
+					if(rs.next())
+						prod = rs.getString(1);
+
+					
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}	
+				
 				System.out.println("Inserisci la quantita da ritirare : ");
 				q = scan.nextInt();
-				sql = "select elimina_contiene('"+spa+"','"+mag+"','"+fil+"','"+prod+"','"+q+"');";
+				sql = "select elimina_contiene("+spa+","+mag+",'"+fil+"','"+prod+"',"+q+");";
 				try {
 					stmt.executeQuery(sql);
+					System.out.println("Ritiro confermato!");
 				} catch (SQLException e) {
 					System.err.println("Errore! verifica i dati");
+					System.out.println("Potresti non avere più la quantità sufficiente..");
 				}
 				break;		
 			default:
@@ -314,8 +379,8 @@ public class Impiegato extends Persona {
 		System.out.println("    1) Un nuovo cliente");
 		System.out.println("    2) Un nuovo contratto");
 		System.out.println("    3) Un nuovo prodotto");
-		System.out.println("    4) Assegna spazio a un cliente (da testare)");
-		System.out.println("    5) Inserisci un prodotto in uno spazio (non funziona)");
+		System.out.println("    4) Assegna spazio a un cliente");
+		System.out.println("    5) Inserisci un prodotto in uno spazio (non funziona se aggiungo lo stesso prod)");//da fixare
 		System.out.println("    6) Un nuovo trasferimento");
 		System.out.println("* VISUALIZZA : ");
 		System.out.println("    7) Clienti");

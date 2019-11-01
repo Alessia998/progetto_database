@@ -76,13 +76,12 @@ public class Dirigente extends Persona{
 		System.out.println("	11) Tutti i clienti");
 		System.out.println("	12) Clienti della tua filiale");
 		System.out.println("* GESTIONE FILIALE:");
-		System.out.println("    13) Aggiungi magazzino al tuo filiale ");
-		System.out.println("    14) Aggiungi un altro spazio a un magazzino ");
+		System.out.println("	13) Aggiungi magazzino al tuo filiale ");
+		System.out.println("	14) Aggiungi un altro spazio a un magazzino ");
 		System.out.println("* ESCI:");
 		System.out.println("	0) Esci");
 		
 		System.out.print("\nScelta: ");
-		//scan.nextLine();
 		scelta = scan.nextInt();
 		
 		switch(scelta)
@@ -394,26 +393,16 @@ public class Dirigente extends Persona{
 				}
 				break;
 			case 10:
-				//niko - sto lavorando
-				/*sql = "select spazio.num as Magazzino, spazio.id_spazio, spazio.descrizione, contiene.codice\r\n" + 
-						"from spazio, contiene\r\n" + 
-						"where spazio.id_spazio = contiene.id_Spazio\r\n" + 
-						"and spazio.num = contiene.num\r\n" + 
-						"and spazio.cod = (select cod \r\n" + 
-						"				 	from filiale\r\n" + 
-						"				 	where cf = '"+ this.getCf() +"')";*/
-				sql = "select spazio.num as Magazzino, spazio.id_spazio\r\n" + 
+				sql = "select spazio.num as Magazzino, spazio.id_spazio, descrizione\r\n" + 
 						"from spazio\r\n" + 
 						"where cod = (select cod from filiale where cf = '"+this.getCf()+"')\r\n" + 
-						"order by num, id_spazio";
-				//System.out.println(sql);
-				
+						"order by num, id_spazio";				
 				try {
 					int temp_num=0;
 					Integer mag, id_spa;
 					rs = stmt.executeQuery(sql);
 					//System.out.println("Numero Magazzino | ID spazio | Descrizione | Codice Prodotto");
-					System.out.println("Numero Magazzino | ID_spazio");
+					System.out.println("Numero Magazzino | ID_spazio | Descrizione");
 					while(rs.next())
 					{
 						mag = rs.getInt(1);
@@ -423,10 +412,16 @@ public class Dirigente extends Persona{
 							temp_num = mag;
 							System.out.print(mag + " - ");
 						}
-						for(int i=0;i< mag.toString().length();i++)
-							System.out.print(" ");
-						System.out.print("   ");
-						System.out.println(id_spa);
+						else
+						{
+							for(int i=0;i< mag.toString().length();i++)
+								System.out.print(" ");
+							System.out.print("   ");
+						}
+						
+						System.out.print(id_spa + " , ");
+						System.out.println(rs.getString(3));
+						
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
