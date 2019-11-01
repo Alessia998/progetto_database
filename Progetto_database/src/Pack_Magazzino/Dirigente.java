@@ -75,10 +75,11 @@ public class Dirigente extends Persona{
 		System.out.println("	10) Magazzini e relativi spazi");
 		System.out.println("	11) Tutti i clienti");
 		System.out.println("	12) Clienti della tua filiale");
-		System.out.println("* GESTIONE FILIALE");
-		System.out.println("    13) Aggiungi magazzino al tuo filiale");
-		System.out.println("    14) Aggiungi un altro spazio a un magazzino (non funziona)");
-		System.out.println("0) Esci");
+		System.out.println("* GESTIONE FILIALE:");
+		System.out.println("    13) Aggiungi magazzino al tuo filiale ");
+		System.out.println("    14) Aggiungi un altro spazio a un magazzino ");
+		System.out.println("* ESCI:");
+		System.out.println("	0) Esci");
 		
 		System.out.print("\nScelta: ");
 		//scan.nextLine();
@@ -257,7 +258,7 @@ public class Dirigente extends Persona{
 				System.out.print("Inserisci la password per il nuovo impiegato: ");
 				String psw = scan.nextLine();
 				sql = "create user "+ cf + " with password '"+ psw +"' createrole;\r\n" + 
-						"grant usage on schema public to sfdvrl910p03p39f with grant option;\r\n" + 
+						"grant usage on schema public to "+cf+" with grant option;\r\n" + 
 						"grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user to "+cf+" with grant option;\r\n" + 
 						"grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf, my_seq2, spedizione, my_seq1 to "+cf+" with grant option;\r\n" + 
 						"grant execute on all functions in schema public to "+cf+" with grant option;";
@@ -486,6 +487,11 @@ public class Dirigente extends Persona{
 				
 				int mag = this.getNumMagazzino(stmt, scan, my_fil);
 				scan.nextLine();
+				if(mag == 0)
+				{
+					System.out.println("Operazione annullata.");
+					break;
+				}
 				System.out.println("Inserisci la descrizione dello spazio : ");
 				String descr = scan.nextLine();
 				

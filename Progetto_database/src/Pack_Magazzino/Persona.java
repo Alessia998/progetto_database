@@ -98,7 +98,7 @@ public abstract class Persona {
 		int i=1,k;
 		String sql = "select cod from filiale;";
 		ResultSet rs = null;
-		System.out.println("Scegli il codice filiale : ");
+		System.out.println("Scegli il codice filiale (0 per uscire): ");
 		try {
 			rs = stmt.executeQuery(sql);
 			while(rs.next())
@@ -188,7 +188,7 @@ public abstract class Persona {
 		String sql = "select magazzino.num from filiale,magazzino\r\n" + 
 				"where filiale.cod = magazzino.cod and filiale.cod = '"+fil+"'";
 		ResultSet rs = null;
-		System.out.println("Scegli il numero magazzino : ");
+		System.out.println("Scegli il numero magazzino (0 per uscire): ");
 		try {
 			rs = stmt.executeQuery(sql);
 			while(rs.next())

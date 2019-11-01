@@ -81,17 +81,18 @@ public class Impiegato extends Persona {
 				//check = false;
 				scan.nextLine();
 				System.out.print("Inserisci il codice fiscale : ");
-				this.setCf(scan.nextLine().toUpperCase());
+				Cliente cli = new Cliente(scan.nextLine().toUpperCase());
+				//this.setCf(scan.nextLine().toUpperCase());
 				System.out.print("Inserisci la password : ");
 				String pass = scan.nextLine();
 				System.out.print("Inserisci il nome : ");
-				this.setNome(scan.nextLine());
+				cli.setNome(scan.nextLine());
 				System.out.print("Inserisci il cognome : ");
-				this.setCognome(scan.nextLine());
+				cli.setCognome(scan.nextLine());
 				System.out.print("Insersci il numero di telefono :");
-				this.setTel(scan.nextLine());
+				cli.setTel(scan.nextLine());
 				
-				sql = "select crea_cliente('"+this.getCf()+"','"+this.getNome()+"','"+this.getCognome()+"','"+this.getTel()+"');";
+				sql = "select crea_cliente('"+cli.getCf()+"','"+cli.getNome()+"','"+cli.getCognome()+"','"+cli.getTel()+"');";
 				try {
 					stmt.executeQuery(sql);
 				} catch (SQLException e1) {
@@ -99,16 +100,11 @@ public class Impiegato extends Persona {
 					System.out.println("Erroe di inserimento nel DB.");
 					break;
 				}	
-				/*sql = "create user "+this.getCf()+" with password '"+pass+"';\r\n" + 
-						"grant usage on schema public to "+this.getCf()+";\r\n" + 
-						"grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere to "+this.getCf()+";\r\n" + 
-						"grant all on spedizione, prod_sped, my_seq1 to "+this.getCf()+";\r\n" + 
-						"grant execute on all functions in schema public to "+this.getCf()+";";*/
-				sql = "create user "+this.getCf()+" with password '"+pass+"';\r\n" + 
-						"grant usage on schema public to "+this.getCf()+" with grant option;\r\n" + 
-						"grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user to "+this.getCf()+" with grant option;\r\n" + 
-						"grant all on spedizione, prod_sped, my_seq1 to "+this.getCf()+" with grant option;\r\n" + 
-						"grant execute on all functions in schema public to "+this.getCf()+" with grant option;";
+				sql = "create user "+cli.getCf()+" with password '"+pass+"';\r\n" + 
+						"grant usage on schema public to "+cli.getCf()+" with grant option;\r\n" + 
+						"grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user, spazio to "+cli.getCf()+" with grant option;\r\n" + 
+						"grant all on spedizione, prod_sped, my_seq1 to "+cli.getCf()+" with grant option;\r\n" + 
+						"grant execute on all functions in schema public to "+cli.getCf()+" with grant option;";
 				
 				try {
 					stmt.executeUpdate(sql);
@@ -282,8 +278,8 @@ public class Impiegato extends Persona {
 			default:
 				break;
 			}
-			System.out.println("Premi invio per continuare...");	
-			scan.nextLine();
+
+			System.out.println("");
 		}while(k != 0);			
 	}
 	
