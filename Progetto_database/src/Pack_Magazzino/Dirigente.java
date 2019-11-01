@@ -394,20 +394,40 @@ public class Dirigente extends Persona{
 				}
 				break;
 			case 10:
-				
-				sql = "select spazio.num as Magazzino, spazio.id_spazio, spazio.descrizione, contiene.codice\r\n" + 
+				//niko - sto lavorando
+				/*sql = "select spazio.num as Magazzino, spazio.id_spazio, spazio.descrizione, contiene.codice\r\n" + 
 						"from spazio, contiene\r\n" + 
 						"where spazio.id_spazio = contiene.id_Spazio\r\n" + 
 						"and spazio.num = contiene.num\r\n" + 
 						"and spazio.cod = (select cod \r\n" + 
 						"				 	from filiale\r\n" + 
-						"				 	where cf = '"+ this.getCf() +"')";
-				System.out.println(sql);
+						"				 	where cf = '"+ this.getCf() +"')";*/
+				sql = "select spazio.num as Magazzino, spazio.id_spazio\r\n" + 
+						"from spazio\r\n" + 
+						"where cod = (select cod from filiale where cf = '"+this.getCf()+"')\r\n" + 
+						"order by num, id_spazio";
+				//System.out.println(sql);
 				
 				try {
+					int temp_num=0;
+					Integer mag, id_spa;
 					rs = stmt.executeQuery(sql);
-					System.out.println("Numero Magazzino | ID spazio | Descrizione | Codice Prodotto");
-					this.display(rs, 4);
+					//System.out.println("Numero Magazzino | ID spazio | Descrizione | Codice Prodotto");
+					System.out.println("Numero Magazzino | ID_spazio");
+					while(rs.next())
+					{
+						mag = rs.getInt(1);
+						id_spa = rs.getInt(2);
+						if(mag != temp_num) 
+						{
+							temp_num = mag;
+							System.out.print(mag + " - ");
+						}
+						for(int i=0;i< mag.toString().length();i++)
+							System.out.print(" ");
+						System.out.print("   ");
+						System.out.println(id_spa);
+					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
