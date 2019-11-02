@@ -102,7 +102,7 @@ public class Main {
 			aut = new Fattorino(u,"","");
 			break;
 		case "magazziniere":
-			aut = new Magazziniere("","","", 0, "");
+			aut = new Magazziniere(u,"","", 0, "");
 			break;
 			
 		default:
