@@ -258,7 +258,7 @@ public class Dirigente extends Persona{
 				String psw = scan.nextLine();
 				sql = "create user "+ cf + " with password '"+ psw +"' createrole;\r\n" + 
 						"grant usage on schema public to "+cf+" with grant option;\r\n" + 
-						"grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user to "+cf+" with grant option;\r\n" + 
+						"grant select on filiale, magazzino, spazio, dirigente, custode, impiegato, fattorino, magazziniere, spedizione, pg_user, veicolo to "+cf+" with grant option;\r\n" + 
 						"grant all on cliente, contratto, prodotto, trasferimenti, contiene, spazio_contratto, prod_sped, prod_trasf, my_seq2, spedizione, my_seq1 to "+cf+" with grant option;\r\n" + 
 						"grant execute on all functions in schema public to "+cf+" with grant option;";
 				try {	

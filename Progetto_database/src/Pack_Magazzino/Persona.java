@@ -262,18 +262,19 @@ public abstract class Persona {
 		return 0;
 	}
 	
-	//tab - prende in input il nome della tabella che si vuole interrogare
+	//tab - prende in input il nome della tabella che si vuole interrogare (solo lavoratore)
 	public String getCfWorker(Statement stmt, Scanner scan,String tab)
 	{
 		int i = 1,k;
 		ResultSet rs=null;
 		String sql = "select cf from "+tab+";";
-		System.out.println("Scegli il codice fiscale del cliente : ");
+		System.out.println(sql);/////--------------------------------del
+		System.out.println("Scegli il codice fiscale del "+tab+" (0 per uscire): ");
 		try {
 			rs = stmt.executeQuery(sql);		
 			while(rs.next())
 			{
-				System.out.println(i + ") " + rs.getShort(1));
+				System.out.println(i + ") " + rs.getString(1));
 				i++;
 			}
 		} catch (SQLException e) {
@@ -287,7 +288,8 @@ public abstract class Persona {
 		}while(k<0 || k>i-1);
 		
 		sql = "select cf from "+tab
-				+"limit "+k+" offset "+(k-1)+";";
+				+" limit "+k+" offset "+(k-1)+";";
+		System.out.println(sql);/////--------------------------------del
 		try {
 			rs = stmt.executeQuery(sql);
 			if(rs.next())
@@ -295,7 +297,8 @@ public abstract class Persona {
 		} catch (SQLException e) {
 			e.getMessage();
 		}	
-		return "";
+		System.out.println("ritorno null");/////--------------------------------del
+		return null;
 	}
 	
 	public abstract void startOptions(Statement stmt);
