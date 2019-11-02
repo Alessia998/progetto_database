@@ -202,7 +202,7 @@ public class Impiegato extends Persona {
 					q = scan.nextInt();
 				}while(q < 1 );
 				
-				sql = "insert into contiene values("+spa+","+mag+",'"+fil+"','"+cod+"',"+q+");";
+				sql = "call insert_contiene("+spa+","+mag+",'"+fil+"','"+cod+"',"+q+");";
 				
 				try {
 					stmt.executeUpdate(sql);
@@ -380,7 +380,7 @@ public class Impiegato extends Persona {
 		System.out.println("    2) Un nuovo contratto");
 		System.out.println("    3) Un nuovo prodotto");
 		System.out.println("    4) Assegna spazio a un cliente");
-		System.out.println("    5) Inserisci un prodotto in uno spazio (non funziona se aggiungo lo stesso prod)");//da fixare
+		System.out.println("    5) Inserisci un prodotto in uno spazio");
 		System.out.println("    6) Un nuovo trasferimento");
 		System.out.println("* VISUALIZZA : ");
 		System.out.println("    7) Clienti");
