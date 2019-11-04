@@ -16,6 +16,10 @@ calcola_piano()
 quando si crea un nuovo spazio viene chiamata questa funzione
 che calcola il piano tariffario
 
+esiste_cliente()
+funzione che restituisce vero se il cf esiste nella tabella
+falso altrimneti
+
 nuovo_contratto()
 crea un nuovo contratto
 
@@ -31,6 +35,9 @@ controlla i dati in input ed elimina il collegamento spazio - prodotto
 
 who_is()
 dato un username restituisce che ruolo ha nel sistema
+
+insert_contiene()
+inserisce o aggiorna un prodotto in uno spazio
 
 */
 
@@ -230,6 +237,26 @@ END
 $$
 LANGUAGE plpgsql;
 
+--funzione che restituisce vero se il cf esiste nella tabella
+--falso altrimneti
+create or replace function esiste_cliente(cf text)
+returns bool as $func$
+declare
+_ text;
+BEGIN
+
+select cf_cli into _ from cliente
+where cf_cli = $1;
+IF found
+  THEN
+    return true;
+end if;
+
+return false;
+END
+$func$
+LANGUAGE plpgsql;
+
 --dichiarazione della funzione nuovo_contratto
 --crea un nuovo contratto. input : numero del contratto, data di inizio del contratto, data di fine del contratto, condice fiscale del cliente e codice fiscsale dell'impiegato che registra il contratto
 create or replace function nuovo_contratto(num_c varchar(255), datai date, dataf date, num_spazi int, cf varchar(255), cf_cli varchar(255))
@@ -237,7 +264,12 @@ returns int as $$
 declare
 	piano varchar(255);
 begin
-	insert into contratto values ($1, $2, $3, $4, $5, $6);
+	if (esiste_cliente($6))
+		then
+			insert into contratto values ($1, $2, $3, $4, $5, $6);
+		else
+			raise exception 'Il codice fiscale inserito non esiste nel DB dei clienti';
+	end if;
 
 	select calcola_piano(cf_cli) into piano;
 
@@ -461,10 +493,8 @@ usr text;
 begin
 
 --admin
-SELECT  grantee into cat
-FROM information_schema.role_table_grants
-WHERE table_name='filiale' and grantee = un;
-if found then
+if (select usesuper from pg_user where usename = un)
+then
 	cat = 'admin';
 	return cat;
 end if;
@@ -521,3 +551,34 @@ return 'nan';
 end
 $$
 language plpgsql;
+
+--La procedura inserisce o aggiorna il prodotto in uno spazio_contratto
+--input: id_spazio, magazzino, filiale, codice prodotto, quantità
+--NOTA: per chiamare la procedura usa CALL <nome()>
+CREATE OR REPLACE PROCEDURE insert_contiene(int, int, varchar(10), varchar(255), int)
+LANGUAGE plpgsql
+AS $$
+declare
+_ text;
+BEGIN
+	select codice into _ from contiene
+	where contiene.id_spazio = $1 and
+		  contiene.num = $2 and
+		  contiene.cod = $3 and contiene.codice = $4;
+	if not found --non questo tipo di prodotto in questo spazio
+		then
+			--inserisco 
+			insert into contiene values($1,$2,$3,$4,$5);
+			commit;
+			return;
+	end if;
+
+	--Il prodotto è già presente allora aggiungo
+	update contiene set quantita = quantita + $5
+	where contiene.id_spazio = $1 and
+		  contiene.num = $2 and
+		  contiene.cod = $3 and contiene.codice = $4;
+
+    COMMIT;
+END;
+$$;
