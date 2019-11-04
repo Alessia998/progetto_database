@@ -36,6 +36,9 @@ controlla i dati in input ed elimina il collegamento spazio - prodotto
 who_is()
 dato un username restituisce che ruolo ha nel sistema
 
+insert_contiene()
+inserisce o aggiorna un prodotto in uno spazio
+
 */
 
 
@@ -548,3 +551,34 @@ return 'nan';
 end
 $$
 language plpgsql;
+
+--La procedura inserisce o aggiorna il prodotto in uno spazio_contratto
+--input: id_spazio, magazzino, filiale, codice prodotto, quantità
+--NOTA: per chiamare la procedura usa CALL <nome()>
+CREATE OR REPLACE PROCEDURE insert_contiene(int, int, varchar(10), varchar(255), int)
+LANGUAGE plpgsql
+AS $$
+declare
+_ text;
+BEGIN
+	select codice into _ from contiene
+	where contiene.id_spazio = $1 and
+		  contiene.num = $2 and
+		  contiene.cod = $3 and contiene.codice = $4;
+	if not found --non questo tipo di prodotto in questo spazio
+		then
+			--inserisco 
+			insert into contiene values($1,$2,$3,$4,$5);
+			commit;
+			return;
+	end if;
+
+	--Il prodotto è già presente allora aggiungo
+	update contiene set quantita = quantita + $5
+	where contiene.id_spazio = $1 and
+		  contiene.num = $2 and
+		  contiene.cod = $3 and contiene.codice = $4;
+
+    COMMIT;
+END;
+$$;
