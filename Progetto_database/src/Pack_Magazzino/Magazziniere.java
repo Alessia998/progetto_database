@@ -95,7 +95,7 @@ public class Magazziniere extends Persona{
 			System.out.println("* VISUALIZZA:");
 			System.out.println("    1) Spazi del tuo magazzino");
 			System.out.println("    2) Prodotti nel tuo magazzino");
-			System.out.println("* REGISTRA:");
+			System.out.println("* INSERISCI:");
 			System.out.println("    3) Prodotto in spazio");
 			System.out.println("* ESCI :");
 			System.out.println("    0) Esci");
@@ -143,7 +143,27 @@ public class Magazziniere extends Persona{
 
 			case 3:
 				
-				// TODO : Da completare
+				int q;
+				int spa = this.getIdSpazio(stmt, scan, this.getCod(), this.getNum());
+				
+				System.out.println("Inserisci il codice del prodotto : ");
+				sql = "select codice from prodotto";
+				cod = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
+				
+				do {
+					System.out.println("Inserisci la quantità : ");
+					q = scan.nextInt();
+				}while(q < 1 );
+				
+				sql = "call insert_contiene("+spa+","+this.getNum()+",'"+this.getCod()+"','"+cod+"',"+q+");";
+				
+				try {
+					stmt.executeUpdate(sql);
+					System.out.println("Prodotto inserito!");
+				} catch (SQLException e2) {
+					System.out.println("Errore di inserimento prodotto!");
+					e2.printStackTrace();
+				}
 				
 				break;
 
