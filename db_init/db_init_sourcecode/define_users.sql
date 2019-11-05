@@ -164,42 +164,42 @@ grant execute on all functions in schema public to sfdvrl910p03p39m with grant o
 --create magazziniere
 create user bldmsm910p03p39f with password 'bld';
 grant usage on schema public to bldmsm910p03p39f;
-grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, pg_user to bldmsm910p03p39f;
+grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, pg_user, filiale to bldmsm910p03p39f;
 grant all on contiene to bldmsm910p03p39f;
 grant execute on all functions in schema public to bldmsm910p03p39f;
 
 create user tnolcu910p03p39f with password 'tno';
 grant usage on schema public to tnolcu910p03p39f;
-grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, pg_user to tnolcu910p03p39f;
+grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, pg_user, filiale to tnolcu910p03p39f;
 grant all on contiene to tnolcu910p03p39f;
 grant execute on all functions in schema public to tnolcu910p03p39f;
 
 create user rzzrcc910p03p39f with password 'rzz';
 grant usage on schema public to rzzrcc910p03p39f;
-grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, pg_user to rzzrcc910p03p39f;
+grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, pg_user, filiale to rzzrcc910p03p39f;
 grant all on contiene to rzzrcc910p03p39f;
 grant execute on all functions in schema public to rzzrcc910p03p39f;
 
 create user dfrcrt910p03p39f with password 'dfr';
 grant usage on schema public to dfrcrt910p03p39f;
-grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, pg_user to dfrcrt910p03p39f;
+grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, pg_user, filiale to dfrcrt910p03p39f;
 grant all on contiene to dfrcrt910p03p39f;
 grant execute on all functions in schema public to dfrcrt910p03p39f;
 
 create user lmbfrr910p03p39f with password 'lmb';
 grant usage on schema public to lmbfrr910p03p39f;
-grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, pg_user to lmbfrr910p03p39f;
+grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, pg_user, filiale to lmbfrr910p03p39f;
 grant all on contiene to lmbfrr910p03p39f;
 grant execute on all functions in schema public to lmbfrr910p03p39f;
 
 create user frrnz910p03p39f with password 'frr';
 grant usage on schema public to frrnz910p03p39f;
-grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, pg_user to frrnz910p03p39f;
+grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, pg_user, filiale to frrnz910p03p39f;
 grant all on contiene to frrnz910p03p39f;
 grant execute on all functions in schema public to frrnz910p03p39f;
 
 create user tmblbr910p03p39f with password 'tmb';
 grant usage on schema public to tmblbr910p03p39f;
-grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, pg_user to tmblbr910p03p39f;
+grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, pg_user, filiale to tmblbr910p03p39f;
 grant all on contiene to tmblbr910p03p39f;
 grant execute on all functions in schema public to tmblbr910p03p39f;
