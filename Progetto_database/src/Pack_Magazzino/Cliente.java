@@ -59,8 +59,12 @@ public class Cliente extends Persona{
 				break;
 	
 			case 3:
-				//Qui devo inserire una nuova spedizione
-				//chiediSpedizione(stmt, scan, c) da finire giù
+				if(chiediSpedizione(stmt, scan) == 1)
+				{
+					System.out.println("Errore di inserimento spedizione!");
+					break;
+				}
+				System.out.println("L'ordine  di spedizione registrato correttamente!");
 				//stato_consegna In consegna viene messo in automatico
 				
 				break;
@@ -142,7 +146,7 @@ public class Cliente extends Persona{
 	
 	}
 	
-
+		//non funziona. Da lavorare - Niko
 		public String getCfCliente(Statement stmt, Scanner scan)
 		{
 			int i = 0,k;
@@ -182,8 +186,9 @@ public class Cliente extends Persona{
 		
 		
 		//return 0 = ok, return 1 = error;
-		private int chiediSpedizione(Statement stmt, Scanner scan, String c)
+		private int chiediSpedizione(Statement stmt, Scanner scan)
 		{
+			scan.nextLine();
 			System.out.println("Inserisci la data di spedizione : ");
 			String data = scan.nextLine();
 			
@@ -194,6 +199,7 @@ public class Cliente extends Persona{
 				rs.next();
 				targa = rs.getString(1);
 			} catch (SQLException e) {
+				e.printStackTrace();
 				System.out.println("Errore di selezione veicolo!");
 				return 1;
 			}
@@ -239,20 +245,46 @@ public class Cliente extends Persona{
 			//Calcolo filiale, magazzino e spazio
 			
 			//sto lavorando Niko
-			//sql = ""
-			/*
-			 * select spazio.cod, spazio.num, spazio.id_spazio, contiene.codice from contratto co, spazio_contratto sc, spazio, contiene
-		where co.num_c = sc.num_c and
-	  sc.cod = spazio.cod and
-	  sc.num = spazio.num and
-	  sc.id_spazio = spazio.id_spazio and
-	  sc.cod = contiene.cod and
-	  sc.num = contiene.num and
-	  sc.id_spazio = contiene.id_spazio and
-	  co.cf_cli = 'cli1' and 
-	  contiene.codice = 'bsplgefebj';
-	  
-			 */
+			sql = " select spazio.cod, spazio.num, spazio.id_spazio from contratto co, spazio_contratto sc, spazio, contiene\n" + 
+					"		where co.num_c = sc.num_c and\n" + 
+					"	  sc.cod = spazio.cod and\n" + 
+					"	  sc.num = spazio.num and\n" + 
+					"	  sc.id_spazio = spazio.id_spazio and\n" + 
+					"	  sc.cod = contiene.cod and\n" + 
+					"	  sc.num = contiene.num and\n" + 
+					"	  sc.id_spazio = contiene.id_spazio and\n" + 
+					"	  co.cf_cli = '"+this.getCf()+"' and \n" + 
+					"	  contiene.codice = '"+cod+"'";
+			
+			String fil = null;
+			int mag=0;
+			int spa=0;
+			
+			
+			try {
+				rs = stmt.executeQuery(sql);
+				if(rs.next())
+				{
+					fil = rs.getString(1);
+				    mag = rs.getInt(2);
+					spa = rs.getInt(3);
+				}
+			} catch (SQLException e) {
+				System.out.println("Errore sql!");
+				e.printStackTrace();
+				return 1;
+			}
+			
+			sql = "select spedisci('"+fattorino+"','"+data+"','"+targa+"','"+infolist[0]+"','"+infolist[1]+"','"+infolist[2]+"','"+infolist[3]+"','"+infolist[4]+"','"+this.getCf()+"',"+q+",'"+cod+"','"+fil+"',"+mag+","+spa+")";
+			System.out.println(sql);
+			
+			try {
+				stmt.execute(sql);
+			} catch (SQLException e) {
+				System.out.println("Errore di inserimento spedizione nel DB!");
+				e.printStackTrace();
+				return 1;
+			}
 			
 			return 0;
 		}
