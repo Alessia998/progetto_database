@@ -3,7 +3,10 @@ package Pack_Magazzino;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
+
 
 public class Cliente extends Persona{
 	private Scanner scan  = new Scanner(System.in);
@@ -57,7 +60,33 @@ public class Cliente extends Persona{
 	
 			case 3:
 				//Qui devo inserire una nuova spedizione
-				//Stato = in_consegna
+				//chiediSpedizione(stmt, scan, c) da finire giù
+				//stato_consegna In consegna viene messo in automatico
+				
+				break;
+			case 4:
+				//da finire
+				sql = "select * from contratto\n" + 
+						"where data_fine < current_date\n" + 
+						"	  and cf_cli = '"+this.getCf()+"'";
+				
+				
+				
+				
+				break;
+			case 5:
+				//da finire
+			    sql = "select * from spedizione\n" + 
+			    		"where stato_consegna = 'In consegna'\n" + 
+			    		"     and cf_cli = '"+this.getCf()+"';";
+				
+				
+				break;
+			case 6:
+				//da finire 
+				sql = "select * from spedizione\n" + 
+						"where stato_consegna = 'Consegnato'\n" + 
+						"     and cf_cli = '"+this.getCf()+"';";
 				
 				break;
 			default:
@@ -149,6 +178,83 @@ public class Cliente extends Persona{
 				e.getMessage();
 			}	
 			return "";
+		}
+		
+		
+		//return 0 = ok, return 1 = error;
+		private int chiediSpedizione(Statement stmt, Scanner scan, String c)
+		{
+			System.out.println("Inserisci la data di spedizione : ");
+			String data = scan.nextLine();
+			
+			sql = "select targa from veicolo ORDER BY random() limit 1;";
+			String targa = "";
+			try {
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				targa = rs.getString(1);
+			} catch (SQLException e) {
+				System.out.println("Errore di selezione veicolo!");
+				return 1;
+			}
+			
+			String[] infolist = new String[5];
+			
+			System.out.println("Inserisci il paese di destinazione : ");
+			infolist[0] = scan.nextLine();
+			if(infolist[0] == "" ) infolist[0] = "Italia";
+			
+			System.out.println("Inserisci la città : ");
+			infolist[1] = scan.nextLine();
+			
+			System.out.println("Inserisci la via : ");
+			infolist[2] = scan.nextLine();
+			
+			System.out.println("Inserisci il numero civico : ");
+			infolist[3] = scan.nextLine();
+			
+			System.out.println("Inserisci il numero di telefono : ");
+			infolist[4] = scan.nextLine();
+			
+			//codice_cli cliente this.getCf();
+			
+			String fattorino = "";
+			sql = "select fattorino from veicolo ORDER BY random() limit 1;";
+			try {
+				rs = stmt.executeQuery(sql);
+				rs.next();
+				targa = rs.getString(1);
+			} catch (SQLException e) {
+				System.out.println("Errore di selezione fattorino!");
+				return 1;
+			}
+			
+			System.out.println("Inserisci il codice del prodotto : ");
+			sql = "select codice from prodotto";
+			String cod = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
+			
+			System.out.println("Inserisci la quantità che si vuole mandare : ");
+			int q = scan.nextInt();
+			
+			//Calcolo filiale, magazzino e spazio
+			
+			//sto lavorando Niko
+			//sql = ""
+			/*
+			 * select spazio.cod, spazio.num, spazio.id_spazio, contiene.codice from contratto co, spazio_contratto sc, spazio, contiene
+		where co.num_c = sc.num_c and
+	  sc.cod = spazio.cod and
+	  sc.num = spazio.num and
+	  sc.id_spazio = spazio.id_spazio and
+	  sc.cod = contiene.cod and
+	  sc.num = contiene.num and
+	  sc.id_spazio = contiene.id_spazio and
+	  co.cf_cli = 'cli1' and 
+	  contiene.codice = 'bsplgefebj';
+	  
+			 */
+			
+			return 0;
 		}
 	
 }

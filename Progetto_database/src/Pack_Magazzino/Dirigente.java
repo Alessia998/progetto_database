@@ -135,12 +135,15 @@ public class Dirigente extends Persona{
 				
 			}break;
 			case 2:{
+				String cod = null;
+				int num;
+				
 				
 				System.out.println("\n---- Inserimento di un nuovo magazziniere ----");
 				
 				System.out.print("Inserisci il codice fiscale: ");
 				scan.nextLine();
-				String cf = scan.nextLine();
+				String cf = scan.nextLine().toUpperCase();
 				
 				System.out.print("Inserisci il nome: ");
 				String nome = scan.nextLine();
@@ -160,7 +163,6 @@ public class Dirigente extends Persona{
 				sql = "select magazzino.num, magazzino.cod from magazzino, filiale where"
 						+ " magazzino.cod = filiale.cod and filiale.cf = '"+ this.getCf() +"'";
 				
-				System.out.println(sql);
 				
 				try {
 					rs = stmt.executeQuery(sql);
@@ -171,21 +173,26 @@ public class Dirigente extends Persona{
 					}
 					else
 					{
-						System.out.println("Numero Magazzino | Codice Filiale");
+						//useless code
+						/*System.out.println("Numero Magazzino | Codice Filiale");
 						do {
 							System.out.println("Num:" + rs.getInt("num") + ", Cod:" + rs.getString("cod"));
-						}while (rs.next());
+						}while (rs.next());*/
+						cod = this.getCodFiliale(stmt, scan);
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				
-				System.out.print("Inserisci codice filiale: ");
-				String cod = scan.nextLine();
+				//System.out.print("Inserisci codice filiale: ");
+				//String cod = scan.nextLine();
 				
-				System.out.print("Inserisci numero magazzino: ");
-				int num = scan.nextInt();
+				//System.out.print("Inserisci numero magazzino: ");
+				//int num = scan.nextInt();
+				
+				num = this.getNumMagazzino(stmt, scan, cod);
+				if(num == 0) break;
 				
 				sql = "insert into magazziniere values ('"+ cf +"','"+ nome +"','"+ cognome +"',"
 						+ "'"+ d_nascita +"', '"+ tel +"', '"+ mail +"',"+ num +",'"+ cod +"')";
@@ -204,7 +211,7 @@ public class Dirigente extends Persona{
 				
 				sql = "create user "+ cf +" with password '"+ psw +"';\r\n" + 
 						"grant usage on schema public to "+ cf +";\r\n" + 
-						"grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente to "+ cf +";\r\n" + 
+						"grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, filiale to "+ cf +";\r\n" + 
 						"grant all on contiene to "+ cf +";\r\n" + 
 						"grant execute on all functions in schema public to "+ cf +";";
 				
@@ -273,8 +280,9 @@ public class Dirigente extends Persona{
 				
 				System.out.println("\n---- Inserimento di un nuovo fattorino ----");
 				
+				scan.nextLine();
 				System.out.print("Inserisci il codice fiscale: ");
-				String cf = scan.nextLine();
+				String cf = scan.nextLine().toUpperCase();
 				
 				System.out.print("Inserisci il nome: ");
 				String nome = scan.nextLine();
@@ -303,7 +311,6 @@ public class Dirigente extends Persona{
 				}
 				
 				System.out.print("Inserisci la password per il nuovo fattorino: ");
-				scan.nextLine();
 				String psw = scan.nextLine();
 				
 				sql = "create user "+ cf +" with password '"+ psw +"';\r\n" + 

@@ -144,6 +144,7 @@ public class Magazziniere extends Persona{
 			case 3:
 				
 				int q;
+				String cod;
 				int spa = this.getIdSpazio(stmt, scan, this.getCod(), this.getNum());
 				
 				System.out.println("Inserisci il codice del prodotto : ");
@@ -156,6 +157,7 @@ public class Magazziniere extends Persona{
 				}while(q < 1 );
 				
 				sql = "call insert_contiene("+spa+","+this.getNum()+",'"+this.getCod()+"','"+cod+"',"+q+");";
+				System.out.println(sql);
 				
 				try {
 					stmt.executeUpdate(sql);
