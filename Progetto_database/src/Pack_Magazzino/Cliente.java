@@ -93,6 +93,17 @@ public class Cliente extends Persona{
 			    sql = "select * from spedizione\n" + 
 			    		"where stato_consegna = 'In consegna'\n" + 
 			    		"     and cf_cli = '"+this.getCf()+"';";
+			    
+			    System.out.println("");
+				
+				try {
+					rs = stmt.executeQuery(sql);
+					System.out.println("Numero contratto | Inizio data | Fine data | Numero di spazi ");
+					this.display(rs, 4);
+				} catch (SQLException e) {
+					System.out.println("Errore di esecuzione query!");
+					//e.printStackTrace();
+				}
 				
 				
 				break;
