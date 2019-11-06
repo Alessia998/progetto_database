@@ -69,14 +69,24 @@ public class Cliente extends Persona{
 				
 				break;
 			case 4:
-				//da finire
+				//Contratti scaduti
 				sql = "select * from contratto\n" + 
 						"where data_fine < current_date\n" + 
 						"	  and cf_cli = '"+this.getCf()+"'";
 				
+				System.out.println("");
 				
+				try {
+					rs = stmt.executeQuery(sql);
+					System.out.println("Numero contratto | Inizio data | Fine data | Numero di spazi ");
+					this.display(rs, 4);
+				} catch (SQLException e) {
+					System.out.println("Errore di esecuzione query!");
+					//e.printStackTrace();
+				}
 				
-				
+				System.out.println("");
+	
 				break;
 			case 5:
 				//da finire
