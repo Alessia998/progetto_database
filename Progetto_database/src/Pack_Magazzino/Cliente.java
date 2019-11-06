@@ -1,8 +1,10 @@
 package Pack_Magazzino;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 
@@ -56,7 +58,7 @@ public class Cliente extends Persona{
 				}
 				break;
 	
-			case 3:
+			case 3://Niko sto lavorando errore: permesso negato su contiene
 				if(chiediSpedizione(stmt, scan) == 1)
 				{
 					System.out.println("Errore di inserimento spedizione!");
@@ -87,7 +89,6 @@ public class Cliente extends Persona{
 	
 				break;
 			case 5:
-				//da finire
 			    sql = "select * from spedizione\n" + 
 			    		"where stato_consegna = 'In consegna'\n" + 
 			    		"     and cf_cli = '"+this.getCf()+"';";
@@ -208,8 +209,10 @@ public class Cliente extends Persona{
 		private int chiediSpedizione(Statement stmt, Scanner scan)
 		{
 			scan.nextLine();
-			System.out.println("Inserisci la data di spedizione : ");
-			String data = scan.nextLine();
+			//System.out.println("Inserisci la data di spedizione : ");
+			SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+			Date date = new Date(System.currentTimeMillis());
+			String data = formatter.format(date).toString();
 			
 			sql = "select targa from veicolo ORDER BY random() limit 1;";
 			String targa = "";
@@ -244,7 +247,7 @@ public class Cliente extends Persona{
 			//codice_cli cliente this.getCf();
 			
 			String fattorino = "";
-			sql = "select fattorino from veicolo ORDER BY random() limit 1;";
+			sql = "select cf from fattorino ORDER BY random() limit 1;";
 			try {
 				rs = stmt.executeQuery(sql);
 				rs.next();
@@ -254,17 +257,26 @@ public class Cliente extends Persona{
 				return 1;
 			}
 			
-			System.out.println("Inserisci il codice del prodotto : ");
+			String cod = null;
+			System.out.println("Inserisci il codice del prodotto : ");//magari quel prodotto non possiedi
 			sql = "select codice from prodotto";
-			String cod = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
 			
+			try {
+				cod = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
+			}
+			catch (Exception e) {
+				return 1;
+			}
+			
+			int q;
 			System.out.println("Inserisci la quantità che si vuole mandare : ");
-			int q = scan.nextInt();
+			do {
+				q = scan.nextInt();
+			}while(q<1);
 			
 			//Calcolo filiale, magazzino e spazio
 			
-			//sto lavorando Niko
-			sql = " select spazio.cod, spazio.num, spazio.id_spazio from contratto co, spazio_contratto sc, spazio, contiene\n" + 
+			sql = " select spazio.cod, spazio.num, spazio.id_spazio, contiene.quantita from contratto co, spazio_contratto sc, spazio, contiene\n" + 
 					"		where co.num_c = sc.num_c and\n" + 
 					"	  sc.cod = spazio.cod and\n" + 
 					"	  sc.num = spazio.num and\n" + 
@@ -273,7 +285,8 @@ public class Cliente extends Persona{
 					"	  sc.num = contiene.num and\n" + 
 					"	  sc.id_spazio = contiene.id_spazio and\n" + 
 					"	  co.cf_cli = '"+this.getCf()+"' and \n" + 
-					"	  contiene.codice = '"+cod+"'";
+					"	  contiene.codice = '"+cod+"'\n"+
+					"	  order by quantita desc;";
 			
 			String fil = null;
 			int mag=0;

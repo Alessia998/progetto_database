@@ -19,8 +19,7 @@ public class Main {
 		String sql;
 		ResultSet rs= null;
 		String categoria = "";
-		
-		
+	
 		
 		db_name = "Progetto";
 		//db_name = args[0];
