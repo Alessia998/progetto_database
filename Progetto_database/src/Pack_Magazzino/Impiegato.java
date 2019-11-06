@@ -56,12 +56,12 @@ public class Impiegato extends Persona {
 
 	@Override
 	public void startOptions(Statement stmt) {
+		
 		String sql = null;
 		int k;
 		ResultSet rs = null;
-		String cod, nom, desc, fil, prod;
+		String cod = null, nom, desc, fil, prod;
 		int spa, mag, q;
-		//boolean check;
 		
 		printInfo(this.getCf(), stmt);
 		
@@ -164,6 +164,7 @@ public class Impiegato extends Persona {
 				}
 				break;
 			case 4:
+				String num_c = null;
 				scan.nextLine();
 				mag = this.getNumMagazzino(stmt, scan, this.getMySubsidiary(this.getCf(), stmt)); 
 				if(mag == 0) break;
@@ -171,8 +172,12 @@ public class Impiegato extends Persona {
 				if(id_spazio == 0) break;
 				sql = "select num_c from contratto";
 				System.out.println("Scegli il codice del contratto : ");
-				String num_c = this.chooseInfo(sql, stmt, scan, "contratto", "num_c").toString();
-				if(num_c == "") break;
+
+				try {
+				num_c = this.chooseInfo(sql, stmt, scan, "contratto", "num_c").toString();
+				}catch(Exception e) {
+					break;
+				}
 				
 				sql = "select assegna_spazio('"+this.getMySubsidiary(this.getCf(), stmt)+"','"+mag+"','"+id_spazio+"','"+num_c+"')";
 				try {
@@ -187,25 +192,55 @@ public class Impiegato extends Persona {
 				break;
 			case 5:
 				
-				//TODO : Da correggere
-				/*
-				 * 	Workflow :	* Chiedo Il Cliente
-				 * 				* Chiedo Magazzino e spazio (Relativi al cliente)
-				 * 				* Scelgo il codice prodotto
-				 * 				* Chiedo quantità
-				 * 				* Query :)
-				 * */
-				
+				System.out.println("Scelta del Cliente: ");
 				sql = "select cf_cli from cliente";
-				String cf_cli = this.chooseInfo(sql, stmt, scan, "cliente", "cf_cli").toString();
+				fil = this.getMySubsidiary(this.getCf(), stmt);
+				String cf_cli = "";
+
+				try {
+					cf_cli = this.chooseInfo(sql, stmt, scan, "cliente", "cf_cli").toString();
+				}catch(Exception e) {
+					break;
+				}
 				
+				sql = "select num\r\n" + 
+						"from spazio_contratto, contratto \r\n" + 
+						"where spazio_contratto.num_c = contratto.num_c \r\n" + 
+						"and contratto.cf_cli = '"+ cf_cli +"'\r\n" + 
+						"and spazio_contratto.cod = '"+ fil +"'\r\n" + 
+						"and data_fine >= current_date\r\n"
+						+ "group by num";
 				
-				/*fil = this.getMySubsidiary(this.getCf(), stmt);
-				mag = this.getNumMagazzino(stmt, scan, fil);
-				spa = this.getIdSpazio(stmt, scan, fil, mag);
-				System.out.println("Inserisci il codice del prodotto : ");
+				try {
+					System.out.println("Scelta del Magazzino: ");
+					mag = (Integer)this.chooseInfo(sql, stmt, scan, "magazzino", "num");
+				}catch(Exception e) {
+					break;
+				}
+				
+				sql = "select id_spazio\r\n" + 
+						"from spazio_contratto, contratto \r\n" + 
+						"where spazio_contratto.num_c = contratto.num_c \r\n" + 
+						"and contratto.cf_cli = '"+ cf_cli +"'\r\n" + 
+						"and spazio_contratto.cod = '"+ fil +"'\r\n" + 
+						"and num = "+ mag +"\r\n" +
+						"and data_fine >= current_date";
+				
+				try {
+					System.out.println("Scelta dello spazio: ");
+					spa = (Integer)this.chooseInfo(sql, stmt, scan, "spazio", "id_spazio");
+				}catch(Exception e){
+					break;
+				}
+				
 				sql = "select codice from prodotto";
-				cod = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
+				try {
+					System.out.println("Scelta del prodotto");
+					cod = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
+				}catch(Exception e) {
+					break;
+				}
+				
 				do {
 					System.out.println("Inserisci la quantità : ");
 					q = scan.nextInt();
@@ -221,7 +256,6 @@ public class Impiegato extends Persona {
 					e2.printStackTrace();
 				}
 				
-				*/
 				break;
 			case 6:
 				scan.nextLine();

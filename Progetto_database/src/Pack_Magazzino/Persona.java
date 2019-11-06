@@ -130,7 +130,7 @@ public abstract class Persona {
 		return null;
 	}
 	
-	public Object chooseInfo(String sql, Statement stmt, Scanner scan, String nomeTab, String nomeKey) {
+	public Object chooseInfo(String sql, Statement stmt, Scanner scan, String nomeTab, String nomeKey)/* throws Exception*/{
 		
 		//String sql = "select " + nomeKey + " from " + nomeTab;
 		ResultSet rs = null;
