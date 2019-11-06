@@ -24,11 +24,6 @@ public class Impiegato extends Persona {
 		super(u,"","");	
 	}
 	
-	public void creaContratto()
-	{
-		
-	}
-	
 	public String getData_nascita() {
 		return data_nascita;
 	}
@@ -191,7 +186,21 @@ public class Impiegato extends Persona {
 
 				break;
 			case 5:
-				fil = this.getMySubsidiary(this.getCf(), stmt);
+				
+				//TODO : Da correggere
+				/*
+				 * 	Workflow :	* Chiedo Il Cliente
+				 * 				* Chiedo Magazzino e spazio (Relativi al cliente)
+				 * 				* Scelgo il codice prodotto
+				 * 				* Chiedo quantità
+				 * 				* Query :)
+				 * */
+				
+				sql = "select cf_cli from cliente";
+				String cf_cli = this.chooseInfo(sql, stmt, scan, "cliente", "cf_cli").toString();
+				
+				
+				/*fil = this.getMySubsidiary(this.getCf(), stmt);
 				mag = this.getNumMagazzino(stmt, scan, fil);
 				spa = this.getIdSpazio(stmt, scan, fil, mag);
 				System.out.println("Inserisci il codice del prodotto : ");
@@ -212,7 +221,7 @@ public class Impiegato extends Persona {
 					e2.printStackTrace();
 				}
 				
-				
+				*/
 				break;
 			case 6:
 				scan.nextLine();
