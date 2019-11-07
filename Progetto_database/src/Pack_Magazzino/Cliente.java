@@ -5,6 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 
@@ -58,12 +61,16 @@ public class Cliente extends Persona{
 				}
 				break;
 	
-			case 3://Niko sto lavorando errore: permesso negato su contiene
-				if(chiediSpedizione(stmt, scan) == 1)
+			case 3://Niko sto lavorando 
+			
+				int stato = chiediSpedizione(stmt, scan);
+				if(stato == 1)
 				{
 					System.out.println("Errore di inserimento spedizione!");
 					break;
 				}
+				else if(stato == 2)
+					break;
 				System.out.println("L'ordine  di spedizione registrato correttamente!");
 				//stato_consegna In consegna viene messo in automatico
 				
@@ -205,7 +212,7 @@ public class Cliente extends Persona{
 		}
 		
 		
-		//return 0 = ok, return 1 = error;
+		//return 0 = ok, return 1 = error, 2 = uscita voluta;
 		private int chiediSpedizione(Statement stmt, Scanner scan)
 		{
 			scan.nextLine();
@@ -251,22 +258,38 @@ public class Cliente extends Persona{
 			try {
 				rs = stmt.executeQuery(sql);
 				rs.next();
-				targa = rs.getString(1);
+				fattorino = rs.getString(1);
 			} catch (SQLException e) {
 				System.out.println("Errore di selezione fattorino!");
 				return 1;
 			}
 			
 			String cod = null;
-			System.out.println("Inserisci il codice del prodotto : ");//magari quel prodotto non possiedi
-			sql = "select codice from prodotto";
+			int cont=1,scelta;
+			System.out.println("Inserisci indice del codice del prodotto (0 per uscire) : ");//magari quel prodotto non possiedi
+			for (String temp : this.getOwnedItems(stmt, this.getCf())) {
+				System.out.println(cont + ") "+temp);
+			}
 			
-			try {
-				cod = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
+			do {
+				System.out.print("Scelta : ");
+				scelta = scan.nextInt();
+			}while(scelta < 0);
+			
+			if(scelta == 0) return 2;
+			
+			cont=1;
+			for (String temp : this.getOwnedItems(stmt, this.getCf())) {
+				if(cont == scelta) cod = temp; 
 			}
-			catch (Exception e) {
-				return 1;
-			}
+			//sql = "select codice from prodotto";
+			//
+			//try {
+			//	cod = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
+			//}
+			//catch (Exception e) {
+			//	return 1;
+			//}
 			
 			int q;
 			System.out.println("Inserisci la quantità che si vuole mandare : ");
@@ -319,6 +342,39 @@ public class Cliente extends Persona{
 			}
 			
 			return 0;
+		}
+		
+		
+		//prende in input il codice fiscale del cliente e result set che contiene i suoi prodotti
+		//Nel caso di errore ritorna null
+		public Collection<String> getOwnedItems(Statement stmt, String cod_fis) 
+		{
+			Collection<String> list = new LinkedList<String>();
+			
+			String sql = "select prodotto.codice from contratto, spazio_contratto sp_co, spazio, contiene, prodotto\n" + 
+					"	where cf_cli = '"+ cod_fis +"' and\n" + 
+					"	sp_co.num_c = contratto.num_c and\n" + 
+					"	spazio.cod = sp_co.cod and\n" + 
+					"	spazio.num = sp_co.num and\n" + 
+					"	spazio.id_spazio = sp_co.id_spazio and\n" + 
+					"	spazio.cod = contiene.cod and\n" + 
+					"	spazio.num = contiene.num and\n" + 
+					"	spazio.id_spazio = contiene.id_spazio and\n" + 
+					"	contiene.codice = prodotto.codice;";
+			
+			ResultSet rs = null;
+			
+			try {
+				rs = stmt.executeQuery(sql);
+				while(rs.next())
+				{
+					list.add(rs.getString(1));
+				}
+			} catch (SQLException e) {
+				return null;
+			}
+
+			return list;
 		}
 	
 }

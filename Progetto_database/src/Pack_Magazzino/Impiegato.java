@@ -97,8 +97,8 @@ public class Impiegato extends Persona {
 				}	
 				sql = "create user "+cli.getCf()+" with password '"+pass+"';\r\n" + 
 						"grant usage on schema public to "+cli.getCf()+" with grant option;\r\n" + 
-						"grant select on contratto, prodotto, spazio_contratto, contiene, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user, veicolo, magazzino, filiale, spazio to "+cli.getCf()+" with grant option;\r\n" + 
-						"grant all on spedizione, prod_sped, my_seq1 to "+cli.getCf()+" with grant option;\r\n" + 
+						"grant select on contratto, prodotto, spazio_contratto, dirigente, custode, impiegato, fattorino, cliente, magazziniere, pg_user, veicolo, magazzino, filiale, spazio to "+cli.getCf()+" with grant option;\r\n" + 
+						"grant all on spedizione, prod_sped, my_seq1, contiene to "+cli.getCf()+" with grant option;\r\n" + 
 						"grant execute on all functions in schema public to "+cli.getCf()+" with grant option;";
 				
 				try {
@@ -240,6 +240,7 @@ public class Impiegato extends Persona {
 				}catch(Exception e) {
 					break;
 				}
+				
 				
 				do {
 					System.out.println("Inserisci la quantità : ");
