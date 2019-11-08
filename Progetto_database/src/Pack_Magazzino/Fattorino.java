@@ -152,8 +152,8 @@ public class Fattorino extends Persona{
 					}
 					break;
 					
-				case 5:
-					
+				case 5://errore
+					System.out.println("Scegli l'indice del numero spedizione :");
 					sql = "select num_sped from spedizione where stato_consegna = 'In consegna' and cf = '"+ this.getCf() +"'";
 					Integer res = (Integer)chooseInfo(sql,stmt,scan,"spedizione","num_sped");
 					
@@ -174,8 +174,7 @@ public class Fattorino extends Persona{
 					
 					
 					break;
-				case 6:
-					
+				case 6:	//errore
 					sql = "select num_sped from trasferimenti where stato_consegna = 'In consegna' and cf = '"+ this.getCf() +"'";
 					Integer t_res = (Integer)chooseInfo(sql,stmt,scan,"trasferimenti","num_sped");
 					

@@ -3,7 +3,7 @@ package Pack_Magazzino;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Scanner;
+import java.util.*;
 
 
 import Pack_Magazzino.Persona;
@@ -218,6 +218,8 @@ public class Impiegato extends Persona {
 					break;
 				}
 				
+				
+				List<Integer> spazi = new ArrayList<Integer>();
 				sql = "select id_spazio\r\n" + 
 						"from spazio_contratto, contratto \r\n" + 
 						"where spazio_contratto.num_c = contratto.num_c \r\n" + 
@@ -226,12 +228,30 @@ public class Impiegato extends Persona {
 						"and num = "+ mag +"\r\n" +
 						"and data_fine >= current_date";
 				
+				System.out.println("Scelta dello spazio (0 per uscire): ");
 				try {
-					System.out.println("Scelta dello spazio: ");
-					spa = (Integer)this.chooseInfo(sql, stmt, scan, "spazio", "id_spazio");
+					
+					//spa = (Integer)this.chooseInfo(sql, stmt, scan, "spazio", "id_spazio"); Non più elegante
+					int i=1;
+					rs = stmt.executeQuery(sql);
+					while(rs.next())
+					{
+						spazi.add(rs.getInt(1));
+						System.out.println(i++ + ") " + spazi.get(spazi.size() - 1));
+					}				
 				}catch(Exception e){
 					break;
 				}
+				
+				int scelta;
+				System.out.println("Scelta : ");
+				do {
+					scelta = scan.nextInt();
+				}while(scelta < 0 || scelta > spazi.size());
+				
+				if(scelta == 0) break;
+				
+				spa = spazi.get(scelta - 1);
 				
 				sql = "select codice from prodotto";
 				try {
@@ -239,8 +259,7 @@ public class Impiegato extends Persona {
 					cod = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
 				}catch(Exception e) {
 					break;
-				}
-				
+				}				
 				
 				do {
 					System.out.println("Inserisci la quantità : ");

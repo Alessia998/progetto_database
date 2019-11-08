@@ -7,7 +7,6 @@ import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Collection;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Scanner;
 
 
@@ -96,16 +95,17 @@ public class Cliente extends Persona{
 	
 				break;
 			case 5:
-			    sql = "select * from spedizione\n" + 
-			    		"where stato_consegna = 'In consegna'\n" + 
+			    sql = "select sp.num_sped, sp.data_sp, paese, citta, via, numero, tel, codice, quantita, cf from spedizione as sp, prod_sped as ps\n" + 
+			    		"where sp.num_sped = ps.num_sped\n" + 
+			    		"and stato_consegna = 'Consegnato'\n" + 
 			    		"     and cf_cli = '"+this.getCf()+"';";
 			    
 			    System.out.println("");
 				
 				try {
 					rs = stmt.executeQuery(sql);
-					System.out.println("Numero contratto | Inizio data | Fine data | Numero di spazi ");
-					this.display(rs, 4);
+					System.out.println("Numero spedizione | Data spedizione | Paese | Città | Numero civico | Tel | Codice Prodotto | Quantità | CF corriere ");
+					this.display(rs, rs.getMetaData().getColumnCount());
 				} catch (SQLException e) {
 					System.out.println("Errore di esecuzione query!");
 					//e.printStackTrace();
@@ -114,10 +114,19 @@ public class Cliente extends Persona{
 				
 				break;
 			case 6:
-				//da finire 
-				sql = "select * from spedizione\n" + 
-						"where stato_consegna = 'Consegnato'\n" + 
+				sql = "select sp.num_sped, sp.data_sp, paese, citta, via, numero, tel, codice, quantita, cf from spedizione as sp, prod_sped as ps\n" + 
+						"where sp.num_sped = ps.num_sped\n" + 
+						"and stato_consegna = 'In consegna'\n" + 
 						"     and cf_cli = '"+this.getCf()+"';";
+
+				try {
+					rs = stmt.executeQuery(sql);
+					System.out.println("Numero spedizione | Data spedizione | Paese | Città | Numero civico | Tel | Codice Prodotto | Quantità | CF corriere");
+					this.display(rs, rs.getMetaData().getColumnCount());
+				} catch (SQLException e) {
+					System.out.println("Errore di esecuzione query!");
+					//e.printStackTrace();
+				}
 				
 				break;
 			default:
@@ -266,7 +275,7 @@ public class Cliente extends Persona{
 			
 			String cod = null;
 			int cont=1,scelta;
-			System.out.println("Inserisci indice del codice del prodotto (0 per uscire) : ");//magari quel prodotto non possiedi
+			System.out.println("Inserisci indice del codice del prodotto (0 per uscire) : ");// serve anche quantità
 			for (String temp : this.getOwnedItems(stmt, this.getCf())) {
 				System.out.println(cont + ") "+temp);
 			}
@@ -282,14 +291,6 @@ public class Cliente extends Persona{
 			for (String temp : this.getOwnedItems(stmt, this.getCf())) {
 				if(cont == scelta) cod = temp; 
 			}
-			//sql = "select codice from prodotto";
-			//
-			//try {
-			//	cod = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
-			//}
-			//catch (Exception e) {
-			//	return 1;
-			//}
 			
 			int q;
 			System.out.println("Inserisci la quantità che si vuole mandare : ");
@@ -345,7 +346,7 @@ public class Cliente extends Persona{
 		}
 		
 		
-		//prende in input il codice fiscale del cliente e result set che contiene i suoi prodotti
+		//prende in input il codice fiscale del cliente e ritorna Collection set che contiene i suoi prodotti
 		//Nel caso di errore ritorna null
 		public Collection<String> getOwnedItems(Statement stmt, String cod_fis) 
 		{
