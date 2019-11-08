@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Scanner;
@@ -246,6 +247,7 @@ public class Cliente extends Persona{
 			
 			System.out.println("Inserisci il paese di destinazione : ");
 			infolist[0] = scan.nextLine();
+
 			if(infolist[0] == "" ) infolist[0] = "Italia";
 			
 			System.out.println("Inserisci la città : ");
@@ -274,10 +276,12 @@ public class Cliente extends Persona{
 			}
 			
 			String cod = null;
-			int cont=1,scelta;
+			int cont=0,scelta;
 			System.out.println("Inserisci indice del codice del prodotto (0 per uscire) : ");// serve anche quantità
-			for (String temp : this.getOwnedItems(stmt, this.getCf())) {
-				System.out.println(cont + ") "+temp);
+			ArrayList <Cod_quan> iter = this.getOwnedItems(stmt, this.getCf());
+			
+			for (Cod_quan temp : iter) {
+				System.out.println(++cont + ") "+temp.codice_prodotto + " Quantità : " + temp.quantita);
 			}
 			
 			do {
@@ -287,9 +291,9 @@ public class Cliente extends Persona{
 			
 			if(scelta == 0) return 2;
 			
-			cont=1;
-			for (String temp : this.getOwnedItems(stmt, this.getCf())) {
-				if(cont == scelta) cod = temp; 
+			//cont=1;
+			for (Cod_quan temp : iter) {
+				if(cont == scelta) cod = temp.codice_prodotto; 
 			}
 			
 			int q;
@@ -309,8 +313,8 @@ public class Cliente extends Persona{
 					"	  sc.num = contiene.num and\n" + 
 					"	  sc.id_spazio = contiene.id_spazio and\n" + 
 					"	  co.cf_cli = '"+this.getCf()+"' and \n" + 
-					"	  contiene.codice = '"+cod+"'\n"+
-					"	  order by quantita desc;";
+					"	  contiene.codice = '"+cod+"'\n";//+
+					//"	  order by quantita desc;";
 			
 			String fil = null;
 			int mag=0;
@@ -338,7 +342,7 @@ public class Cliente extends Persona{
 				stmt.execute(sql);
 			} catch (SQLException e) {
 				System.out.println("Errore di inserimento spedizione nel DB!");
-				e.printStackTrace();
+				e.getMessage();
 				return 1;
 			}
 			
@@ -346,13 +350,13 @@ public class Cliente extends Persona{
 		}
 		
 		
-		//prende in input il codice fiscale del cliente e ritorna Collection set che contiene i suoi prodotti
+		//prende in input il codice fiscale del cliente e ritorna ArrayList set che contiene i suoi prodotti
 		//Nel caso di errore ritorna null
-		public Collection<String> getOwnedItems(Statement stmt, String cod_fis) 
+		public ArrayList<Cod_quan> getOwnedItems(Statement stmt, String cod_fis) 
 		{
-			Collection<String> list = new LinkedList<String>();
+			ArrayList<Cod_quan> list = new ArrayList<Cod_quan>();
 			
-			String sql = "select prodotto.codice from contratto, spazio_contratto sp_co, spazio, contiene, prodotto\n" + 
+			String sql = "select prodotto.codice, contiene.quantita from contratto, spazio_contratto sp_co, spazio, contiene, prodotto\n" + 
 					"	where cf_cli = '"+ cod_fis +"' and\n" + 
 					"	sp_co.num_c = contratto.num_c and\n" + 
 					"	spazio.cod = sp_co.cod and\n" + 
@@ -369,13 +373,25 @@ public class Cliente extends Persona{
 				rs = stmt.executeQuery(sql);
 				while(rs.next())
 				{
-					list.add(rs.getString(1));
+					list.add(new Cod_quan(rs.getString(1),rs.getInt(2)));
 				}
 			} catch (SQLException e) {
 				return null;
 			}
 
 			return list;
+		}
+		
+		class Cod_quan{
+			String codice_prodotto;
+			int quantita;
+			
+			public Cod_quan(String s, int q)
+			{
+				codice_prodotto = s;
+				quantita = q;
+			}
+			
 		}
 	
 }
