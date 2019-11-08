@@ -567,7 +567,7 @@ BEGIN
 		  contiene.cod = $3 and contiene.codice = $4;
 	if not found --non questo tipo di prodotto in questo spazio
 		then
-			--inserisco 
+			--inserisco
 			insert into contiene values($1,$2,$3,$4,$5);
 			commit;
 			return;
@@ -582,3 +582,17 @@ BEGIN
     COMMIT;
 END;
 $$;
+
+--useful code
+--prodotti posseduti da un cliente
+/*select prodotto.codice from contratto, spazio_contratto sp_co, spazio, contiene, prodotto
+	where cf_cli = '<cf_cli>' and
+	sp_co.num_c = contratto.num_c and
+	spazio.cod = sp_co.cod and
+	spazio.num = sp_co.num and
+	spazio.id_spazio = sp_co.id_spazio and
+	spazio.cod = contiene.cod and
+	spazio.num = contiene.num and
+	spazio.id_spazio = contiene.id_spazio and
+	contiene.codice = prodotto.codice;
+*/
