@@ -276,12 +276,12 @@ public class Cliente extends Persona{
 			}
 			
 			String cod = null;
-			int cont=0,scelta;
+			int cont=1,scelta;
 			System.out.println("Inserisci indice del codice del prodotto (0 per uscire) : ");// serve anche quantità
 			ArrayList <Cod_quan> iter = this.getOwnedItems(stmt, this.getCf());
 			
 			for (Cod_quan temp : iter) {
-				System.out.println(++cont + ") "+temp.codice_prodotto + " Quantità : " + temp.quantita);
+				System.out.println(cont++ + ") "+temp.codice_prodotto + " Quantità : " + temp.quantita);
 			}
 			
 			do {
@@ -292,6 +292,7 @@ public class Cliente extends Persona{
 			if(scelta == 0) return 2;
 			
 			//cont=1;
+			System.out.println("cont = " + cont + " scelta = "+ scelta);//bug
 			for (Cod_quan temp : iter) {
 				if(cont == scelta) cod = temp.codice_prodotto; 
 			}
