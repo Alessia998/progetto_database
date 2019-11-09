@@ -155,7 +155,11 @@ public class Fattorino extends Persona{
 				case 5://errore
 					System.out.println("Scegli l'indice del numero spedizione :");
 					sql = "select num_sped from spedizione where stato_consegna = 'In consegna' and cf = '"+ this.getCf() +"'";
-					Integer res = (Integer)chooseInfo(sql,stmt,scan,"spedizione","num_sped");
+					
+					
+					Integer res = (Integer) this.chooseInfo(sql,stmt,scan,"spedizione","num_sped");
+					
+					System.out.println("Res: " + res);
 					
 					if(res != null)
 					{
@@ -199,6 +203,59 @@ public class Fattorino extends Persona{
 		}while(scelta > 0 && scelta < 7);
 
 		
+		
+	}
+	
+	public Object chooseInfo(String sql, Statement stmt, Scanner scan, String nomeTab, String nomeKey) {
+		
+		ResultSet rs = null;
+		int i = 1, k;
+		
+		try {
+			rs = stmt.executeQuery(sql);
+		} catch (SQLException e) {
+			System.out.println("Dati Sbagliati!");
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+		try {
+			System.out.println(" ---- OPZIONI ----");
+			while(rs.next()){
+				System.out.println(i + ") " + rs.getObject(nomeKey));
+				i ++;
+			}
+		} catch (SQLException e) {
+			System.out.println("SQL result error!");
+			e.printStackTrace();
+			return null;
+		}
+		
+		do {
+			System.out.print("Inserire indice dell'elenco (0 per uscire) :");
+			k = scan.nextInt();
+		}while(k<0 || k>i-1);
+		
+		if(k == 0)
+			return null;
+		
+		sql += " limit "+k+" offset "+(k-1)+";";
+		
+		System.out.println(sql);
+		
+		try {
+			rs = stmt.executeQuery(sql);
+			if(rs.next())
+				return rs.getObject(nomeKey);
+	
+		} catch (SQLException e) {
+			System.out.println("SQL result error!");
+			e.printStackTrace();
+		}	
+		
+		
+		return null;
 		
 	}
 }

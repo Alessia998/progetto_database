@@ -134,7 +134,7 @@ public abstract class Persona {
 		
 		//String sql = "select " + nomeKey + " from " + nomeTab;
 		ResultSet rs = null;
-		int i=1,k;
+		int i = 1, k;
 		
 		try {
 			rs = stmt.executeQuery(sql);
