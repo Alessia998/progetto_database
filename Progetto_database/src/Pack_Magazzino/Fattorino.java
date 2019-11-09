@@ -66,7 +66,7 @@ public class Fattorino extends Persona{
 				case 0:
 					break;
 				case 1:
-					sql = "select * from spedizione where stato_consegna = 'Consegnata'";
+					sql = "select * from spedizione where stato_consegna = 'Consegnato'";
 					try {
 						rs = stmt.executeQuery(sql);
 						while(rs.next()) 

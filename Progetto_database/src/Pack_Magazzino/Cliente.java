@@ -61,7 +61,7 @@ public class Cliente extends Persona{
 				}
 				break;
 	
-			case 3://Niko sto lavorando 
+			case 3:
 			
 				int stato = chiediSpedizione(stmt, scan);
 				if(stato == 1)
@@ -295,7 +295,6 @@ public class Cliente extends Persona{
 			
 			cont=0;
 			int temp_quantita = 0;
-			System.out.println("cont = " + cont + " scelta = "+ scelta);//bug, da eliminare
 			for (Cod_quan temp : iter) {
 				cont+=1;
 				if(cont == scelta) 
@@ -304,7 +303,6 @@ public class Cliente extends Persona{
 					temp_quantita = temp.quantita;
 					}
 			}
-			System.out.println("cod è " + cod);//da eliminare
 			
 			int q;
 			System.out.println("Inserisci la quantità che si vuole mandare : ");
@@ -326,7 +324,12 @@ public class Cliente extends Persona{
 					"	  contiene.codice = '"+cod+"' and \n" +
 					"	  quantita = "+temp_quantita+";";
 			
-			System.out.println("Quantità scelta è " + temp_quantita);//da eliminare
+			if(q > temp_quantita)
+			{
+				System.out.println("Nello spazio sono presenti " + temp_quantita + " prodotti. Quindi non è possibile mandarne "+ q);
+				return 1;
+			}
+				
 			
 			String fil = null;
 			int mag=0;
@@ -348,13 +351,11 @@ public class Cliente extends Persona{
 			}
 			
 			sql = "select spedisci('"+fattorino+"','"+data+"','"+targa+"','"+infolist[0]+"','"+infolist[1]+"','"+infolist[2]+"','"+infolist[3]+"','"+infolist[4]+"','"+this.getCf()+"',"+q+",'"+cod+"','"+fil+"',"+mag+","+spa+")";
-			System.out.println(sql);
 			
 			try {
 				stmt.execute(sql);
 			} catch (SQLException e) {
 				System.out.println("Errore di inserimento spedizione nel DB!");
-				e.printStackTrace();
 				e.getMessage();
 				return 1;
 			}
