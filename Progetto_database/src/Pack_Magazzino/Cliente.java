@@ -276,13 +276,15 @@ public class Cliente extends Persona{
 			}
 			
 			String cod = null;
-			int cont=1,scelta;
+			int cont=0,scelta;
 			System.out.println("Inserisci indice del codice del prodotto (0 per uscire) : ");// serve anche quantità
 			ArrayList <Cod_quan> iter = this.getOwnedItems(stmt, this.getCf());
 			
 			for (Cod_quan temp : iter) {
-				System.out.println(cont++ + ") "+temp.codice_prodotto + " Quantità : " + temp.quantita);
+				System.out.println(++cont + ") "+temp.codice_prodotto + " Quantità : " + temp.quantita);
 			}
+			//cont--;
+			System.out.println("cont adesso è : " + cont);
 			
 			do {
 				System.out.print("Scelta : ");
@@ -291,11 +293,18 @@ public class Cliente extends Persona{
 			
 			if(scelta == 0) return 2;
 			
-			//cont=1;
-			System.out.println("cont = " + cont + " scelta = "+ scelta);//bug
+			cont=0;
+			int temp_quantita = 0;
+			System.out.println("cont = " + cont + " scelta = "+ scelta);//bug, da eliminare
 			for (Cod_quan temp : iter) {
-				if(cont == scelta) cod = temp.codice_prodotto; 
+				cont+=1;
+				if(cont == scelta) 
+					{
+					cod = temp.codice_prodotto; 
+					temp_quantita = temp.quantita;
+					}
 			}
+			System.out.println("cod è " + cod);//da eliminare
 			
 			int q;
 			System.out.println("Inserisci la quantità che si vuole mandare : ");
@@ -314,8 +323,10 @@ public class Cliente extends Persona{
 					"	  sc.num = contiene.num and\n" + 
 					"	  sc.id_spazio = contiene.id_spazio and\n" + 
 					"	  co.cf_cli = '"+this.getCf()+"' and \n" + 
-					"	  contiene.codice = '"+cod+"'\n";//+
-					//"	  order by quantita desc;";
+					"	  contiene.codice = '"+cod+"' and \n" +
+					"	  quantita = "+temp_quantita+";";
+			
+			System.out.println("Quantità scelta è " + temp_quantita);//da eliminare
 			
 			String fil = null;
 			int mag=0;
@@ -343,6 +354,7 @@ public class Cliente extends Persona{
 				stmt.execute(sql);
 			} catch (SQLException e) {
 				System.out.println("Errore di inserimento spedizione nel DB!");
+				e.printStackTrace();
 				e.getMessage();
 				return 1;
 			}
