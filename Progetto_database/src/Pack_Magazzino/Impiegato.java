@@ -191,7 +191,7 @@ public class Impiegato extends Persona {
 
 				break;
 			case 5:
-				
+				//194-238 righe da fixare
 				System.out.println("Scelta del Cliente: ");
 				sql = "select cf_cli from cliente";
 				fil = this.getMySubsidiary(this.getCf(), stmt);
@@ -203,6 +203,8 @@ public class Impiegato extends Persona {
 					break;
 				}
 				
+				int scelta;
+				/*List<Integer> magazzini = new ArrayList<Integer>();
 				sql = "select num\r\n" + 
 						"from spazio_contratto, contratto \r\n" + 
 						"where spazio_contratto.num_c = contratto.num_c \r\n" + 
@@ -211,9 +213,33 @@ public class Impiegato extends Persona {
 						"and data_fine >= current_date\r\n"
 						+ "group by num";
 				
+				System.out.println("Scelta del magazzino (0 per uscire): ");
+				try {
+					
+					int i=1;
+					rs = stmt.executeQuery(sql);
+					while(rs.next())
+					{
+						magazzini.add(rs.getInt(1));
+						System.out.println(i++ + ") " + magazzini.get(magazzini.size() - 1));
+					}				
+				}catch(Exception e){
+					break;
+				}
+				
+				
+				System.out.println("Scelta : ");
+				do {
+					scelta = scan.nextInt();
+				}while(scelta < 0 || scelta > magazzini.size());
+				
+				if(scelta == 0) break;
+				
+				mag = magazzini.get(scelta - 1);*/
+				
 				try {
 					System.out.println("Scelta del Magazzino: ");
-					mag = (Integer)this.chooseInfo(sql, stmt, scan, "magazzino", "num");
+					mag = (Integer)this.chooseInfo(sql, stmt, scan, "magazzino", "num"); //non funziona
 				}catch(Exception e) {
 					break;
 				}
@@ -231,7 +257,6 @@ public class Impiegato extends Persona {
 				System.out.println("Scelta dello spazio (0 per uscire): ");
 				try {
 					
-					//spa = (Integer)this.chooseInfo(sql, stmt, scan, "spazio", "id_spazio"); Non più elegante
 					int i=1;
 					rs = stmt.executeQuery(sql);
 					while(rs.next())
@@ -243,7 +268,7 @@ public class Impiegato extends Persona {
 					break;
 				}
 				
-				int scelta;
+
 				System.out.println("Scelta : ");
 				do {
 					scelta = scan.nextInt();
@@ -506,6 +531,8 @@ public class Impiegato extends Persona {
 		}
 		return null;
 	}
+	
+
 	
 }
 		

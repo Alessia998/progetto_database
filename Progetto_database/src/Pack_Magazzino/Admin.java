@@ -117,20 +117,7 @@ public class Admin extends Persona{
 					
 					System.out.println("Scegli il dirigente da associare alla nuova filiale.");
 					sql = "select cf from dirigente";
-					
-					/*try 
-					{
-						res = stmt.executeQuery(sql);
-						for (int i = 0; res.next(); i++) 
-							System.out.println((i+1) + ") " + res.getString(1));
-						
-					} catch (SQLException e) {
-						System.err.println("Errore di query al DB!");
-						e.printStackTrace();
-					}
-						
-					System.out.print("Inserisci codifce fiscale: ");
-					String cf = scan.nextLine();*/
+
 					String cf = this.chooseInfo(sql, stmt, scan, "dirigente", "cf").toString();
 					
 					sql = "insert into filiale values ('"+ cod +"','"+ nome +"','"+

@@ -141,7 +141,7 @@ public class Magazziniere extends Persona{
 				
 				break;
 
-			case 3:
+			case 3://vorrei togliere
 				
 				int q;
 				String cod;
