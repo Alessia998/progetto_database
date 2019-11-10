@@ -211,7 +211,7 @@ public class Dirigente extends Persona{
 				
 				sql = "create user "+ cf +" with password '"+ psw +"';\r\n" + 
 						"grant usage on schema public to "+ cf +";\r\n" + 
-						"grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, filiale to "+ cf +";\r\n" + 
+						"grant select on magazziniere, magazzino, spazio, prodotto, dirigente, custode, impiegato, fattorino, cliente, filiale, spazio_contratto to "+ cf +";\r\n" + 
 						"grant all on contiene to "+ cf +";\r\n" + 
 						"grant execute on all functions in schema public to "+ cf +";";
 				

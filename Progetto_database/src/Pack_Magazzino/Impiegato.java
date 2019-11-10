@@ -204,7 +204,7 @@ public class Impiegato extends Persona {
 				}
 				
 				int scelta;
-				/*List<Integer> magazzini = new ArrayList<Integer>();
+				List<Integer> magazzini = new ArrayList<Integer>();
 				sql = "select num\r\n" + 
 						"from spazio_contratto, contratto \r\n" + 
 						"where spazio_contratto.num_c = contratto.num_c \r\n" + 
@@ -212,6 +212,8 @@ public class Impiegato extends Persona {
 						"and spazio_contratto.cod = '"+ fil +"'\r\n" + 
 						"and data_fine >= current_date\r\n"
 						+ "group by num";
+				
+				System.out.println(sql);
 				
 				System.out.println("Scelta del magazzino (0 per uscire): ");
 				try {
@@ -235,14 +237,16 @@ public class Impiegato extends Persona {
 				
 				if(scelta == 0) break;
 				
-				mag = magazzini.get(scelta - 1);*/
+				mag = magazzini.get(scelta - 1);
 				
-				try {
+				System.out.println("Magazzino è " + mag);//to delete
+				
+				/*try {
 					System.out.println("Scelta del Magazzino: ");
 					mag = (Integer)this.chooseInfo(sql, stmt, scan, "magazzino", "num"); //non funziona
 				}catch(Exception e) {
 					break;
-				}
+				}*/
 				
 				
 				List<Integer> spazi = new ArrayList<Integer>();

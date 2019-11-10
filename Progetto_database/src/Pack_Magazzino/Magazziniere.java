@@ -147,6 +147,28 @@ public class Magazziniere extends Persona{
 				String cod;
 				int spa = this.getIdSpazio(stmt, scan, this.getCod(), this.getNum());
 				
+				//controllo se lo spazio appartiene a qulcuno
+				sql = "select sc.id_spazio, sc.num, sc.cod from spazio_contratto sc, spazio\r\n" + 
+						"where sc.cod = spazio.cod and\r\n" + 
+						"	sc.num  = spazio.num and\r\n" + 
+						"	sc.id_spazio = spazio.id_spazio and\r\n" + 
+						"	sc.cod = '"+this.getCod()+"' and\r\n" + 
+						"	sc.num  = "+this.getNum()+" and\r\n" + 
+						"	sc.id_spazio = "+spa+";";
+				
+				try {
+					rs = stmt.executeQuery(sql);
+					if(!rs.next()) 
+					{
+						System.out.println("Stai provando di inserire in uno spazio che non appartiene a nessuno!");
+						System.out.println("Operazione annullata!");
+						break;
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
 				System.out.println("Inserisci il codice del prodotto : ");
 				sql = "select codice from prodotto";
 				cod = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
@@ -157,7 +179,6 @@ public class Magazziniere extends Persona{
 				}while(q < 1 );
 				
 				sql = "call insert_contiene("+spa+","+this.getNum()+",'"+this.getCod()+"','"+cod+"',"+q+");";
-				System.out.println(sql);
 				
 				try {
 					stmt.executeUpdate(sql);
