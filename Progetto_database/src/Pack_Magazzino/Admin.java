@@ -30,6 +30,7 @@ public class Admin extends Persona{
 
 		do {
 			
+			System.out.println("\n");
 			System.out.println("Opzioni a disposizione: ");
 			System.out.println("1) Inserisci un nuovo dirigente");
 			System.out.println("2) Inserisci una nuova filiale");
@@ -37,6 +38,7 @@ public class Admin extends Persona{
 			System.out.println("4) Stampa tutte le filiali");
 			System.out.println("5) Elimina un dirigente (solo se non gestisce nessuna filiale)");
 			System.out.println("0) Exit");
+			System.out.println("\n");
 			System.out.print("Scelta : ");
 			
 			scan = new Scanner(System.in);
@@ -73,8 +75,8 @@ public class Admin extends Persona{
 					try {
 						stmt.execute(sql);
 					} catch (SQLException e) {
-						System.err.println("Formato dati incoretto!... )");
-						e.printStackTrace();
+						System.err.println("Formato dati incoretto oppure il dirigente esiste già!... )");
+						this.printHint();
 						scan.close();
 						return;	
 					}
@@ -178,7 +180,7 @@ public class Admin extends Persona{
 					int result = 0;
 					System.out.println("Iserisci il codice fiscale dirigente da eliminare :");
 					scan.nextLine();
-					String nome = scan.nextLine();
+					String nome = scan.nextLine().toUpperCase();
 					sql = "delete from dirigente\n" + 
 							"where cf =\n" + 
 							"(select res.cf from (select d.cf from dirigente d\n" + 
@@ -203,14 +205,13 @@ public class Admin extends Persona{
 						try {
 							stmt.execute(sql);
 							System.out.println("Dirigente rimosso correttamente!");
-							stmt.close();
 						} catch (SQLException e) {
 							System.err.println("Non si riesece a rimuovere l'utente da pgadmin!");
 						}			
 					}
 					else
 					{
-						System.out.println("Dirigente non esiste oppure non lo si puï¿½ rimuovere");
+						System.out.println("Dirigente non esiste oppure non lo si puo' rimuovere!");
 					}
 					break;
 				default:

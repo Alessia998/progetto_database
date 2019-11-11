@@ -239,15 +239,6 @@ public class Impiegato extends Persona {
 				
 				mag = magazzini.get(scelta - 1);
 				
-				System.out.println("Magazzino è " + mag);//to delete
-				
-				/*try {
-					System.out.println("Scelta del Magazzino: ");
-					mag = (Integer)this.chooseInfo(sql, stmt, scan, "magazzino", "num"); //non funziona
-				}catch(Exception e) {
-					break;
-				}*/
-				
 				
 				List<Integer> spazi = new ArrayList<Integer>();
 				sql = "select id_spazio\r\n" + 
@@ -310,8 +301,14 @@ public class Impiegato extends Persona {
 				scan.nextLine();
 				System.out.println("Scegli il codice fiscale del cliente : ");
 				sql = "select cf_cli from cliente;";
-				String cf = this.chooseInfo(sql, stmt, scan, "cliente", "cf_cli").toString();	
-				if(cf == null) break;
+				
+				String cf;
+				try {
+					cf = this.chooseInfo(sql, stmt, scan, "cliente", "cf_cli").toString();
+				} catch (Exception e) {
+					break;
+				}
+				
 				scan.nextLine();
 				System.out.println("Inserisci la data di trasferimento (aaaa-mm-gg): ");
 				String data = scan.nextLine();
@@ -319,31 +316,47 @@ public class Impiegato extends Persona {
 				if(cf_fat == null) break;
 				System.out.println("Inserisci la targa del veicolo : ");
 				sql = "select targa from veicolo;";
-				String targa = this.chooseInfo(sql, stmt, scan, "veicolo", "targa").toString();
+				
+				String targa;
+				try {
+					targa = this.chooseInfo(sql, stmt, scan, "veicolo", "targa").toString();
+				} catch (Exception e) {
+					break;
+				}
+
+				scan.nextLine();
 				System.out.println("Inserisci il paese di destinazione (predefinito: Italia) : ");
 				String paese = scan.nextLine();
 				System.out.println("Inserisci il codice prodotto che si vuole mandare : ");
 				sql = "select codice from prodotto;";
-				String cProd = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
+				
+				String cProd;
+				try {
+					cProd = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
+				} catch (Exception e) {
+					break;
+				}
+				
 				System.out.println("Insersci la quantità che deve essere trasferita :"); 
 				q = scan.nextInt();
-				System.out.println("Scegli filiale di partenza : ");
+				scan.nextLine();
+				System.out.println("Scegli filiale di partenza. ");
 				String c1 = this.getCodFiliale(stmt, scan);
-				System.out.println("Scegli magazzino di partenza : ");
+				System.out.println("Scegli magazzino di partenza. ");
 				int n1 = this.getNumMagazzino(stmt, scan, c1); 
-				System.out.println("Scegli filiale di arrivo : ");
+				System.out.println("Scegli filiale di arrivo. ");
 				String c2 = this.getCodFiliale(stmt, scan);
-				System.out.println("Scegli magazzino di arrivo : ");
+				System.out.println("Scegli magazzino di arrivo. ");
 				int n2 = this.getNumMagazzino(stmt, scan, c2);
 				sql = "select trasferisci('"+cf+"','"+data+"','"+cf_fat+"','"+targa+"','"+
 				      paese+"','"+n1+"','"+c1+"','"+n2+"','"+c2+"','"+cProd+"','"+q+"');";
-				System.out.println(sql);
+
 				try {
 					stmt.execute(sql);
 					System.out.println("Il trasferimento è stato registrato");
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
-					e1.printStackTrace();			
+					System.err.println(e1.getMessage());			
 				}
 				break;
 			case 7:
@@ -387,7 +400,7 @@ public class Impiegato extends Persona {
 					e.printStackTrace();
 				}
 				System.out.println("Numero trasferimento | Data sped. | CF fattorino | Veicolo | Stato consegna | Fil, Mag partenza | F , M arrivo");
-				this.display(rs, 8);
+				this.display(rs, 9);
 				break;
 			case 11:
 				sql = "select * from spedizione;";
@@ -402,7 +415,9 @@ public class Impiegato extends Persona {
 			case 12:
 				fil = this.getMySubsidiary(this.getCf(), stmt);
 				mag = this.getNumMagazzino(stmt, scan, fil);
+				if (mag == 0) break;
 				spa = this.getIdSpazio(stmt, scan, fil, mag);
+				if (spa == 0) break;
 				scan.nextLine();
 				System.out.println("Inserisci il codice prodotto da ritirare (0 per uscire): ");
 				System.out.println("Codice prodotto | quantità  ");

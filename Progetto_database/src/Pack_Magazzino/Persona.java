@@ -268,7 +268,6 @@ public abstract class Persona {
 		int i = 1,k;
 		ResultSet rs=null;
 		String sql = "select cf from "+tab+";";
-		System.out.println(sql);/////--------------------------------del
 		System.out.println("Scegli il codice fiscale del "+tab+" (0 per uscire): ");
 		try {
 			rs = stmt.executeQuery(sql);		
@@ -289,7 +288,6 @@ public abstract class Persona {
 		
 		sql = "select cf from "+tab
 				+" limit "+k+" offset "+(k-1)+";";
-		System.out.println(sql);/////--------------------------------del
 		try {
 			rs = stmt.executeQuery(sql);
 			if(rs.next())
@@ -297,8 +295,13 @@ public abstract class Persona {
 		} catch (SQLException e) {
 			e.getMessage();
 		}	
-		System.out.println("ritorno null");/////--------------------------------del
 		return null;
+	}
+	
+	public void printHint()
+	{
+		System.out.println("Hint: - Verifica la lunghezza del codice fiscale (max 16 caratteri)");
+		System.out.println("      - Verifica il formato data (es: 1998-03-21)");
 	}
 	
 	public abstract void startOptions(Statement stmt);

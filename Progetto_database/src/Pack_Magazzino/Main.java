@@ -51,7 +51,7 @@ public class Main {
 		}
 		
 		
-		//Controllo se l'utente � admin
+		//Controllo se l'utente e' admin
 		//altrimenti faccio Upper case
 		sql = "select who_is('"+u+"');";		
 		try {

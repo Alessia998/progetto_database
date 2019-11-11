@@ -61,7 +61,7 @@ public class Dirigente extends Persona{
 		
 		do {
 		System.out.println("\n---- Opzioni: ----");
-		System.out.println("* AGGIUNGI PERSONALE:");
+		System.out.println("* AGGIUNGI:");
 		System.out.println("	1) Custode");
 		System.out.println("	2) Magazziniere");
 		System.out.println("	3) Impiegato");
@@ -91,7 +91,7 @@ public class Dirigente extends Persona{
 				
 				System.out.print("Inserisci il codice fiscale: ");
 				scan.nextLine();
-				String cf = scan.nextLine();
+				String cf = scan.nextLine().toUpperCase();
 				
 				System.out.print("Inserisci il nome: ");
 				String nome = scan.nextLine();
@@ -116,7 +116,8 @@ public class Dirigente extends Persona{
 					System.out.println("Custode inserito correttamente!");
 				} catch (SQLException e1) {
 					System.err.println("Errore inserimento custode!");
-					e1.printStackTrace();
+					this.printHint();
+					break;
 				}
 				
 				System.out.print("Inserisci la password per il nuovo custode: ");
@@ -160,8 +161,6 @@ public class Dirigente extends Persona{
 				System.out.print("Inserisci la mail: ");
 				String mail = scan.nextLine();
 				
-				/*sql = "select magazzino.num, magazzino.cod from magazzino, filiale where"
-						+ " magazzino.cod = filiale.cod and filiale.cf = '"+ this.getCf() +"'";*/
 				sql = "select * from filiale where cf='"+this.getCf()+"'";
 				
 				
@@ -192,7 +191,8 @@ public class Dirigente extends Persona{
 					System.out.println("Magazziniere inserito correttamente!");
 				} catch (SQLException e1) {
 					System.err.println("Errore inserimento Magazziniere!");
-					e1.printStackTrace();
+					this.printHint();
+					break;
 				}
 				
 				System.out.print("Inserisci la password per il nuovo magazziniere: ");
@@ -246,8 +246,8 @@ public class Dirigente extends Persona{
 					System.out.println("Impiegato inserito correttamente!");
 				} catch (SQLException e1) {
 					System.err.println("Errore inserimento impiegato!");
-					System.err.println("Forse non dirigi ancora niente...");
-					e1.printStackTrace();
+					this.printHint();
+					System.err.println("      - Forse non dirigi ancora niente...");
 					break;
 				}
 				
@@ -297,7 +297,8 @@ public class Dirigente extends Persona{
 					System.out.println("Fattorino inserito correttamente!");
 				} catch (SQLException e1) {
 					System.err.println("Errore inserimento fattorino!");
-					e1.printStackTrace();
+					this.printHint();
+					break;
 				}
 				
 				System.out.print("Inserisci la password per il nuovo fattorino: ");
@@ -341,7 +342,8 @@ public class Dirigente extends Persona{
 					System.out.println("Veicolo inserito correttamente!");
 				} catch (SQLException e1) {
 					System.err.println("Errore inserimento veicolo!");
-					e1.printStackTrace();
+					System.out.println("Hint: - Verifica di non inserire un veicolo che esiste già.");
+					break;
 				}
 				
 			}break;
@@ -398,7 +400,6 @@ public class Dirigente extends Persona{
 					int temp_num=0;
 					Integer mag, id_spa;
 					rs = stmt.executeQuery(sql);
-					//System.out.println("Numero Magazzino | ID spazio | Descrizione | Codice Prodotto");
 					System.out.println("Numero Magazzino | ID_spazio | Descrizione");
 					while(rs.next())
 					{
@@ -467,6 +468,7 @@ public class Dirigente extends Persona{
 				via = scan.nextLine();
 				System.out.println("Inserisci il numero civico : ");
 				num = scan.nextInt();
+				scan.nextLine();
 				System.out.println("Inserisci il numero di telefono : ");
 				tel = scan.nextLine();
 				
@@ -478,7 +480,6 @@ public class Dirigente extends Persona{
 				} catch (SQLException e1) {
 					System.out.println("Errore inserimento magazzino!");
 					System.out.println("Forse non stai gestendo nessuna filiale...");
-					//e1.printStackTrace();
 				}
 				break;
 			case 14:

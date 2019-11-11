@@ -56,7 +56,6 @@ public class Fattorino extends Persona{
 			System.out.println("0) Esci");
 			
 			System.out.print("\nScelta: ");
-			//scan.nextLine();
 			scelta = scan.nextInt();
 			System.out.println("");
 			
@@ -74,7 +73,7 @@ public class Fattorino extends Persona{
 							System.out.println("\n ---- Spedizione : " + rs.getString("num_sped") + " ---- ");
 							System.out.println("Destinazione: ");
 							System.out.println("    Paese  : " + rs.getString("paese"));
-							System.out.println("    Città  : " + rs.getString("citta"));
+							System.out.println("    Citta' : " + rs.getString("citta"));
 							System.out.println("    Via    : " + rs.getString("via"));
 							System.out.println("    Civico : " + rs.getString("numero"));
 							System.out.println("Codice Fiscale cliente : " + rs.getString("cf_cli"));
@@ -98,7 +97,7 @@ public class Fattorino extends Persona{
 							System.out.println("\n ---- Spedizione : " + rs.getString("num_sped") + " ---- ");
 							System.out.println("Destinazione: ");
 							System.out.println("    Paese  : " + rs.getString("paese"));
-							System.out.println("    Città  : " + rs.getString("citta"));
+							System.out.println("    Citta'�  : " + rs.getString("citta"));
 							System.out.println("    Via    : " + rs.getString("via"));
 							System.out.println("    Civico : " + rs.getString("numero"));
 							System.out.println("Codice Fiscale cliente : " + rs.getString("cf_cli"));
@@ -152,14 +151,12 @@ public class Fattorino extends Persona{
 					}
 					break;
 					
-				case 5://errore
+				case 5:
 					System.out.println("Scegli l'indice del numero spedizione :");
 					sql = "select num_sped from spedizione where stato_consegna = 'In consegna' and cf = '"+ this.getCf() +"'";
 					
 					
 					Integer res = (Integer) this.chooseInfo(sql,stmt,scan,"spedizione","num_sped");
-					
-					System.out.println("Res: " + res);
 					
 					if(res != null)
 					{
@@ -178,7 +175,7 @@ public class Fattorino extends Persona{
 					
 					
 					break;
-				case 6:	//errore
+				case 6:
 					sql = "select num_sped from trasferimenti where stato_consegna = 'In consegna' and cf = '"+ this.getCf() +"'";
 					Integer t_res = (Integer)chooseInfo(sql,stmt,scan,"trasferimenti","num_sped");
 					
@@ -215,7 +212,6 @@ public class Fattorino extends Persona{
 			rs = stmt.executeQuery(sql);
 		} catch (SQLException e) {
 			System.out.println("Dati Sbagliati!");
-			e.printStackTrace();
 			return null;
 		}
 		
@@ -228,7 +224,6 @@ public class Fattorino extends Persona{
 			}
 		} catch (SQLException e) {
 			System.out.println("SQL result error!");
-			e.printStackTrace();
 			return null;
 		}
 		
@@ -242,8 +237,6 @@ public class Fattorino extends Persona{
 		
 		sql += " limit "+k+" offset "+(k-1)+";";
 		
-		System.out.println(sql);
-		
 		try {
 			rs = stmt.executeQuery(sql);
 			if(rs.next())
@@ -251,7 +244,6 @@ public class Fattorino extends Persona{
 	
 		} catch (SQLException e) {
 			System.out.println("SQL result error!");
-			e.printStackTrace();
 		}	
 		
 		
