@@ -160,8 +160,9 @@ public class Dirigente extends Persona{
 				System.out.print("Inserisci la mail: ");
 				String mail = scan.nextLine();
 				
-				sql = "select magazzino.num, magazzino.cod from magazzino, filiale where"
-						+ " magazzino.cod = filiale.cod and filiale.cf = '"+ this.getCf() +"'";
+				/*sql = "select magazzino.num, magazzino.cod from magazzino, filiale where"
+						+ " magazzino.cod = filiale.cod and filiale.cf = '"+ this.getCf() +"'";*/
+				sql = "select * from filiale where cf='"+this.getCf()+"'";
 				
 				
 				try {
@@ -173,23 +174,12 @@ public class Dirigente extends Persona{
 					}
 					else
 					{
-						//useless code
-						/*System.out.println("Numero Magazzino | Codice Filiale");
-						do {
-							System.out.println("Num:" + rs.getInt("num") + ", Cod:" + rs.getString("cod"));
-						}while (rs.next());*/
 						cod = this.getCodFiliale(stmt, scan);
 					}
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				//System.out.print("Inserisci codice filiale: ");
-				//String cod = scan.nextLine();
-				
-				//System.out.print("Inserisci numero magazzino: ");
-				//int num = scan.nextInt();
 				
 				num = this.getNumMagazzino(stmt, scan, cod);
 				if(num == 0) break;
