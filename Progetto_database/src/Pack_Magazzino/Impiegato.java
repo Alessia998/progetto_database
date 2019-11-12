@@ -213,8 +213,6 @@ public class Impiegato extends Persona {
 						"and data_fine >= current_date\r\n"
 						+ "group by num";
 				
-				System.out.println(sql);
-				
 				System.out.println("Scelta del magazzino (0 per uscire): ");
 				try {
 					
@@ -486,6 +484,7 @@ public class Impiegato extends Persona {
 	{
 		int k;
 		
+		System.out.println("\n");
 		System.out.println("Opzioni");
 		System.out.println("* REGISTRA : ");
 		System.out.println("    1) Un nuovo cliente");

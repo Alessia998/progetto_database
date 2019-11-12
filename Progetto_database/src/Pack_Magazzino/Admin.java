@@ -75,10 +75,10 @@ public class Admin extends Persona{
 					try {
 						stmt.execute(sql);
 					} catch (SQLException e) {
-						System.err.println("Formato dati incoretto oppure il dirigente esiste gi‡!... )");
+						System.err.println("Formato dati incoretto oppure il dirigente esiste gi‡!... ");
 						this.printHint();
 						scan.close();
-						return;	
+						break;	
 					}
 					sql = "create user "+dir.getCf()+" with password '"+dir.getPass()+"' createrole;\n" + 
 							"grant usage on schema public to "+dir.getCf()+" with grant option;\n" + 
@@ -105,7 +105,7 @@ public class Admin extends Persona{
 					System.out.print("Inserisci il nome della filiale: ");
 					String nome = scan.nextLine();
 					
-					System.out.print("Inserisci la citt√† della filiale: ");
+					System.out.print("Inserisci la citta'† della filiale: ");
 					String citta = scan.nextLine();
 					
 					System.out.print("Inserisci la via della filiale: ");

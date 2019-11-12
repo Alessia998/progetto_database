@@ -462,7 +462,7 @@ public class Dirigente extends Persona{
 				scan.nextLine();
 				System.out.println("Inserisci la denominazione del magazzino : ");
 				denom = scan.nextLine();
-				System.out.println("Inserisci la citt√† : ");
+				System.out.println("Inserisci la citta'† : ");
 				citta = scan.nextLine();
 				System.out.println("Inserisci la via : ");
 				via = scan.nextLine();

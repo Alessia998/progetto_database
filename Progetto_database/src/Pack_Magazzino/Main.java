@@ -21,8 +21,8 @@ public class Main {
 		String categoria = "";
 	
 		
-		db_name = "Progetto";
-		//db_name = args[0];
+		//db_name = "Progetto";
+		db_name = args[0];
 		
 		System.out.print("Username : ");
 		u = scan.nextLine();

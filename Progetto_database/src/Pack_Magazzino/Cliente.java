@@ -6,8 +6,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.LinkedList;
 import java.util.Scanner;
 
 
@@ -183,7 +181,7 @@ public class Cliente extends Persona{
 	
 	}
 	
-		//non funziona. Da lavorare - Niko
+
 		public String getCfCliente(Statement stmt, Scanner scan)
 		{
 			int i = 0,k;
@@ -226,7 +224,6 @@ public class Cliente extends Persona{
 		private int chiediSpedizione(Statement stmt, Scanner scan)
 		{
 			scan.nextLine();
-			//System.out.println("Inserisci la data di spedizione : ");
 			SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
 			Date date = new Date(System.currentTimeMillis());
 			String data = formatter.format(date).toString();
@@ -283,8 +280,6 @@ public class Cliente extends Persona{
 			for (Cod_quan temp : iter) {
 				System.out.println(++cont + ") "+temp.codice_prodotto + " Quantità : " + temp.quantita);
 			}
-			//cont--;
-			System.out.println("cont adesso è : " + cont);
 			
 			do {
 				System.out.print("Scelta : ");
