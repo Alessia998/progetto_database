@@ -596,3 +596,22 @@ $$;
 	spazio.id_spazio = contiene.id_spazio and
 	contiene.codice = prodotto.codice;
 */
+
+--trigger function: elimina record dal contiene dove trova quantità = 0
+CREATE OR REPLACE FUNCTION contiene_zero()
+  RETURNS trigger AS $$
+BEGIN
+
+   delete from contiene where quantita = 0;
+
+   RETURN NEW;
+END;
+$$
+LANGUAGE 'plpgsql';
+
+--trigger che chiama contiene_zero() dopo ogni update su "contiene"
+CREATE TRIGGER contiene_zero_trig
+  AFTER UPDATE
+  ON contiene
+  FOR EACH ROW
+  EXECUTE PROCEDURE contiene_zero();
