@@ -74,10 +74,10 @@ public class Dirigente extends Persona{
 		System.out.println("	9) Veicoli");
 		System.out.println("	10) Magazzini e relativi spazi");
 		System.out.println("	11) Tutti i clienti");
-		System.out.println("	12) Clienti della tua filiale");
+		System.out.println("	12) Clienti delle tue filiali");
 		System.out.println("* GESTIONE FILIALE:");
-		System.out.println("	13) Aggiungi magazzino al tuo filiale ");
-		System.out.println("	14) Aggiungi un altro spazio a un magazzino ");
+		System.out.println("	13) Aggiungi magazzino a una delle tue filiali ");
+		System.out.println("	14) Aggiungi uno spazio a un magazzino ");
 		System.out.println("* ESCI:");
 		System.out.println("	0) Esci");
 		
@@ -86,7 +86,7 @@ public class Dirigente extends Persona{
 		
 		switch(scelta)
 		{
-			case 1:{
+			case 1:{ // BUG FREE
 				System.out.println("\n---- Inserimento di un nuovo custode ----");
 				
 				System.out.print("Inserisci il codice fiscale: ");
@@ -135,7 +135,7 @@ public class Dirigente extends Persona{
 				}
 				
 			}break;
-			case 2:{
+			case 2:{ // BUG FREE
 				String cod = null;
 				int num;
 				
@@ -163,21 +163,12 @@ public class Dirigente extends Persona{
 				
 				sql = "select * from filiale where cf='"+this.getCf()+"'";
 				
-				
 				try {
-					rs = stmt.executeQuery(sql);
-					if(!rs.next())
-					{
-						System.out.println("\nNon hai filiali collegate al tuo account!");
-						break;
-					}
-					else
-					{
-						cod = this.getCodFiliale(stmt, scan);
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Seleziona la Filiale");
+					cod = this.chooseInfo(sql, stmt, scan, "filiale", "cod").toString();
+				}catch(Exception e) {
+					System.out.println("Filiale non selezionata");
+					break;
 				}
 				
 				num = this.getNumMagazzino(stmt, scan, cod);
@@ -214,7 +205,7 @@ public class Dirigente extends Persona{
 				}
 				
 			}break;
-			case 3:{
+			case 3:{ // BUG Free
 				
 				System.out.println("\n---- Inserimento di un nuovo impiegato ----");
 				
@@ -238,9 +229,17 @@ public class Dirigente extends Persona{
 				System.out.print("Inserisci la mail: ");
 				String mail = scan.nextLine();
 				
+				System.out.println("Seleziona la filiale:");
+				sql = "select cod from filiale where cf = '"+ this.getCf() +"'";
+				String cod;
+				try {
+					cod = this.chooseInfo(sql, stmt, scan, "filiale", "cod").toString();
+				}catch(Exception e) {
+					System.err.println("Filiale non selezionata...");
+					break;
+				}
 				sql = "insert into impiegato values ('"+ cf +"','"+ nome +"','"+ cognome +"',"
-						+ "'"+ d_nascita +"', '"+ tel +"', '"+ mail +"',(select cod from filiale"+
-						 " where cf = '"+ this.getCf() +"'))";
+						+ "'"+ d_nascita +"', '"+ tel +"', '"+ mail +"','"+ cod +"')";
 				try {
 					stmt.executeUpdate(sql);
 					System.out.println("Impiegato inserito correttamente!");
@@ -251,6 +250,7 @@ public class Dirigente extends Persona{
 					break;
 				}
 				
+				scan.nextLine();
 				System.out.print("Inserisci la password per il nuovo impiegato: ");
 				String psw = scan.nextLine();
 				sql = "create user "+ cf + " with password '"+ psw +"' createrole;\r\n" + 
@@ -266,7 +266,7 @@ public class Dirigente extends Persona{
 				}
 				
 			}break;
-			case 4:{
+			case 4:{ //BUG Free
 				
 				System.out.println("\n---- Inserimento di un nuovo fattorino ----");
 				
@@ -318,7 +318,7 @@ public class Dirigente extends Persona{
 				}
 				
 			}break;
-			case 5:{
+			case 5:{ // BUG FREE
 				
 				System.out.println("\n---- Inserimento di un nuovo veicolo ----");
 				
@@ -362,7 +362,7 @@ public class Dirigente extends Persona{
 				sql = "select * from magazziniere";
 				try {
 					rs = stmt.executeQuery(sql);
-					System.out.println("Codice fiscale   | Nome | Cognome | Data di nascita | Telefono | Mail | Codice Magazzino");
+					System.out.println("Codice fiscale   | Nome | Cognome | Data di nascita | Telefono | Mail | Codice Magazzino | Codice Filiale");
 					this.display(rs, 8);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
@@ -391,43 +391,30 @@ public class Dirigente extends Persona{
 					e.printStackTrace();
 				}
 				break;
+				
 			case 10:
 				
-
-				sql = "select spazio.num as Magazzino, spazio.id_spazio, descrizione\r\n" + 
-						"from spazio\r\n" + 
-						"where cod in (select cod from filiale where cf = '"+this.getCf()+"')\r\n" + 
-						"order by num, id_spazio";				
+				
+				sql = "select magazzino.cod, spazio.num as Magazzino, spazio.id_spazio, descrizione\r\n" + 
+						"from magazzino, spazio \r\n" + 
+						"where magazzino.cod = spazio.cod \r\n" + 
+						"and magazzino.num = spazio.num \r\n" + 
+						"and magazzino.cod in (select cod from filiale where cf = '"+this.getCf()+"')\r\n" + 
+						"order by magazzino.cod";
+				
+				
 				try {
-					int temp_num=0;
-					Integer mag, id_spa;
 					rs = stmt.executeQuery(sql);
-					System.out.println("Numero Magazzino | ID_spazio | Descrizione");
-					while(rs.next())
-					{
-						mag = rs.getInt(1);
-						id_spa = rs.getInt(2);
-						if(mag != temp_num) 
-						{
-							temp_num = mag;
-							System.out.print(mag + " - ");
-						}
-						else
-						{
-							for(int i=0;i< mag.toString().length();i++)
-								System.out.print(" ");
-							System.out.print("   ");
-						}
-						
-						System.out.print(id_spa + " , ");
-						System.out.println(rs.getString(3));
-						
-					}
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					System.out.println("Filiale | Magazzino | ID_Spazio | Descrizione");
+					this.display(rs, rs.getMetaData().getColumnCount());
+				} catch (SQLException e2) {
+					System.err.println("Errore di selezione dei dati");
+					e2.printStackTrace();
+					break;
 				}
+				
 				break;
+				
 			case 11:
 				sql = "select * from cliente";
 				try {
@@ -442,7 +429,7 @@ public class Dirigente extends Persona{
 			case 12:
 				sql = "select cliente.cf_cli, cliente.nome, cliente.cognome\r\n" + 
 						"from cliente, contratto, impiegato\r\n" + 
-						"where impiegato.cod = (select filiale.cod \r\n" + 
+						"where impiegato.cod in (select filiale.cod \r\n" + 
 						"					   from filiale \r\n" + 
 						"					   where cf = '"+this.getCf()+"') \r\n" + 
 						"					   and\r\n" + 
@@ -473,6 +460,7 @@ public class Dirigente extends Persona{
 				System.out.println("Inserisci il numero di telefono : ");
 				tel = scan.nextLine();
 				sql = "select cod from filiale where cf = '"+ this.getCf() +"'";
+				System.out.println("Seleziona la filiale in cui inserire il magazzino: ");
 				try {
 					fil = this.chooseInfo(sql, stmt, scan, "filiale", "cod").toString();
 				}catch(Exception e) {
@@ -481,7 +469,7 @@ public class Dirigente extends Persona{
 				}
 				
 				sql = "select insert_magazzino('"+denom+"','"+citta+"','"+via+"','"+num+"','"+tel+"','"+ fil +"')";
-				
+
 				try {
 					stmt.execute(sql);
 					System.out.println("Magazzino inserito correttamente!");
@@ -490,20 +478,15 @@ public class Dirigente extends Persona{
 					System.out.println("Forse non stai gestendo nessuna filiale...");
 				}
 				break;
-			case 14: // DA CORREGGERE
+			case 14: // BUG FREE
 				sql = "(select cod from filiale where cf = '"+this.getCf()+"')";
-				String my_fil = null;
+				String my_fil;
 				
 			try {
-				rs = stmt.executeQuery(sql);
-
-				if( rs.next())
-					my_fil = rs.getString(1);
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				System.out.println("Non dirigi nessuna filiale...");
+				System.out.println("Scegli la filiale: ");
+				my_fil = this.chooseInfo(sql, stmt, scan, "filiale", "cod").toString();
+			} catch (Exception e) {
+				System.out.println("Non hai scelto nessuna filiale...");
 				break;
 			}
 				

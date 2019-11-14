@@ -165,8 +165,10 @@ public abstract class Persona {
 		if(k == 0)
 			return null;
 		
-		sql = "select "+ nomeKey +" from " + nomeTab + "\r\n" + 
-				"limit "+k+" offset "+(k-1)+";";
+		//sql = "select "+ nomeKey +" from " + nomeTab + "\r\n" + 
+		//		" limit "+k+" offset "+(k-1)+";";
+		
+		sql += " limit "+k+" offset "+(k-1)+";";
 		
 		try {
 			rs = stmt.executeQuery(sql);
