@@ -101,7 +101,7 @@ public class Magazziniere extends Persona{
 			System.out.println("    0) Esci");
 			
 			System.out.print("\nScelta: ");
-			//scan.nextLine();
+
 			scelta = scan.nextInt();
 			System.out.println("");
 			
@@ -141,7 +141,7 @@ public class Magazziniere extends Persona{
 				
 				break;
 
-			case 3://vorrei togliere
+			case 3:
 				
 				int q;
 				String cod;
