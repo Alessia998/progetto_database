@@ -342,7 +342,7 @@ public class Dirigente extends Persona{
 					System.out.println("Veicolo inserito correttamente!");
 				} catch (SQLException e1) {
 					System.err.println("Errore inserimento veicolo!");
-					System.out.println("Hint: - Verifica di non inserire un veicolo che esiste già.");
+					System.out.println("Hint: - Verifica di non inserire un veicolo che esiste giï¿½.");
 					break;
 				}
 				
@@ -392,9 +392,11 @@ public class Dirigente extends Persona{
 				}
 				break;
 			case 10:
+				
+
 				sql = "select spazio.num as Magazzino, spazio.id_spazio, descrizione\r\n" + 
 						"from spazio\r\n" + 
-						"where cod = (select cod from filiale where cf = '"+this.getCf()+"')\r\n" + 
+						"where cod in (select cod from filiale where cf = '"+this.getCf()+"')\r\n" + 
 						"order by num, id_spazio";				
 				try {
 					int temp_num=0;
@@ -425,7 +427,6 @@ public class Dirigente extends Persona{
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
 				break;
 			case 11:
 				sql = "select * from cliente";
@@ -457,12 +458,12 @@ public class Dirigente extends Persona{
 				}
 				break;
 			case 13:
-				String denom, citta, via, tel;
+				String denom, citta, via, tel, fil;
 				int num;
 				scan.nextLine();
-				System.out.println("Inserisci la denominazione del magazzino : ");
+				System.out.println("Inserisci il nome del magazzino : ");
 				denom = scan.nextLine();
-				System.out.println("Inserisci la citta'  : ");
+				System.out.println("Inserisci la citta' : ");
 				citta = scan.nextLine();
 				System.out.println("Inserisci la via : ");
 				via = scan.nextLine();
@@ -471,8 +472,15 @@ public class Dirigente extends Persona{
 				scan.nextLine();
 				System.out.println("Inserisci il numero di telefono : ");
 				tel = scan.nextLine();
+				sql = "select cod from filiale where cf = '"+ this.getCf() +"'";
+				try {
+					fil = this.chooseInfo(sql, stmt, scan, "filiale", "cod").toString();
+				}catch(Exception e) {
+					System.err.println("Errore selezione filiali");
+					break;
+				}
 				
-				sql = "select insert_magazzino('"+denom+"','"+citta+"','"+via+"','"+num+"','"+tel+"',(select cod from filiale where cf = '"+this.getCf()+"'))";
+				sql = "select insert_magazzino('"+denom+"','"+citta+"','"+via+"','"+num+"','"+tel+"','"+ fil +"')";
 				
 				try {
 					stmt.execute(sql);
@@ -482,7 +490,7 @@ public class Dirigente extends Persona{
 					System.out.println("Forse non stai gestendo nessuna filiale...");
 				}
 				break;
-			case 14:
+			case 14: // DA CORREGGERE
 				sql = "(select cod from filiale where cf = '"+this.getCf()+"')";
 				String my_fil = null;
 				
