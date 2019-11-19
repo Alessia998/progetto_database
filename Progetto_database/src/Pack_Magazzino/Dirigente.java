@@ -72,7 +72,7 @@ public class Dirigente extends Persona{
 		System.out.println("	7) Magazzinieri");
 		System.out.println("	8) Impiegati");
 		System.out.println("	9) Veicoli");
-		System.out.println("	10) Magazzini e relativi spazi");
+		System.out.println("	10) Magazzini (Solo se contengono spazi)");
 		System.out.println("	11) Tutti i clienti");
 		System.out.println("	12) Clienti delle tue filiali");
 		System.out.println("* GESTIONE FILIALE:");
