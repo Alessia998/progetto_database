@@ -72,7 +72,7 @@ public class Dirigente extends Persona{
 		System.out.println("	7) Magazzinieri");
 		System.out.println("	8) Impiegati");
 		System.out.println("	9) Veicoli");
-		System.out.println("	10) Magazzini (Solo se contengono spazi)");
+		System.out.println("	10) Magazzini e relativi spazi");
 		System.out.println("	11) Tutti i clienti");
 		System.out.println("	12) Clienti delle tue filiali");
 		System.out.println("* GESTIONE FILIALE:");
@@ -86,7 +86,7 @@ public class Dirigente extends Persona{
 		
 		switch(scelta)
 		{
-			case 1:{ // BUG FREE
+			case 1:{  
 				System.out.println("\n---- Inserimento di un nuovo custode ----");
 				
 				System.out.print("Inserisci il codice fiscale: ");
@@ -135,7 +135,7 @@ public class Dirigente extends Persona{
 				}
 				
 			}break;
-			case 2:{ // BUG FREE
+			case 2:{  
 				String cod = null;
 				int num;
 				
@@ -205,7 +205,7 @@ public class Dirigente extends Persona{
 				}
 				
 			}break;
-			case 3:{ // BUG Free
+			case 3:{  
 				
 				System.out.println("\n---- Inserimento di un nuovo impiegato ----");
 				
@@ -266,7 +266,7 @@ public class Dirigente extends Persona{
 				}
 				
 			}break;
-			case 4:{ //BUG Free
+			case 4:{  
 				
 				System.out.println("\n---- Inserimento di un nuovo fattorino ----");
 				
@@ -318,7 +318,7 @@ public class Dirigente extends Persona{
 				}
 				
 			}break;
-			case 5:{ // BUG FREE
+			case 5:{  
 				
 				System.out.println("\n---- Inserimento di un nuovo veicolo ----");
 				
@@ -394,6 +394,7 @@ public class Dirigente extends Persona{
 				
 			case 10:
 				
+				System.out.println("\n  NOTA : Vengono visualizzati solo i magazzini che contengono almeno uno spazio.\n");
 				
 				sql = "select magazzino.cod, spazio.num as Magazzino, spazio.id_spazio, descrizione\r\n" + 
 						"from magazzino, spazio \r\n" + 
@@ -478,7 +479,7 @@ public class Dirigente extends Persona{
 					System.out.println("Forse non stai gestendo nessuna filiale...");
 				}
 				break;
-			case 14: // BUG FREE
+			case 14:  
 				sql = "(select cod from filiale where cf = '"+this.getCf()+"')";
 				String my_fil;
 				

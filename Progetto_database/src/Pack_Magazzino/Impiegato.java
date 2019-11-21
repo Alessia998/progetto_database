@@ -114,7 +114,7 @@ public class Impiegato extends Persona {
 			case 2:
 				Contratto con = new Contratto();
 				scan.nextLine();
-				System.out.println("Insersci il codice fiscale del cliente : ");
+				System.out.println("Insersci l'indice codice fiscale del cliente : ");
 				con.setCf_cli(stmt);
 				if(con.getCf_cli() == "")
 				{
@@ -171,7 +171,7 @@ public class Impiegato extends Persona {
 				int id_spazio = this.getIdSpazio(stmt, scan, this.getMySubsidiary(this.getCf(), stmt), mag);
 				if(id_spazio == 0) break;
 				sql = "select num_c from contratto";
-				System.out.println("Scegli il codice del contratto : ");
+				System.out.println("Inserisci l'indice del contratto : ");
 
 				try {
 				num_c = this.chooseInfo(sql, stmt, scan, "contratto", "num_c").toString();
@@ -296,11 +296,59 @@ public class Impiegato extends Persona {
 				
 				break;
 			case 6:
-				scan.nextLine();
-				System.out.println("Scegli il codice fiscale del cliente : ");
-				sql = "select cf_cli from cliente;";
 				
 				String cf;
+				String targa;
+				String cProd;
+				
+				/*	Workflow:
+				 * 		- Faccio scegliere il cliente
+				 * 		- faccio scegliere il prodotto tra quelli del cliente
+				 * 		- Faccio scegliere la quantità
+				 * 		- faccio scegliere la filiale e il magazzino di arrivo
+				 * 		- Faccio scegliere fattorino, targa, data
+				 * 
+				 * 
+				 * */
+				
+				scan.nextLine();
+				System.out.println("Scegli il codice fiscale del cliente : ");
+				sql = "select cf_cli from cliente";
+				try {
+					cf = this.chooseInfo(sql, stmt, scan, "cliente", "cf_cli").toString();
+				} catch (Exception e) {
+					break;
+				}
+				
+				scan.nextLine();
+				System.out.println("Inserisci il codice prodotto che si vuole mandare : ");
+				sql = "select prodotto.codice from contratto, spazio_contratto sp_co, spazio, contiene, prodotto\r\n" + 
+						"	where cf_cli = '"+ cf +"' and\r\n" + 
+						"	sp_co.num_c = contratto.num_c and\r\n" + 
+						"	spazio.cod = sp_co.cod and\r\n" + 
+						"	spazio.num = sp_co.num and\r\n" + 
+						"	spazio.id_spazio = sp_co.id_spazio and\r\n" + 
+						"	spazio.cod = contiene.cod and\r\n" + 
+						"	spazio.num = contiene.num and\r\n" + 
+						"	spazio.id_spazio = contiene.id_spazio and\r\n" + 
+						"	contiene.codice = prodotto.codice";
+				try {
+					cProd = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
+				} catch (Exception e) {
+					break;
+				}
+				
+				// Selezionare numero magazzino e filiale dato un codice prodotto e un codice fiscale del cliente
+				//Per scegliere il magazzino e la filiale di partenza QUI
+				sql = "select num";
+				
+				System.out.println("Insersci la quantità che deve essere trasferita :"); 
+				q = scan.nextInt();
+				
+				/*
+				scan.nextLine();
+				System.out.println("Scegli il codice fiscale del cliente : ");
+				sql = "select cf_cli from cliente";
 				try {
 					cf = this.chooseInfo(sql, stmt, scan, "cliente", "cf_cli").toString();
 				} catch (Exception e) {
@@ -310,12 +358,12 @@ public class Impiegato extends Persona {
 				scan.nextLine();
 				System.out.println("Inserisci la data di trasferimento (aaaa-mm-gg): ");
 				String data = scan.nextLine();
+				
 				String cf_fat = this.getCfWorker(stmt, scan, "fattorino");
 				if(cf_fat == null) break;
-				System.out.println("Inserisci la targa del veicolo : ");
-				sql = "select targa from veicolo;";
 				
-				String targa;
+				System.out.println("Inserisci la targa del veicolo : ");
+				sql = "select targa from veicolo";
 				try {
 					targa = this.chooseInfo(sql, stmt, scan, "veicolo", "targa").toString();
 				} catch (Exception e) {
@@ -323,12 +371,8 @@ public class Impiegato extends Persona {
 				}
 
 				scan.nextLine();
-				System.out.println("Inserisci il paese di destinazione (predefinito: Italia) : ");
-				String paese = scan.nextLine();
 				System.out.println("Inserisci il codice prodotto che si vuole mandare : ");
-				sql = "select codice from prodotto;";
-				
-				String cProd;
+				sql = "select codice from prodotto";
 				try {
 					cProd = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
 				} catch (Exception e) {
@@ -337,6 +381,7 @@ public class Impiegato extends Persona {
 				
 				System.out.println("Insersci la quantità che deve essere trasferita :"); 
 				q = scan.nextInt();
+				
 				scan.nextLine();
 				System.out.println("Scegli filiale di partenza. ");
 				String c1 = this.getCodFiliale(stmt, scan);
@@ -355,10 +400,10 @@ public class Impiegato extends Persona {
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					System.err.println(e1.getMessage());			
-				}
+				}*/
 				break;
 			case 7:
-				sql = "select * from cliente;";
+				sql = "select * from cliente";
 				try {
 					rs = stmt.executeQuery(sql);
 				} catch (SQLException e) {
@@ -369,7 +414,7 @@ public class Impiegato extends Persona {
 				this.display(rs, 5);		
 				break;	
 			case 8:
-				sql = "select * from contratto;";
+				sql = "select * from contratto";
 				try {
 					rs = stmt.executeQuery(sql);
 				} catch (SQLException e) {
@@ -380,7 +425,7 @@ public class Impiegato extends Persona {
 				this.display(rs, 6);
 				break;	
 			case 9:
-				sql = "select * from prodotto;";
+				sql = "select * from prodotto";
 				try {
 					rs = stmt.executeQuery(sql);
 				} catch (SQLException e) {
@@ -391,7 +436,7 @@ public class Impiegato extends Persona {
 				this.display(rs, 3);
 				break;	
 			case 10:
-				sql = "select * from trasferimenti;";
+				sql = "select * from trasferimenti";
 				try {
 					rs = stmt.executeQuery(sql);
 				} catch (SQLException e) {
@@ -401,7 +446,7 @@ public class Impiegato extends Persona {
 				this.display(rs, 9);
 				break;
 			case 11:
-				sql = "select * from spedizione;";
+				sql = "select * from spedizione";
 				try {
 					rs = stmt.executeQuery(sql);
 				} catch (SQLException e) {
