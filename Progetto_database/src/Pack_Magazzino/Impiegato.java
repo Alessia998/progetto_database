@@ -300,6 +300,9 @@ public class Impiegato extends Persona {
 				String cf;
 				String targa;
 				String cProd;
+				String c1, c2;
+				Integer n1, n2;
+				String data;
 				
 				/*	Workflow:
 				 * 		- Faccio scegliere il cliente
@@ -311,6 +314,8 @@ public class Impiegato extends Persona {
 				 * 
 				 * */
 				
+				
+				// Scelta del cliente
 				scan.nextLine();
 				System.out.println("Scegli il codice fiscale del cliente : ");
 				sql = "select cf_cli from cliente";
@@ -320,6 +325,7 @@ public class Impiegato extends Persona {
 					break;
 				}
 				
+				//Scelta del prodotto da mandare tra quelli del cliente
 				scan.nextLine();
 				System.out.println("Inserisci il codice prodotto che si vuole mandare : ");
 				sql = "select prodotto.codice from contratto, spazio_contratto sp_co, spazio, contiene, prodotto\r\n" + 
@@ -338,13 +344,58 @@ public class Impiegato extends Persona {
 					break;
 				}
 				
-				// Selezionare numero magazzino e filiale dato un codice prodotto e un codice fiscale del cliente
-				//Per scegliere il magazzino e la filiale di partenza QUI
-				sql = "select num";
+				c1 = this.getMySubsidiary(this.getCf(), stmt);
+				
+				sql = "select sp.num\r\n" + 
+						"from prodotto pr, contiene co, spazio sp, spazio_contratto spc, contratto contr\r\n" + 
+						"where pr.codice = co.codice and\r\n" + 
+						"	sp.cod = co.cod and sp.num = co.num and sp.id_spazio = co.id_spazio and co.codice = '"+ cProd +"' and\r\n" + 
+						"	sp.cod = spc.cod and sp.num = spc.num and sp.id_spazio = spc.id_spazio and spc.num_c = contr.num_c\r\n" + 
+						"	and contr.cf_cli = '"+ cf +"' and sp.cod = '"+ c1 +"'";
+				
+				try {
+					n1 = (Integer)this.chooseInfo(sql, stmt, scan, "spazio", "num");
+				}catch(Exception e) {
+					break;
+				}
 				
 				System.out.println("Insersci la quantità che deve essere trasferita :"); 
 				q = scan.nextInt();
 				
+				System.out.println("Scegli filiale di arrivo. ");
+				c2 = this.getCodFiliale(stmt, scan);
+				System.out.println("Scegli magazzino di arrivo. ");
+				n2 = this.getNumMagazzino(stmt, scan, c2);
+				
+				
+				scan.nextLine();
+				System.out.println("Inserisci la data di trasferimento (aaaa-mm-gg): ");
+				data = scan.nextLine();
+				
+				String cf_fat = this.getCfWorker(stmt, scan, "fattorino");
+				if(cf_fat == null) break;
+				
+				System.out.println("Inserisci la targa del veicolo : ");
+				sql = "select targa from veicolo";
+				try {
+					targa = this.chooseInfo(sql, stmt, scan, "veicolo", "targa").toString();
+				} catch (Exception e) {
+					break;
+				}
+				
+				sql = "select trasferisci('"+cf+"','"+data+"','"+cf_fat+"','"+targa+"'"
+						+ ",'"+n1+"','"+c1+"','"+n2+"','"+c2+"','"+cProd+"','"+q+"');";
+
+					try {
+						stmt.execute(sql);
+						System.out.println("Il trasferimento è stato registrato");
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						System.err.println(e1.getMessage());			
+					}
+				
+					
+					
 				/*
 				scan.nextLine();
 				System.out.println("Scegli il codice fiscale del cliente : ");
