@@ -11,7 +11,6 @@ indir int;
 
 BEGIN
 
-
 --controllo la data
 if data_spedizione < current_date
   then
@@ -27,13 +26,12 @@ end if;
 ordine = q;
 manda =0;
 
-select co.quantita into cont from prodotto pr, contiene co, spazio sp, spazio_contratto spc, contratto contr
+--seleziono il massimo della quantità che possiede un
+select max(co.quantita) into cont from prodotto pr, contiene co, spazio sp, spazio_contratto spc, contratto contr
 where pr.codice = co.codice and
       sp.cod = co.cod and sp.num = co.num and sp.id_spazio = co.id_spazio and co.codice = $9 and
 	  sp.cod = spc.cod and sp.num = spc.num and sp.id_spazio = spc.id_spazio and spc.num_c = contr.num_c
-	  and contr.cf_cli = $1 and sp.num = n1 and sp.cod = c1 and co.quantita > 0
-order by co.quantita desc
-limit 1;
+	  and contr.cf_cli = $1 and sp.num = n1 and sp.cod = c1;
 
 IF NOT FOUND THEN
     RAISE EXCEPTION 'Il prodotto % non trovato.', $9;
@@ -47,13 +45,12 @@ if cont < 1
       		EXIT WHEN ordine <= 0 ;
 
 
-			select co.quantita into cont from prodotto pr, contiene co, spazio sp, spazio_contratto spc, contratto contr
+			select max(co.quantita) into cont from prodotto pr, contiene co, spazio sp, spazio_contratto spc, contratto contr
 			where pr.codice = co.codice and
 				  sp.cod = co.cod and sp.num = co.num and sp.id_spazio = co.id_spazio and co.codice = $9 and
 				  sp.cod = spc.cod and sp.num = spc.num and sp.id_spazio = spc.id_spazio and spc.num_c = contr.num_c
-				  and contr.cf_cli = $1 and sp.num = n1 and sp.cod = c1 and co.quantita > 0
-			order by co.quantita desc
-			limit 1;
+				  and contr.cf_cli = $1 and sp.num = n1 and sp.cod = c1;
+
 			IF NOT FOUND THEN
   			  exit;
 			END IF;
@@ -62,7 +59,7 @@ if cont < 1
 			where pr.codice = co.codice and
 				  sp.cod = co.cod and sp.num = co.num and sp.id_spazio = co.id_spazio and co.codice = $9 and
 				  sp.cod = spc.cod and sp.num = spc.num and sp.id_spazio = spc.id_spazio and spc.num_c = contr.num_c
-				  and contr.cf_cli = $1 and sp.num = n1 and sp.cod = c1 and co.quantita > 0
+				  and contr.cf_cli = $1 and sp.num = n1 and sp.cod = c1
 			order by co.quantita desc
 			limit 1;
 
