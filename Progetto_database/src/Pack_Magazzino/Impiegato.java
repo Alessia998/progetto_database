@@ -394,6 +394,8 @@ public class Impiegato extends Persona {
 						System.err.println(e1.getMessage());			
 					}
 				
+					
+					
 				/*
 				scan.nextLine();
 				System.out.println("Scegli il codice fiscale del cliente : ");
