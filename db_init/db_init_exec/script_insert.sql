@@ -118,14 +118,14 @@ insert into prodotto values
 ('fhd3b3p894fx83p','Hitch','hitch dry'),
 ('pro12345','pro','pro1 professional');
 
-/*insert into possiede values
+insert into possiede values
 ('yylltihwjl1','SFDVRL900P03P39F'),
 ('ruondpqytb','MRDMSS900P02P39F'),
 ('lrqhnyodrb','SRDVRL900P32P39F'),
 ('bsplgefebj','SRDVRL900P32P39F'),
 ('fwehrmwxsknhbxi','SRDVRL900P32P39F'),
 ('skibw','SSLVRL900P02P39F'),
-('fhd3b3p894fx83p','SSLVRL900P02P39F');*/
+('fhd3b3p894fx83p','SSLVRL900P02P39F');
 
 insert into contiene values
 (3,1,'0000000001','yylltihwjl1',10),
@@ -156,4 +156,4 @@ insert into spazio_contratto values
 (1,1,'0000000001','0000000005'),
 (2,1,'0000000001','0000000005');
 
-select trasferisci('MRDMSS900P02P39F','2020-10-09','VRDFDR56P07D662F','EF789GH','',1,'0000000001',2,'0000000002','ruondpqytb',26);
+select trasferisci('MRDMSS900P02P39F','2020-10-09','VRDFDR56P07D662F','EF789GH',1,'0000000001',2,'0000000002','ruondpqytb',26);
