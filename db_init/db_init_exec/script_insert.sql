@@ -118,15 +118,6 @@ insert into prodotto values
 ('fhd3b3p894fx83p','Hitch','hitch dry'),
 ('pro12345','pro','pro1 professional');
 
-insert into possiede values
-('yylltihwjl1','SFDVRL900P03P39F'),
-('ruondpqytb','MRDMSS900P02P39F'),
-('lrqhnyodrb','SRDVRL900P32P39F'),
-('bsplgefebj','SRDVRL900P32P39F'),
-('fwehrmwxsknhbxi','SRDVRL900P32P39F'),
-('skibw','SSLVRL900P02P39F'),
-('fhd3b3p894fx83p','SSLVRL900P02P39F');
-
 insert into contiene values
 (3,1,'0000000001','yylltihwjl1',10),
 (1,1,'0000000001','ruondpqytb',100),
