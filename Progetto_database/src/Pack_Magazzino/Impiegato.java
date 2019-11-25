@@ -350,7 +350,7 @@ public class Impiegato extends Persona {
 				
 				System.out.println("\n Seleziona il magazzino di partenza: ");
 				
-				sql = "select sp.num\r\n" + 
+				sql = "select distinct(sp.num)\r\n" + 
 						"from prodotto pr, contiene co, spazio sp, spazio_contratto spc, contratto contr\r\n" + 
 						"where pr.codice = co.codice and\r\n" + 
 						"	sp.cod = co.cod and sp.num = co.num and sp.id_spazio = co.id_spazio and co.codice = '"+ cProd +"' and\r\n" + 
