@@ -305,17 +305,13 @@ end
 $$
 language plpgsql;
 
+
 --dichiarazione della funzione trasferisci
 --gestisce il trasferimento
---input : codice del cliente, data della spedizione, codice fiscale del fattorino che eseguisce il trasferimento, targa del veicolo utilizzato, paese, numero del magazzino di partenza, codice della filiale di partenza, numero del magazzino di arrivo, codice della filiale di arrivo, codice del prodotto spedito e quantità spedita
-create or replace function trasferisci(cf varchar(16), data_spedizione date, fattorino varchar(16), targa varchar(20), paese varchar(255), n1 int, c1 varchar(255),n2 int, c2 varchar(255),codice_prodotto varchar(255), q int)
+--input : codice del cliente, data della spedizione, codice fiscale del fattorino che eseguisce il trasferimento, targa del veicolo utilizzato, numero del magazzino di partenza, codice della filiale di partenza, numero del magazzino di arrivo, codice della filiale di arrivo, codice del prodotto spedito e quantità spedita
+create or replace function trasferisci(cf varchar(16), data_spedizione date, fattorino varchar(16), targa varchar(20), n1 int, c1 varchar(255),n2 int, c2 varchar(255),codice_prodotto varchar(255), q int)
 returns int as $$
 declare
-paese_f varchar(255);
-citta_f varchar(255);
-via_f varchar(255);
-numero_f varchar(10);
-tel_f varchar(30);
 numero_spedizione int;
 
 ordine int;
@@ -325,7 +321,6 @@ indir int;
 
 
 BEGIN
-
 
 --controllo la data
 if data_spedizione < current_date
@@ -339,42 +334,22 @@ if c1 = c2 and n1 = n2
       raise exception 'Non si può mandare nello stesso magazzino';
 end if;
 
--- paese default Italia
-if paese = ''
-  then
-    paese = 'Italia';
-  else
-    paese_f = paese;
-end if;
-
---ricavo le informazioni da c1,n1
-
-select citta into citta_f from magazzino
-where num = n1 and cod = c1;
-
-select via into via_f from magazzino
-where num = n1 and cod = c1;
-
-select numero into numero_f from magazzino
-where num = n1 and cod = c1;
-
-select tel into tel_f from magazzino
-where num = n1 and cod = c1;
-
 ordine = q;
 manda =0;
 
+--seleziono il massimo della quantità che possiede un cliente
 select co.quantita into cont from prodotto pr, contiene co, spazio sp, spazio_contratto spc, contratto contr
 where pr.codice = co.codice and
-      sp.cod = co.cod and sp.num = co.num and sp.id_spazio = co.id_spazio and co.codice = $10 and
+      sp.cod = co.cod and sp.num = co.num and sp.id_spazio = co.id_spazio and co.codice = $9 and
 	  sp.cod = spc.cod and sp.num = spc.num and sp.id_spazio = spc.id_spazio and spc.num_c = contr.num_c
 	  and contr.cf_cli = $1 and sp.num = n1 and sp.cod = c1 and co.quantita > 0
-order by co.quantita desc
-limit 1;
+    order by co.quantita desc
+    limit 1;
 
 IF NOT FOUND THEN
-    RAISE EXCEPTION 'Il prodotto % non trovato.', $10;
+    RAISE EXCEPTION 'Il prodotto % non trovato.', $9;
 END IF;
+
 
 if cont < 1
 	then
@@ -386,18 +361,20 @@ if cont < 1
 
 			select co.quantita into cont from prodotto pr, contiene co, spazio sp, spazio_contratto spc, contratto contr
 			where pr.codice = co.codice and
-				  sp.cod = co.cod and sp.num = co.num and sp.id_spazio = co.id_spazio and co.codice = $10 and
+				  sp.cod = co.cod and sp.num = co.num and sp.id_spazio = co.id_spazio and co.codice = $9 and
 				  sp.cod = spc.cod and sp.num = spc.num and sp.id_spazio = spc.id_spazio and spc.num_c = contr.num_c
-				  and contr.cf_cli = $1 and sp.num = n1 and sp.cod = c1 and co.quantita > 0
-			order by co.quantita desc
-			limit 1;
+				  and contr.cf_cli = $1 and sp.num = n1 and sp.cod = c1  and co.quantita > 0
+          order by co.quantita desc
+          limit 1;
+
+
 			IF NOT FOUND THEN
   			  exit;
 			END IF;
 
 			select sp.id_spazio into indir from prodotto pr, contiene co, spazio sp, spazio_contratto spc, contratto contr
 			where pr.codice = co.codice and
-				  sp.cod = co.cod and sp.num = co.num and sp.id_spazio = co.id_spazio and co.codice = $10 and
+				  sp.cod = co.cod and sp.num = co.num and sp.id_spazio = co.id_spazio and co.codice = $9 and
 				  sp.cod = spc.cod and sp.num = spc.num and sp.id_spazio = spc.id_spazio and spc.num_c = contr.num_c
 				  and contr.cf_cli = $1 and sp.num = n1 and sp.cod = c1 and co.quantita > 0
 			order by co.quantita desc
@@ -451,6 +428,8 @@ return null ;
 END
 $$
 LANGUAGE plpgsql;
+
+
 
 --dichiarazione della funzione elimina_contiene
 --controlla i dati in input ed elimina il collegamento spazio - prodotto
