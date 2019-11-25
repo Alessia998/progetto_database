@@ -132,7 +132,6 @@ public abstract class Persona {
 	
 	public Object chooseInfo(String sql, Statement stmt, Scanner scan, String nomeTab, String nomeKey)/* throws Exception*/{
 		
-		System.out.println(sql);
 		ResultSet rs = null;
 		int i = 1, k;
 		

@@ -317,7 +317,7 @@ public class Impiegato extends Persona {
 				
 				// Scelta del cliente
 				scan.nextLine();
-				System.out.println("Scegli il codice fiscale del cliente : ");
+				System.out.println("\n Scegli il codice fiscale del cliente : ");
 				sql = "select cf_cli from cliente";
 				try {
 					cf = this.chooseInfo(sql, stmt, scan, "cliente", "cf_cli").toString();
@@ -325,10 +325,12 @@ public class Impiegato extends Persona {
 					break;
 				}
 				
+				c1 = this.getMySubsidiary(this.getCf(), stmt);
+				
 				//Scelta del prodotto da mandare tra quelli del cliente
 				scan.nextLine();
-				System.out.println("Inserisci il codice prodotto che si vuole mandare : ");
-				sql = "select prodotto.codice from contratto, spazio_contratto sp_co, spazio, contiene, prodotto\r\n" + 
+				System.out.println("\n Inserisci l'indice del prodotto che si vuole trasferire : ");
+				sql = "select distinct(prodotto.codice) from contratto, spazio_contratto sp_co, spazio, contiene, prodotto\r\n" + 
 						"	where cf_cli = '"+ cf +"' and\r\n" + 
 						"	sp_co.num_c = contratto.num_c and\r\n" + 
 						"	spazio.cod = sp_co.cod and\r\n" + 
@@ -337,14 +339,16 @@ public class Impiegato extends Persona {
 						"	spazio.cod = contiene.cod and\r\n" + 
 						"	spazio.num = contiene.num and\r\n" + 
 						"	spazio.id_spazio = contiene.id_spazio and\r\n" + 
-						"	contiene.codice = prodotto.codice";
+						"	contiene.codice = prodotto.codice\r\n" +
+						"   and contiene.cod = '"+ c1 +"'";
 				try {
 					cProd = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
 				} catch (Exception e) {
 					break;
 				}
 				
-				c1 = this.getMySubsidiary(this.getCf(), stmt);
+				
+				System.out.println("\n Seleziona il magazzino di partenza: ");
 				
 				sql = "select sp.num\r\n" + 
 						"from prodotto pr, contiene co, spazio sp, spazio_contratto spc, contratto contr\r\n" + 
@@ -356,15 +360,16 @@ public class Impiegato extends Persona {
 				try {
 					n1 = (Integer)this.chooseInfo(sql, stmt, scan, "spazio", "num");
 				}catch(Exception e) {
+					System.out.println("Magazzino non selezionato");
 					break;
 				}
 				
 				System.out.println("Insersci la quantità che deve essere trasferita :"); 
 				q = scan.nextInt();
 				
-				System.out.println("Scegli filiale di arrivo. ");
+				System.out.println("Scegli filiale di arrivo: ");
 				c2 = this.getCodFiliale(stmt, scan);
-				System.out.println("Scegli magazzino di arrivo. ");
+				System.out.println("Scegli magazzino di arrivo: ");
 				n2 = this.getNumMagazzino(stmt, scan, c2);
 				
 				
@@ -384,15 +389,17 @@ public class Impiegato extends Persona {
 				}
 				
 				sql = "select trasferisci('"+cf+"','"+data+"','"+cf_fat+"','"+targa+"'"
-						+ ",'"+n1+"','"+c1+"','"+n2+"','"+c2+"','"+cProd+"','"+q+"');";
+						+ ",'"+n1+"','"+c1+"','"+n2+"','"+c2+"','"+cProd+"',"+q+");";
 
-					try {
-						stmt.execute(sql);
-						System.out.println("Il trasferimento è stato registrato");
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						System.err.println(e1.getMessage());			
-					}
+				try {
+					stmt.execute(sql);
+				} catch (SQLException e1) {
+					e1.printStackTrace();
+					System.out.println("Errore registrazione trasferimento");
+					break;
+				}
+				System.out.println(sql);
+				System.out.println("Il trasferimento è stato registrato");
 				
 				//Finito
 				/*
