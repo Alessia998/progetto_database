@@ -398,66 +398,9 @@ public class Impiegato extends Persona {
 					System.out.println("Errore registrazione trasferimento");
 					break;
 				}
-				System.out.println(sql);
+
 				System.out.println("Il trasferimento è stato registrato");
 				
-				//Finito
-				/*
-				scan.nextLine();
-				System.out.println("Scegli il codice fiscale del cliente : ");
-				sql = "select cf_cli from cliente";
-				try {
-					cf = this.chooseInfo(sql, stmt, scan, "cliente", "cf_cli").toString();
-				} catch (Exception e) {
-					break;
-				}
-				
-				scan.nextLine();
-				System.out.println("Inserisci la data di trasferimento (aaaa-mm-gg): ");
-				String data = scan.nextLine();
-				
-				String cf_fat = this.getCfWorker(stmt, scan, "fattorino");
-				if(cf_fat == null) break;
-				
-				System.out.println("Inserisci la targa del veicolo : ");
-				sql = "select targa from veicolo";
-				try {
-					targa = this.chooseInfo(sql, stmt, scan, "veicolo", "targa").toString();
-				} catch (Exception e) {
-					break;
-				}
-
-				scan.nextLine();
-				System.out.println("Inserisci il codice prodotto che si vuole mandare : ");
-				sql = "select codice from prodotto";
-				try {
-					cProd = this.chooseInfo(sql, stmt, scan, "prodotto", "codice").toString();
-				} catch (Exception e) {
-					break;
-				}
-				
-				System.out.println("Insersci la quantità che deve essere trasferita :"); 
-				q = scan.nextInt();
-				
-				scan.nextLine();
-				System.out.println("Scegli filiale di partenza. ");
-				String c1 = this.getCodFiliale(stmt, scan);
-				System.out.println("Scegli magazzino di partenza. ");
-				int n1 = this.getNumMagazzino(stmt, scan, c1); 
-				System.out.println("Scegli filiale di arrivo. ");
-				String c2 = this.getCodFiliale(stmt, scan);
-				System.out.println("Scegli magazzino di arrivo. ");
-				int n2 = this.getNumMagazzino(stmt, scan, c2);
-				sql = "select trasferisci('"+cf+"','"+data+"','"+cf_fat+"','"+targa+"','"+
-				      paese+"','"+n1+"','"+c1+"','"+n2+"','"+c2+"','"+cProd+"','"+q+"');";
-
-				try {
-					stmt.execute(sql);
-					System.out.println("Il trasferimento è stato registrato");
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					System.err.println(e1.getMessage());			
-				}*/
 				break;
 			case 7:
 				sql = "select * from cliente";
