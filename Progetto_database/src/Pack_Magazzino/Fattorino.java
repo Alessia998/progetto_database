@@ -1,3 +1,7 @@
+/*
+ * Classe : Fattorino
+ * Descrizione : Utilizzata dai fattorini per la gestione delle spedizioni (visualizzazione e consegna)
+ * */
 package Pack_Magazzino;
 
 import java.sql.ResultSet;
@@ -97,7 +101,7 @@ public class Fattorino extends Persona{
 							System.out.println("\n ---- Spedizione : " + rs.getString("num_sped") + " ---- ");
 							System.out.println("Destinazione: ");
 							System.out.println("    Paese  : " + rs.getString("paese"));
-							System.out.println("    Citta'   : " + rs.getString("citta"));
+							System.out.println("    Citta'ï¿½  : " + rs.getString("citta"));
 							System.out.println("    Via    : " + rs.getString("via"));
 							System.out.println("    Civico : " + rs.getString("numero"));
 							System.out.println("Codice Fiscale cliente : " + rs.getString("cf_cli"));

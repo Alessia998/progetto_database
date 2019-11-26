@@ -1,3 +1,8 @@
+/*
+ * Classe : Custode
+ * Descrizione : Utilizzata per il login dei custodi e per la visualizzazione de loro turni di 
+ *  lavoro con le opzioni contenute nel metodo menu()
+*/
 package Pack_Magazzino;
 
 import java.sql.ResultSet;

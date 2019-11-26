@@ -1,3 +1,7 @@
+/*
+ * Classe : Impiegato
+ * Descrizione : Utilizzata per facilitare la gestione delle informazioni di ogni contratto nel codice Java
+ * */
 package Pack_Magazzino;
 
 import java.sql.Statement;

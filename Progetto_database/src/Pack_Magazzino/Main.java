@@ -1,3 +1,9 @@
+/*
+ * Classe : Main
+ * Descrizione : Utilizzata per il login, dopo aver inserito le credenziali
+ *  una funzione sql indica la categoria del personale a cui si appartiene
+ *  e istanzia un oggetto della classe corrispondente
+ * */
 package Pack_Magazzino;
 
 import java.sql.Connection;

@@ -1,3 +1,8 @@
+/*
+ * Classe : Persona
+ * Descrizione : Classe astratta utilizzata per uniformare le classi appartenenti
+ *  alla categoria del personale, fornisce i metodi chooseOption() e display().
+ * */
 package Pack_Magazzino;
 
 import java.sql.ResultSet;
@@ -130,7 +135,7 @@ public abstract class Persona {
 		return null;
 	}
 	
-	public Object chooseInfo(String sql, Statement stmt, Scanner scan, String nomeTab, String nomeKey)/* throws Exception*/{
+	public Object chooseInfo(String sql, Statement stmt, Scanner scan, String nomeTab, String nomeKey){
 		
 		ResultSet rs = null;
 		int i = 1, k;
@@ -163,9 +168,6 @@ public abstract class Persona {
 		
 		if(k == 0)
 			return null;
-		
-		//sql = "select "+ nomeKey +" from " + nomeTab + "\r\n" + 
-		//		" limit "+k+" offset "+(k-1)+";";
 		
 		sql += " limit "+k+" offset "+(k-1)+";";
 		

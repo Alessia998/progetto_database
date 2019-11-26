@@ -1,3 +1,7 @@
+/*
+ * Classe : Cliente
+ * Descrizione : Utilizzata per la gestione di prodotti, contratti e spedizioni da parte dell'utente.
+ * */
 package Pack_Magazzino;
 
 import java.sql.Date;

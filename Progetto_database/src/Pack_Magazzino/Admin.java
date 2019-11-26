@@ -1,3 +1,8 @@
+/*
+ * Classe : Admin
+ * Descrizione : Utilizzata per interfacciarsi con il DB tramite 
+ *  l'utente ROOT del database (postgres in PostgresSQL)
+ * */
 package Pack_Magazzino;
 
 import java.sql.ResultSet;
@@ -75,7 +80,7 @@ public class Admin extends Persona{
 					try {
 						stmt.execute(sql);
 					} catch (SQLException e) {
-						System.err.println("Formato dati incoretto oppure il dirigente esiste già!... ");
+						System.err.println("Formato dati incoretto oppure il dirigente esiste giï¿½!... ");
 						this.printHint();
 						scan.close();
 						break;	
@@ -105,7 +110,7 @@ public class Admin extends Persona{
 					System.out.print("Inserisci il nome della filiale: ");
 					String nome = scan.nextLine();
 					
-					System.out.print("Inserisci la citta'  della filiale: ");
+					System.out.print("Inserisci la citta'ï¿½ della filiale: ");
 					String citta = scan.nextLine();
 					
 					System.out.print("Inserisci la via della filiale: ");

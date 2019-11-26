@@ -1,3 +1,8 @@
+/*
+ * Classe : Magazziniere
+ * Descrizione : Utilizzata dai magazzinieri per la gestione degli spazi all'interno del magazzino
+ * 	(Inserimento di prodotti, visualizzazione degli spazi)
+ * */
 package Pack_Magazzino;
 
 import java.sql.ResultSet;

@@ -1,3 +1,8 @@
+/*
+ * Classe : Impiegato
+ * Descrizione : Utilizzata per la gestione della filiale attraverso le opzioni presenti nel metodo
+ * 				 menu().
+ */
 package Pack_Magazzino;
 
 import java.sql.ResultSet;
@@ -73,11 +78,9 @@ public class Impiegato extends Persona {
 				System.exit(0);
 				break;
 			case 1:
-				//check = false;
 				scan.nextLine();
 				System.out.print("Inserisci il codice fiscale : ");
 				Cliente cli = new Cliente(scan.nextLine().toUpperCase());
-				//this.setCf(scan.nextLine().toUpperCase());
 				System.out.print("Inserisci la password : ");
 				String pass = scan.nextLine();
 				System.out.print("Inserisci il nome : ");
@@ -304,18 +307,7 @@ public class Impiegato extends Persona {
 				Integer n1, n2;
 				String data;
 				
-				/*	Workflow:
-				 * 		- Faccio scegliere il cliente
-				 * 		- faccio scegliere il prodotto tra quelli del cliente
-				 * 		- Faccio scegliere la quantità
-				 * 		- faccio scegliere la filiale e il magazzino di arrivo
-				 * 		- Faccio scegliere fattorino, targa, data
-				 * 
-				 * 
-				 * */
-				
-				
-				// Scelta del cliente
+				//Scelta del cliente a cui associare la spedizione
 				scan.nextLine();
 				System.out.println("\n Scegli il codice fiscale del cliente : ");
 				sql = "select cf_cli from cliente";
@@ -325,6 +317,7 @@ public class Impiegato extends Persona {
 					break;
 				}
 				
+				//Ottengo la filiale di partenza
 				c1 = this.getMySubsidiary(this.getCf(), stmt);
 				
 				//Scelta del prodotto da mandare tra quelli del cliente
@@ -347,9 +340,8 @@ public class Impiegato extends Persona {
 					break;
 				}
 				
-				
+				//Seleziono il magazzino di partenza
 				System.out.println("\n Seleziona il magazzino di partenza: ");
-				
 				sql = "select distinct(sp.num)\r\n" + 
 						"from prodotto pr, contiene co, spazio sp, spazio_contratto spc, contratto contr\r\n" + 
 						"where pr.codice = co.codice and\r\n" + 
@@ -364,22 +356,23 @@ public class Impiegato extends Persona {
 					break;
 				}
 				
+				//Quantità da trasferire
 				System.out.println("Insersci la quantità che deve essere trasferita :"); 
 				q = scan.nextInt();
 				
+				//Filiale e magazzino di arrivo
 				System.out.println("Scegli filiale di arrivo: ");
 				c2 = this.getCodFiliale(stmt, scan);
 				System.out.println("Scegli magazzino di arrivo: ");
 				n2 = this.getNumMagazzino(stmt, scan, c2);
 				
 				
+				//Data, CF del fattorino e targa del veicolo da utilizzare
 				scan.nextLine();
 				System.out.println("Inserisci la data di trasferimento (aaaa-mm-gg): ");
 				data = scan.nextLine();
-				
 				String cf_fat = this.getCfWorker(stmt, scan, "fattorino");
 				if(cf_fat == null) break;
-				
 				System.out.println("Inserisci la targa del veicolo : ");
 				sql = "select targa from veicolo";
 				try {
@@ -388,6 +381,7 @@ public class Impiegato extends Persona {
 					break;
 				}
 				
+				//Inserimento tramite funzione
 				sql = "select trasferisci('"+cf+"','"+data+"','"+cf_fat+"','"+targa+"'"
 						+ ",'"+n1+"','"+c1+"','"+n2+"','"+c2+"','"+cProd+"',"+q+");";
 
@@ -402,6 +396,7 @@ public class Impiegato extends Persona {
 				System.out.println("Il trasferimento è stato registrato");
 				
 				break;
+				
 			case 7:
 				sql = "select * from cliente";
 				try {
@@ -412,7 +407,8 @@ public class Impiegato extends Persona {
 				}
 				System.out.println("Codice fiscale | Nome | Cognome | Telefono | Piano");
 				this.display(rs, 5);		
-				break;	
+				break;
+				
 			case 8:
 				sql = "select * from contratto";
 				try {
@@ -423,7 +419,8 @@ public class Impiegato extends Persona {
 				}
 				System.out.println("Codice contratto | Data inizio | Data fine | N Spazi | CF impiegato | CF cliente");
 				this.display(rs, 6);
-				break;	
+				break;
+				
 			case 9:
 				sql = "select * from prodotto";
 				try {

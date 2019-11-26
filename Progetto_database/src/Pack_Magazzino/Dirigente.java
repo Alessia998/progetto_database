@@ -1,3 +1,8 @@
+/*
+ * Classe : Dirigente
+ * Descrizione : Utilizzata per la gestione delle filiali (visualizzazione, creazione) e del personale
+ * 	ammette il login dagli utenti registrati come Dirigenti nel DB.
+ * */
 package Pack_Magazzino;
 
 import java.sql.ResultSet;
