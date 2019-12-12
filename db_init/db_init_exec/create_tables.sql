@@ -45,7 +45,7 @@ create table if not exists piano(
 );
 
 create table if not exists veicolo(
-  targa varchar(20),
+  targa varchar(20) not null,
   marca varchar(255),
   modello varchar(255),
   capacita int check(capacita > 0),
@@ -71,14 +71,14 @@ create table if not exists filiale(
 
 
 create table if not exists magazzino(
-  num int,
+  num int not null,
   denominazione varchar(255),
-  citta varchar(255),
-  via varchar(255),
-  numero int,
+  citta varchar(255) not null,
+  via varchar(255) not null,
+  numero int not null,
   tel varchar(30),
   --FK
-  cod varchar(255),
+  cod varchar(255) not null,
 
   PRIMARY KEY (num,cod),
   FOREIGN key (cod) REFERENCES filiale
@@ -88,8 +88,8 @@ create table if not exists turno(
   cf varchar(16) not null,
   data_t date not null,
   --FK
-  num int,
-  cod varchar(255),
+  num int not null,
+  cod varchar(255) not null,
 
 
   PRIMARY KEY (cf,data_t),
@@ -99,7 +99,7 @@ create table if not exists turno(
 
 
 create table if not exists spazio(
-  id_spazio int,
+  id_spazio int not null,
   --FK
   num int not null,
   cod varchar(255) not null,
@@ -177,16 +177,6 @@ create table if not exists prodotto(
   PRIMARY KEY (codice)
 );
 
-/*create table if not exists possiede(
-  codice varchar(255) not null,
-  cf_cli varchar(16) not null,
-
-  PRIMARY KEY (codice, cf_cli),
-  FOREIGN key (codice) REFERENCES prodotto,
-  FOREIGN key (cf_cli) REFERENCES cliente
-
-);*/
-
 create table if not exists contiene(
   --FK
   id_spazio int not null,
@@ -213,7 +203,7 @@ create table if not exists spedizione(
   via varchar(255) not null,
   numero varchar(10) not null,
   tel varchar(30),
-  stato_consegna varchar(11), --in consegna, consegnato
+  stato_consegna varchar(11) not null, --in consegna, consegnato
   --FK
   cf_cli varchar(16) not null,
 
@@ -229,8 +219,8 @@ create table if not exists spedizione(
 create table if not exists spazio_contratto(
   id_spazio int not null,
   num int not null,
-  cod varchar(255),
-  num_c varchar(255),
+  cod varchar(255) not null,
+  num_c varchar(255) not null,
 
   PRIMARY KEY (id_spazio,num,cod,num_c),
   FOREIGN KEY (id_spazio, num, cod) REFERENCES spazio,
@@ -245,7 +235,7 @@ create table if not exists trasferimenti(
   data_sp date not null,
   cf varchar(16) not null,
   targa varchar(20) not null,
-  stato_consegna varchar(11),
+  stato_consegna varchar(11) not null,
   num1 int not null,
   cod1 varchar(255) not null,
   num2 int not null,
